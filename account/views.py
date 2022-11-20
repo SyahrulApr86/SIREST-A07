@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from account.forms import *
 
 # Create your views here.
 def show_main(request):
@@ -9,3 +10,13 @@ def login(request):
 
 def register(request):
     return render(request, 'register.html')
+
+def register_admin(request):
+    form = RegisterFormAdmin(request.POST or None)
+
+    context = {
+        'form': form
+    }
+    
+    return render(request, 'register_admin.html', context)
+
