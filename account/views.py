@@ -20,3 +20,12 @@ def register_admin(request):
     
     return render(request, 'register_admin.html', context)
 
+def register_pelanggan(request):
+    form = RegisterFormPelanggan(request.POST or None)
+
+    context = {
+        'form': form
+    }
+    
+    return render(request, 'register_pelanggan.html', context)
+
