@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Hello!</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="flex justify-center font-bold">
+    <h1>Register</h1>
+</div>
+<div class="">
+    <div class="w-fit">
+        <a href="{% url 'account:login' %}" class="m-2">
+            <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
+                Admin
+            </button>
+        </a>
+        <a href="{% url 'account:register' %}" class="m-2">
+            <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
+                Pelanggan
+            </button>
+        </a>
+    </div>
+    <div class="w-fit">
+        <a href="{% url 'account:login' %}" class="m-2">
+            <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
+                Restoran
+            </button>
+        </a>
+        <a href="{% url 'account:register' %}" class="m-2">
+            <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
+                Kurir
+            </button>
+        </a>
+    </div>
+</div>
+
+{% endblock content %}
