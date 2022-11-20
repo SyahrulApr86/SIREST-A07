@@ -16,7 +16,7 @@
         {% csrf_token %}
         <table>
           {% for field in form %}
-          <tr>
+          <tr class="flex flex-col justify-center">
             <th>{{field.label_tag}}</th>
             <td>{{ field.errors }} {{ field }}</td>
           </tr>
@@ -24,7 +24,7 @@
         </table>
         <button
           type="submit"
-          class="bg-red-300 hover:bg-merah-muda text-white font-bold py-2 px-4 rounded"
+          class="bg-red-600 hover:bg-merah-tua text-white font-bold py-2 px-4 rounded"
         >
           Register
         </button>
