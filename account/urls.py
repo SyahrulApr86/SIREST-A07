@@ -9,4 +9,5 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('register_admin/', register_admin, name='register_admin'),
     path('register_pelanggan/', register_pelanggan, name='register_pelanggan'),
+    path('register_restoran/', register_restoran, name='register_restoran'),
 ]

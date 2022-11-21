@@ -29,3 +29,12 @@ def register_pelanggan(request):
     
     return render(request, 'register_pelanggan.html', context)
 
+def register_restoran(request):
+    form = RegisterFormRestoran(request.POST or None)
+
+    context = {
+        'form': form
+    }
+    
+    return render(request, 'register_restoran.html', context)
+
