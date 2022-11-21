@@ -10,4 +10,5 @@ urlpatterns = [
     path('register_admin/', register_admin, name='register_admin'),
     path('register_pelanggan/', register_pelanggan, name='register_pelanggan'),
     path('register_restoran/', register_restoran, name='register_restoran'),
+    path('register_kurir/', register_kurir, name='register_kurir'),
 ]
