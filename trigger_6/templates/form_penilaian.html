@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Riwayat</title>
+{% endblock meta %} {% block content %}
+<div class="border-black">
+    <div class="flex justify-center items-center p-2 bg-red-300 rounded-t-lg mb-3">
+        <h1 class="font-bold text-xl">Form Penilaian Pesanan</h1>
+    </div>
+    <div class="mb-4">
+        <form action="">
+            <label for="nilai">Nilai:</label>
+            <select name="nilai" id="nilai">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="flex justify-center items-center my-5">
+        <a href="{% url 'trigger_6:show_riwayat' %}">
+            <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
+                Simpan
+            </button>
+        </a>
+    </div>
+</div>
+{% endblock content %}

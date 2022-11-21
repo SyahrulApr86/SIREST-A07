@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Riwayat</title>
+{% endblock meta %} {% block content %}
+<div class="border-black">
+    <div class="flex justify-center items-center p-2 bg-red-300 rounded-t-lg mb-3">
+        <h1 class="font-bold text-xl">Form Promo Minimum Transaksi</h1>
+    </div>
+    <div class="mb-4">
+        <form action="">
+            <label for="nilai">Nama Promo:</label>
+            <input type="text">
+            <br>
+            <label for="nilai">Diskon:</label>
+            <input type="text">
+            <span>%</span>
+            <br>
+            <label for="nilai">Minimum Transaksi:</label>
+            <input type="text">
+        </form>
+    </div>
+
+    <div class="flex justify-center items-center my-5">
+        <a href="{% url 'trigger_6:show_riwayat' %}">
+            <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
+                Simpan
+            </button>
+        </a>
+    </div>
+</div>
+{% endblock content %}
