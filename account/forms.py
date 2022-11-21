@@ -74,3 +74,30 @@ class RegisterFormRestoran(forms.Form):
     # kategori dropdown
     kategori = forms.ChoiceField(label='Kategori', choices=DATA_KATEGORI, widget=forms.Select(
         attrs={'class': 'form-control', 'placeholder': 'Kategori'}))
+
+class RegisterFormKurir(forms.Form):
+    email = forms.EmailField(label='Email', max_length=50, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Email'}))
+    password = forms.CharField(label='Password', max_length=50, widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'placeholder': '***********'}))
+    nama = forms.CharField(label='Nama', max_length=50, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Nama'}))
+    no_hp = forms.CharField(label='No HP', max_length=20, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'No HP'}))
+    nik = forms.CharField(label='NIK', max_length=20, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'NIK'}))
+    nama_bank = forms.CharField(label='Nama Bank', max_length=20, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Nama Bank'}))
+    no_rekening = forms.CharField(label='No Rekening', max_length=20, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'No Rekening'}))
+
+    plat_no_kendaraan = forms.CharField(label='No Kendaraan', max_length=10, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'No Kendaraan'}))
+    no_sim = forms.CharField(label='No SIM', max_length=20, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'No SIM'}))
+    # Jenis Kendaraan Dropdown
+    jenis_kendaraan = forms.ChoiceField(label='Jenis Kendaraan', choices=[('Mobil', 'Mobil'), ('Motor', 'Motor')], widget=forms.Select(
+        attrs={'class': 'form-control', 'placeholder': 'Jenis Kendaraan'}))
+    merk_kendaraan = forms.CharField(label='Merk Kendaraan', max_length=15, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'Merk Kendaraan'}))
+    
