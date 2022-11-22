@@ -11,14 +11,24 @@
     ion-icon {
         color: white;
     }
+
+    /* colors: {
+          'merah-muda':'#DD5353',
+          'merah-tua':'#B73E3E',
+          'cream-tua':'#DBC8AC',
+          'cream-muda':'#EDDBC0',
+        } */
 </style>
+
+
+
 
 <body>
 
-    <div class="flex flex-col min-h-screen justify-center">
+    <div class="flex flex-col min-h-screen justify-center w-full">
         <div class="flex justify-center">
             <div class="flex flex-col gap-2">
-                <div class="font-extrabold text-center">
+                <div class="font-extrabold text-center px-5">
                     FORM UBAH MAKANAN
                 </div>
             <div>
@@ -28,7 +38,7 @@
                             <div class="flex flex-col justify-around gap-2 w-full">
                                 <div class="flex flex-col text-sm font-medium block justify-around">
                                     <p>Nama Makanan:</p>
-                                    <input type="text" name="nama" id="nama" class="form-control rounded-lg text-black" placeholder="Sate Ayam" disabled>
+                                    <input type="text" name="nama" id="nama" class="form-control rounded-lg text-black w-full" placeholder="Sate Ayam" disabled>
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     <p>Deskripsi:</p>
@@ -46,36 +56,32 @@
                                     
                                     <label for="kategoriMakanan">Kategori Makanan:</label>
                                         
-                                    <select name="kategoriMakanan" id="kategoriMakanan">
+                                    <select name="kategoriMakanan" id="kategoriMakanan" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2">
                                         <option value="Kuah">Kuah</option>
                                         <option value="Kering">Kering</option>
                                         <option value="Santan">Santan</option>
                                     </select>
                                     <!-- <button>+</button> -->
                                 </div>
-                                <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
-                                    <div>
+                                <div class="flex flex-col text-sm font-medium block mb-2 justify-around gap-2">
+                                    <div class="flex justify-between items-center">
 
                                         <label for="bahanMakanan">Bahan Makanan:</label>
                                         <button class="text-white bg-blue-700 hover:bg-blue-800 text-sm px-2 py-1 rounded-lg text-center">
                                             <ion-icon name="add-outline"></ion-icon>
                                         </button>
                                     </div>
-                                    <div>
-                                        <div>
-                                            <p>Bahan Makanan: Ayam</p>
-                                            <button class="text-white bg-red-700 hover:bg-red-800 text-sm px-2 py-1 rounded-lg text-center">
-                                                <ion-icon name="remove-circle-outline"></ion-icon>
-                                            </button>
-                                        </div>
+                                    <div class="flex justify-between items-center">
+                                        <p>Bahan Makanan: Ayam</p>
+                                        <button class="text-white bg-red-700 hover:bg-red-800 text-sm px-2 py-1 rounded-lg text-center">
+                                            <ion-icon name="remove-circle-outline"></ion-icon>
+                                        </button>
                                     </div>
-                                    <div>
-                                        <div>
-                                            <p>Bahan Makanan: Bakso</p>
-                                            <button class="text-white bg-red-700 hover:bg-red-800 text-sm px-2 py-1 rounded-lg text-center">
-                                                <ion-icon name="remove-circle-outline"></ion-icon>
-                                            </button>
-                                        </div>
+                                    <div class="flex justify-between items-center">
+                                        <p>Bahan Makanan: Bakso</p>
+                                        <button class="text-white bg-red-700 hover:bg-red-800 text-sm px-2 py-1 rounded-lg text-center">
+                                            <ion-icon name="remove-circle-outline"></ion-icon>
+                                        </button>
                                     </div>
                                     <select name="bahanMakanan" id="bahanMakanan" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2">
                                         <option value="Daging">Daging</option>
