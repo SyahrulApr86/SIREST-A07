@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'account',
     'trigger3',
+    'trigger_2'
 ]
 
 MIDDLEWARE = [

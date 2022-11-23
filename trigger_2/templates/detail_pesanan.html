@@ -1,0 +1,148 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Detail Pesanan</title>
+{% endblock meta %} {% block content %}
+
+<div class="flex justify-center items-center">
+  <div class="bg-red-200 w-fit rounded-lg">
+    <div
+      class="w-[25rem] drop-shadow-2xl flex flex-col bg-cream-tua p-10 rounded-xl lg:scale-100 md:scale-90 scale-75"
+    >
+      <h1 class="text-2xl font-bold mb-3">DETAIL PESANAN</h1>
+
+      <table class="border-separate border-spacing-2">
+        <tr>
+          <th>Waktu Pemesanan:</th>
+          <td class="font-medium">{{ waktu_pemesanan }}</td>
+        </tr>
+      </table>
+
+      <br />
+
+      <table class="border-separate border-spacing-2">
+        <tr>
+          <th>Nama Pelanggan:</th>
+          <td class="font-medium">{{ nama }}</td>
+        </tr>
+        <tr>
+          <th>Jalan:</th>
+          <td class="font-medium">{{ jalan }}</td>
+        </tr>
+        <tr>
+          <th>Kecamatan:</th>
+          <td class="font-medium">{{ kecamatan }}</td>
+        </tr>
+        <tr>
+          <th>Kota:</th>
+          <td class="font-medium">{{ kota }}</td>
+        </tr>
+        <tr>
+          <th>Provinsi:</th>
+          <td class="font-medium">{{ provinsi }}</td>
+        </tr>
+      </table>
+
+      <br />
+
+      <table class="border-separate border-spacing-2">
+        <tr>
+          <th>Restoran:</th>
+          <td class="font-medium">{{ restoran }}</td>
+        </tr>
+        <tr>
+          <th>Jalan:</th>
+          <td class="font-medium">{{ jalan_restoran }}</td>
+        </tr>
+        <tr>
+          <th>Kecamatan:</th>
+          <td class="font-medium">{{ kecamatan_restoran }}</td>
+        </tr>
+        <tr>
+          <th>Kota:</th>
+          <td class="font-medium">{{ kota_restoran }}</td>
+        </tr>
+        <tr>
+          <th>Provinsi:</th>
+          <td class="font-medium">{{ provinsi_restoran }}</td>
+        </tr>
+      </table>
+
+      <br />
+
+      <h3 class="text-base font-bold mb-3">Makanan yang dipesan:</h3>
+      <ul
+        class="max-w-md list-disc list-inside text-balck-500 dark:text-balck-400"
+      >
+        {% for makanan in daftar_makanan %}
+        <li>
+          {{ makanan.nama_makanan }} ( {{makanan.jumlah_makanan}} ) -
+          {{makanan.catatan_makanan}}
+        </li>
+        {% endfor %}
+      </ul>
+
+      <table class="border-separate border-spacing-2">
+        <tr>
+          <th>Total Harga Makanan:</th>
+          <td class="font-medium">{{ total_harga }}</td>
+        </tr>
+        <tr>
+          <th>Total Diskon:</th>
+          <td class="font-medium">{{ total_diskon }}</td>
+        </tr>
+        <tr>
+          <th>Biaya Pengantaran:</th>
+          <td class="font-medium">{{ biaya_pengantaran }}</td>
+        </tr>
+        <tr>
+          <th>Total Biaya:</th>
+          <td class="font-medium">{{ total_biaya }}</td>
+        </tr>
+        <tr>
+          <th>Jenis Pembayaran:</th>
+          <td class="font-medium">{{ jenis_pembayaran }}</td>
+        </tr>
+      </table>
+
+      <br />
+
+      <table class="border-separate border-spacing-2">
+        <tr>
+          <th>Status Pembayaran:</th>
+          <td class="font-medium">{{ status_pembayaran }}</td>
+        </tr>
+        <tr>
+          <th>Status Pesanan:</th>
+          <td class="font-medium">{{ status_pesanan }}</td>
+        </tr>
+      </table>
+
+      <table class="border-separate border-spacing-2">
+        <tr>
+          <th>Kurir:</th>
+          <td class="font-medium">{{ kurir }}</td>
+        </tr>
+        <tr>
+          <th>Plat Kendaraan:</th>
+          <td class="font-medium">{{ plat_nomor }}</td>
+        </tr>
+        <tr>
+          <th>Jenis Kendaraan:</th>
+          <td class="font-medium">{{ jenis_kendaraan }}</td>
+        </tr>
+        <tr>
+          <th>Merk Kendaraan:</th>
+          <td class="font-medium">{{ merk_kendaraan }}</td>
+        </tr>
+      </table>
+
+      <button
+        type="submit"
+        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Kembali
+      </button>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
