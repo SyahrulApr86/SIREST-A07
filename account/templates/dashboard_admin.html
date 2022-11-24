@@ -1,0 +1,76 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Register Admin</title>
+<style>
+    table, th, td {
+        border: 1px solid;
+    }
+</style>
+{% endblock meta %} {% block content %}
+
+<div class="flex justify-center items-center">
+  <div class="bg-red-200 w-fit rounded-lg">
+    <div
+      class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center items-center bg-cream-tua p-10 rounded-xl lg:scale-100 md:scale-90 scale-75"
+    >
+    <h1 class="text-3xl font-bold mb-2s">Dashboard Pengguna : [nama lengkap pengguna]</h1>
+    <h2>Email: [teks]</h2>
+    <h2>Password: [teks]</h2>
+    <h2>Nama: [teks]</h2>
+    <h2>Nomor Hp: [teks]</h2>
+    <table style="border: 1px solid;">
+        <tr>
+            <th>Email</th>
+            <th>Nama</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+        <tr>
+            <td>mutia@gmail.com</td>
+            <td>Mutia Anisa</td>
+            <td>Pelanggan</td>
+            <td>Belum Terverifikasi</td>
+            <td>
+                <a href="{% url 'account:profile_pelanggan' %}" class="m-2 flex items-center justify-center">
+                    <button type="button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Detail
+                    </button>
+                </a>
+                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Verifikasi
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td>cahyo@gmail.com</td>
+            <td>Cahyo Budi</td>
+            <td>Kurir</td>
+            <td>Terverifikasi</td>
+            <td>
+                <a href="{% url 'account:profile_kurir' %}" class="m-2 flex items-center justify-center">
+                    <button type="button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Detail
+                    </button>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>BengkelPerut@gmail.com</td>
+            <td>Bengkel Perut</td>
+            <td>Restoran</td>
+            <td>Terverifikasi</td>
+            <td>
+                <a href="{% url 'account:profile_restoran' %}" class="m-2 flex items-center justify-center">
+                    <button type="button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                        Detail
+                    </button>
+                </a>
+            </td>
+        </tr>
+    </table>
+      
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
