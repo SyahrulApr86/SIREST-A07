@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% include 'navbar.html' %}
+
+{% block meta %}
+<title>Transaksi Pemesanan (Kurir)</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<div class="flex justify-center items-center">
+    <div class=" w-fit rounded-lg">
+        <div class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center p-4 items-center rounded-xl lg:scale-100 md:scale-90 scale-75">
+            <h1 class="text-xl font-bold mb-3">Transaksi Pemesanan (Kurir)</h1>
+        </div>
+    </div>
+</div>        
+
+<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                <table class="min-w-full text-sm text-left text-black">
+                    <thead class="text-xs text-black uppercase bg-red-300">            
+                        <tr>
+                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                No
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                Restoran-Cabang
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                Nama Pelanggan
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                Waktu Pesanan Dibuat
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                Status Pesanan
+                            </th>
+                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                Aksi
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                1
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                Warung Mantap Depok
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                Mikayla Putri
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                2022-11-04 11:30:05
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                Pesanan Diantar
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                <div>
+                                    <a href="{% url 'trigger5:detail_pemesanan_kurir' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
+                                </div>
+                                <div>
+                                    <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Selesai</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %} 
