@@ -15,4 +15,6 @@ urlpatterns = [
     path('daftar-promo-restoran/', show_daftar_promo_restoran, name='show_daftar_promo_restoran'),
     path('form-promo-restoran/', show_form_promo_restoran, name='show_form_promo_restoran'),
     path('form-ubah-promo-restoran/', show_form_ubah_promo_restoran, name='show_form_ubah_promo_restoran'),
+    path('detail-promo/<id>', show_detail_promo, name='show_detail_promo'),
+    path('detail-promo-restoran/<id>', show_detail_promo_restoran, name='show_detail_promo_restoran'),
 ]

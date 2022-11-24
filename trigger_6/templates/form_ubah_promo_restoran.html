@@ -1,36 +1,44 @@
 {% extends 'base.html' %} {% block meta %}
 <title>Riwayat</title>
 {% endblock meta %} {% block content %}
-<div class="border-black m-20">
-    <div class="flex justify-center items-center p-2 bg-red-300 rounded-t-lg mb-3">
-        <h1 class="font-bold text-xl">Form Ubah Promosi</h1>
-    </div>
-    <div class="mb-4">
-        <form action="">
-            <label for="nilai">Nama Promosi:</label>
-            <input type="text" disabled>
-            <br>
-            <label for="nilai">Jenis Promosi:</label>
-            <input type="text" disabled>
-            <br>
-            <label for="nilai">Diskon:</label>
-            <input type="text" disabled>
-            <span>%</span>
-            <br>
-            <label for="nilai">Tanggal Mulai:</label>
-            <input type="date">
-            <br>
-            <label for="nilai">Tanggal Berakhir:</label>
-            <input type="date">
-        </form>
-    </div>
-
-    <div class="flex justify-center items-center my-5">
-        <a href="{% url 'trigger_6:show_riwayat' %}">
-            <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
-                Simpan
-            </button>
-        </a>
+<div class="flex flex-col justify-center mt-10">
+    <div class="flex justify-center">
+        <div class="flex flex-col gap-2">
+            <div class="font-extrabold text-center">
+                FORM UBAH PROMOSI
+            </div>
+        <div>
+            <form action="" method="post" class="">
+                {% csrf_token %}
+                    <div class="flex gap-10">
+                        <div class="flex flex-col justify-around gap-2 w-full">
+                            <div class="flex flex-col text-sm font-medium justify-around">
+                                <p>Nama Promosi:</p>
+                                <input type="text" name="name" id="name" class="form-control rounded-lg text-black" required disabled placeholder="B3LANJA 3 AJA">
+                            </div>
+                            <div class="flex flex-col text-sm font-medium justify-around">
+                                <p>Jenis Promosi:</p>
+                                <input type="text" name="name" id="name" class="form-control rounded-lg text-black" required disabled placeholder="Promo Minimum Transaksi">
+                            </div>
+                            <div class="flex flex-col text-sm font-medium mb-2 justify-around">
+                                <p>Diskon (%):</p>
+                                <input type="text" name="discount" id="discount" class="form-control rounded-lg text-black" required disabled placeholder="30">
+                            </div>
+                            <div class="flex flex-col text-sm font-medium mb-2 justify-around">
+                                <p>Tanggal Mulai:</p>
+                                <input type="date" name="startdate" id="startdate" class="form-control rounded-lg text-black" required>
+                            </div>
+                            <div class="flex flex-col text-sm font-medium mb-2 justify-around">
+                                <p>Tanggal Berakhir:</p>
+                                <input type="date" name="enddate" id="enddate" class="form-control rounded-lg text-black" required>
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="submit" name="submit" value="SIMPAN" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"/> 
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock content %}

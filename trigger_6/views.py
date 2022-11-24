@@ -34,3 +34,9 @@ def show_form_promo_restoran(request):
 
 def show_form_ubah_promo_restoran(request):
     return render(request, 'form_ubah_promo_restoran.html')
+
+def show_detail_promo(request, id):
+    return render(request, 'detail_promosi.html')
+
+def show_detail_promo_restoran(request, id):
+    return render(request, 'detail_promosi_restoran.html')

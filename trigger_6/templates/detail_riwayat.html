@@ -1,6 +1,11 @@
 {% extends 'base.html' %} {% block meta %}
 <title>Riwayat</title>
 {% endblock meta %} {% block content %}
+<style>
+    li {
+    list-style-type: circle;
+ }
+</style>
 <div class="border-black m-20">
     <div class="flex justify-center items-center p-2 bg-red-300 rounded-t-lg mb-3">
         <h1 class="font-bold text-xl">Detail Pesanan</h1>
@@ -27,7 +32,7 @@
 
     <div class="mb-4">
         <p>Makanan yang dipesan:</p>
-        <ul>
+        <ul class="ml-10">
             <li>
                 Ayam goreng (1) - [paha atas]
             </li>
