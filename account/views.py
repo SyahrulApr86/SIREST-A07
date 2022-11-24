@@ -54,3 +54,15 @@ def register_kurir(request):
     }
 
     return render(request, 'register_kurir.html', context)
+
+def dashboard_admin(request):
+    return render(request, 'dashboard_admin.html')
+
+def profile_restoran(request):
+    return render(request, 'profile_restoran.html')
+
+def profile_pelanggan(request):
+    return render(request, 'profile_pelanggan.html')
+
+def profile_kurir(request):
+    return render(request, 'profile_kurir.html')
