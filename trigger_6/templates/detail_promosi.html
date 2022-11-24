@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Detail Promo</title>
+{% endblock meta %} {% block content %}
+<div class="border-black m-20">
+    <div class="flex justify-center items-center p-2 bg-red-300 rounded-t-lg mb-3">
+        <h1 class="font-bold text-xl">Detail Promosi</h1>
+    </div>
+
+    <div class="mb-4">
+        <p>Jenis Promosi: Promo Hari Spesial</p>
+        <p>Nama Promosi: Promo 17 Agustusan</p>
+        <p>Diskon: 17%</p>
+        <p>Tanggal Berlangsung: 17-08-2022</p>
+        <!-- <p>Minimum Transaksi: 3</p> -->
+    </div>
+
+    <div class="flex justify-center items-center my-5">
+        <a href="{% url 'trigger_6:show_riwayat' %}">
+            <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
+                Kembali
+            </button>
+        </a>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Riwayat</title>
+{% endblock meta %} {% block content %}
+<div class="flex flex-col h-screen justify-center">
+    <div class="flex justify-center">
+        <div class="flex flex-col gap-2">
+            <div class="font-extrabold text-center">
+                FORM UBAH PROMOSI
+            </div>
+        <div>
+            <form action="" method="post" class="">
+                {% csrf_token %}
+                    <div class="flex gap-10">
+                        <div class="flex flex-col justify-around gap-2 w-full">
+                            <div class="flex flex-col text-sm font-medium justify-around">
+                                <p>Jenis Promosi:</p>
+                                <input type="text" name="name" id="name" class="form-control rounded-lg text-black" required disabled placeholder="Promo Minimum Transaksi">
+                            </div>
+                            <div class="flex flex-col text-sm font-medium justify-around">
+                                <p>Nama Promosi:</p>
+                                <input type="text" name="name" id="name" class="form-control rounded-lg text-black" required disabled placeholder="B3LANJA 3 AJA">
+                            </div>
+                            <div class="flex flex-col text-sm font-medium mb-2 justify-around">
+                                <p>Diskon (%):</p>
+                                <input type="text" name="discount" id="discount" class="form-control rounded-lg text-black" required>
+                            </div>
+                            <div class="flex flex-col text-sm font-medium mb-2 justify-around">
+                                <p>Minimum Transaksi:</p>
+                                <input type="text" name="mintransaction" id="mintransaction" class="form-control rounded-lg text-black" required>
+                            </div>
+                            <div class="flex justify-center">
+                                <input type="submit" name="submit" value="SIMPAN" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"/> 
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
