@@ -22,3 +22,15 @@ def show_form_promo_hari_spesial(request):
 
 def show_daftar_promo(request):
     return render(request, 'daftar_promo.html')
+
+def show_ubah_promo(request):
+    return render(request, 'form_ubah_promosi.html')
+
+def show_daftar_promo_restoran(request):
+    return render(request, 'daftar_promo_restoran.html')
+
+def show_form_promo_restoran(request):
+    return render(request, 'form_promo_restoran.html')
+
+def show_form_ubah_promo_restoran(request):
+    return render(request, 'form_ubah_promo_restoran.html')

@@ -3,18 +3,24 @@
 {% endblock meta %} {% block content %}
 <div class="border-black m-20">
     <div class="flex justify-center items-center p-2 bg-red-300 rounded-t-lg mb-3">
-        <h1 class="font-bold text-xl">Form Promo Minimum Transaksi</h1>
+        <h1 class="font-bold text-xl">Form Ubah Promosi</h1>
     </div>
     <div class="mb-4">
         <form action="">
-            <label for="nilai">Nama Promo:</label>
-            <input type="text">
+            <label for="nilai">Nama Promosi:</label>
+            <input type="text" disabled>
+            <br>
+            <label for="nilai">Jenis Promosi:</label>
+            <input type="text" disabled>
             <br>
             <label for="nilai">Diskon:</label>
-            <input type="text">
+            <input type="text" disabled>
             <span>%</span>
             <br>
-            <label for="nilai">Tanggal Berlangsung:</label>
+            <label for="nilai">Tanggal Mulai:</label>
+            <input type="date">
+            <br>
+            <label for="nilai">Tanggal Berakhir:</label>
             <input type="date">
         </form>
     </div>

@@ -2,7 +2,19 @@
 <title>Riwayat</title>
 {% endblock meta %} {% block content %}
 <div class="m-20">
-    <h1 class="font-bold text-2xl mb-3">Daftar Promo:</h1>
+    <div class="flex justify-center items-center mb-10">
+        <div>
+            <h1>DAFTAR PROMO RESTORAN</h1>
+            <div class="flex justify-center items-center">
+                <a href="{% url 'trigger_6:show_riwayat' %}">
+                    <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
+                        Tambah Promo
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <h1 class="font-bold text-2xl mb-3">Daftar Promo Restoran:</h1>
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-black">
             <thead class="text-xs text-black uppercase bg-red-300">
@@ -14,7 +26,7 @@
                         Nama Promosi
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        Jenis Promosi
+                        Periode Promosi
                     </th>
                     <th scope="col" class="py-3 px-6">
                         Aksi
@@ -30,7 +42,7 @@
                         Promo 17 Agustusan
                     </td>
                     <td class="py-4 px-6">
-                        Promo Hari Spesial
+                        2022-08-15 s.d. 2022-08-20
                     </td>
                     <td class="py-4 px-6">
                         <div>

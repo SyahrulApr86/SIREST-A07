@@ -6,21 +6,23 @@
 {% endblock meta %}
 
 {% block content %}
-<div class="flex justify-center font-bold">
-    <h1>SIREST - A7</h1>
-</div>
-<div class="flex justify-center">
-    <div class="flex justify-between items-center w-fit">
-        <a href="{% url 'account:login' %}" class="m-2">
-            <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
-                Promo Minimum Transaksi
-            </button>
-        </a>
-        <a href="{% url 'account:register' %}" class="m-2">
-            <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
-                Promo Hari Spesial
-            </button>
-        </a>
+<div class="m-20">
+    <div class="flex justify-center font-bold">
+        <h1>SIREST - A7</h1>
+    </div>
+    <div class="flex justify-center">
+        <div class="flex justify-between items-center w-fit">
+            <a href="{% url 'account:login' %}" class="m-2">
+                <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
+                    Promo Minimum Transaksi
+                </button>
+            </a>
+            <a href="{% url 'account:register' %}" class="m-2">
+                <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
+                    Promo Hari Spesial
+                </button>
+            </a>
+        </div>
     </div>
 </div>
 
