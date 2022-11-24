@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
+    'trigger_6',
     'trigger3',
     'trigger_2',
     'trigger4',
