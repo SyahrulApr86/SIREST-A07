@@ -20,4 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('account.urls')),
     path('trigger_6/', include('trigger_6.urls')),
+    path('trigger3/', include('trigger3.urls')),
+    path('trigger_2/', include('trigger_2.urls')),
 ]
