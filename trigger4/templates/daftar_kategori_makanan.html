@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Daftar Kategori Makanan</title>
+{% endblock meta %} {% block content %}
+<h1 class="font-bold text-2xl mb-3"> Kategori Makanan: </h1>
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-black">
+        <thead class="text-xs text-black uppercase bg-red-300">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    No
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Nama Kategori Makanan
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Aksi
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for kategori_makanan in daftar_kategori_makanan %}
+            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="py-3 px-6">
+                    {{ forloop.counter }}
+                </td>
+                <td class="py-3 px-6">
+                    {{ kategori_makanan.nama }}
+                </td>
+                <td class="py-3 px-6">
+                    <a href="" class="text-blue-500">Hapus</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock content %}

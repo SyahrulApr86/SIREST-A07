@@ -1,0 +1,108 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Daftar Pesanan</title>
+<style>
+    .tab {
+            display: inline-block;
+            margin-left: 460px;
+        }
+</style>
+{% endblock meta %} {% block content %}
+<h1 class="font-bold text-2xl mb-3"> Daftar Pesanan </h1>
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-black">
+        <thead class="text-xs text-black uppercase bg-red-300">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    No
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Nama Makanan
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Harga
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Jumlah
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Total
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pesanan in daftar_pesanan_makanan %}
+            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="py-3 px-6">
+                    {{ forloop.counter }}
+                </td>
+                <td class="py-3 px-6">
+                    {{ pesanan.Nama_Pesanan}}
+                </td>
+                <td class="py-3 px-6">
+                    {{ pesanan.Harga}}
+                </td>
+                <td class="py-3 px-6">
+                    {{ pesanan.Jumlah}}
+                </td>
+                <td class="py-3 px-6">
+                    {{ pesanan.Total}}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="w-full text-sm text-left">
+        <thead class="font-bold text-2xl mb-3 uppercase bg-red-300">
+            <tr>
+                <th scope="col" class="py-3 px-6 tab-size:10">
+                    <span class="tab"></span> Total Harga
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    <span class="tab"></span> 5000
+                </th>
+            </tr
+
+        </thead>
+            
+
+    </table>
+    <table class="w-full text-sm text-left text-black border-separate border-spacing-2">
+        <thead class="text-xs text-black uppercase bg-red-300">
+            {% for pesanan in daftar_pesanan_makanan %}
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Metode Pengantaran: {{pesanan.Metode_Pengantaran}}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Metode Pembayaran: {{pesanan.Metode_Pembayaran}}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Total Diskon: {{pesanan.Total_Diskon}}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Biaya Pengantaran: {{pesanan.Biaya_Pengantaran}}
+                </th>
+            </tr>
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    Total Biaya: {{pesanan.Total_Biaya}}
+                </th>
+            </tr>
+
+            {% endfor %}
+    </table>
+    <div class="py-20 px-6 flex justify-center items-center">
+        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ">
+            Lanjut ke Pembayaran
+        </button>
+    </div>
+</div>
+
+
+{% endblock content %}
