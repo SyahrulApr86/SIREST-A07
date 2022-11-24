@@ -102,6 +102,7 @@ def buat_jam_operasional(request):
 
     return render(request, 'buat_jam_operasional.html', context)
 
+
 def daftar_jam_operasional(request):
     context = {
         'daftar_jam_operasional': [
@@ -142,7 +143,8 @@ def daftar_jam_operasional(request):
             },
         ]
     }
-    return render(request, 'daftar_jam_operasional.html', context)  
+    return render(request, 'daftar_jam_operasional.html', context)
+
 
 def edit_jam_operasional(request, id_jam_operasional):
     form = FormEditJamOperasional(request.POST or None)

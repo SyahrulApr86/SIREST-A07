@@ -2,27 +2,24 @@ from django.shortcuts import render
 from trigger4.forms import *
 
 # Create your views here.
-def pemilihan_pesanan_pada_restoran(request):
+def pesanan_berlangsung(request):
     context = {
-        'daftar_makanan': [
+        'pesanan_berlangsung': [
             {
-                'Nama_Makanan' : 'Nasi Bakar', 
-                'Harga' : '50000'       
+                'restoran' : 'Sego Berkat', 
+                'waktu_pesanan_dibuat' : '2022-11-04 11:30:05',
+                'status_pesanan' : 'Menunggu Konfirmasi Restoran',       
                 
             },
             {
-                'Nama_Makanan' : 'Nasi Rebus', 
-                'Harga' : '6000' 
-                
-            },
-            {
-                'Nama_Makanan' : 'Nasi kuah', 
-                'Harga' : '7000' 
+                'restoran' : 'Sego sami', 
+                'waktu_pesanan_dibuat' : '2022-11-06 11:30:05',
+                'status_pesanan' : 'Menunggu Konfirmasi Restoran', 
                 
             },
         ]
     }
-    return render(request, 'pemilihan_pesanan_pada_restoran.html', context)
+    return render(request, 'pesanan_berlangsung.html', context)
 def ringkasan_pesanan(request):
     context = {
         'nama': 'Budi',
