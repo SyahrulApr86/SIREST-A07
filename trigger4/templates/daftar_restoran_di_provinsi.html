@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Daftar Restoran</title>
+{% endblock meta %} {% block content %}
+<h1 class="font-bold text-2xl mb-3"> Daftar Restoran: </h1>
+<div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-black">
+        <thead class="text-xs text-black uppercase bg-red-300">
+            <tr>
+                <th scope="col" class="py-3 px-6">
+                    No
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Nama - Cabang Restoran
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Promo Berlangsung
+                </th>
+                <th scope="col" class="py-3 px-6">
+                    Aksi
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for restoran in daftar_restoran %}
+            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="py-3 px-6">
+                    {{ forloop.counter }}
+                </td>
+                <td class="py-3 px-6">
+                    {{ restoran.Nama_Cabang_Restoran}}
+                </td>
+                <td class="py-3 px-6">
+                    {{ restoran.Promo_Berlangsung}}
+                </td>
+                <td class="py-3 px-6">
+                    <a href="" class="text-blue-500">Pilih</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock content %}

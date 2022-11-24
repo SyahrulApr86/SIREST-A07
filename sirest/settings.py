@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'account',
     'trigger_6',
     'trigger3',
-    'trigger_2'
+    'trigger_2',
+    'trigger4',
 ]
 
 MIDDLEWARE = [
