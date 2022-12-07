@@ -22,7 +22,7 @@ def login(request):
         if len(user) == 1 and user[0][1] == password:
             cursor.execute(f'select u.email from user_acc u, admin a where u.email = a.email and u.email = \'{email}\'')
             if (len(cursor.fetchmany()) == 1):
-                response = render(request, 'dashboard_admin.html', {'role':'admin'})
+                response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success'})
                 response.set_cookie('role', 'admin')
                 return response
 
@@ -41,6 +41,12 @@ def login(request):
             response = HttpResponseRedirect(reverse('account:profile_pelanggan'))
             response.set_cookie('role', 'customer')
             return response
+        else:   
+            context = {
+                'message':'Cek kembali email dan password anda!',
+                'status':'error'
+            }
+            return render(request, 'login.html', context)
             
     context = {}
     return render(request, 'login.html', context)
