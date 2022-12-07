@@ -18,29 +18,58 @@ def login(request):
         password = request.POST.get('password')
 
         cursor.execute(f'select email, password from user_acc where email = \'{email}\'')
-        user = cursor.fetchmany();
+        user = cursor.fetchmany()
         if len(user) == 1 and user[0][1] == password:
             cursor.execute(f'select u.email from user_acc u, admin a where u.email = a.email and u.email = \'{email}\'')
+            records = cursor.fetchmany()
             if (len(cursor.fetchmany()) == 1):
                 response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success'})
                 response.set_cookie('role', 'admin')
                 return response
 
-            cursor.execute(f'select u.email from user_acc u, restaurant r where u.email = r.email and u.email = \'{email}\'')
-            if (len(cursor.fetchmany()) == 1):
-                response = HttpResponseRedirect(reverse('account:profile_restoran'))
-                response.set_cookie('role', 'restaurant')
+            cursor.execute(f'select * from user_acc u, restaurant r where u.email = r.email and u.email = \'{email}\'')
+            records = cursor.fetchmany()
+
+            if (len(records) == 1):
+                # print(records)
+                context = {
+                    'dataRestoran': records,
+                    'role' : 'restoran'
+                }
+                print(context)
+                response = render(request, 'dashboard_pengguna.html', context)
                 return response
 
-            cursor.execute(f'select u.email from user_acc u, courier r where u.email = r.email and u.email = \'{email}\'')
-            if (len(cursor.fetchmany()) == 1):
-                response = HttpResponseRedirect(reverse('account:profile_kurir'))
-                response.set_cookie('role', 'courier')
+            cursor.execute(f'select * from user_acc u, courier c where u.email = c.email and u.email = \'{email}\'')
+            records = cursor.fetchmany()
+            if (len(records) == 1):
+                # response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success'})
+                context = {
+                    'dataCourier': records,
+                    'role' : 'courier'
+                }
+                print(context)
+                response = render(request, 'dashboard_pengguna.html', context)
+                # response = HttpResponseRedirect(reverse('account:profile_kurir'))
+                # response.set_cookie('role', 'courier')
+                return response
+
+            cursor.execute(f'select * from user_acc u, customer c where u.email = c.email and u.email = \'{email}\'')
+            records = cursor.fetchmany()
+            if (len(records) == 1):
+                context = {
+                    'dataCustomer': records,
+                    'role' : 'customer'
+                }
+                print(context)
+                response = render(request, 'dashboard_pengguna.html', context)
+                # response = HttpResponseRedirect(reverse('account:profile_kurir'))
+                # response.set_cookie('role', 'courier')
                 return response
  
-            response = HttpResponseRedirect(reverse('account:profile_pelanggan'))
-            response.set_cookie('role', 'customer')
-            return response
+            # response = HttpResponseRedirect(reverse('account:profile_pelanggan'))
+            # response.set_cookie('role', 'customer')
+            # return response
         else:   
             context = {
                 'message':'Cek kembali email dan password anda!',
@@ -101,7 +130,7 @@ def profile_restoran(request):
     # context = {
     #     'role':request.COOKIES.get('role')
     # }
-    print(request.COOKIES.get('role'))
+    # print(request.COOKIES.get('role'))
     return render(request, 'profile_restoran.html')
 
 def profile_pelanggan(request):
