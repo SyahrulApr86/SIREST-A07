@@ -20,9 +20,10 @@ def login(request):
         cursor.execute(f'select email, password from user_acc where email = \'{email}\'')
         user = cursor.fetchmany();
         if len(user) == 1 and user[0][1] == password:
-            cursor.execute(f'select u.email from user_acc u, admin a where u.email = a.email and u.email = \'{email}\'')
-            if (len(cursor.fetchmany()) == 1):
-                response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success'})
+            cursor.execute(f'select u.email, u.fname, u.lname from user_acc u, admin a where u.email = a.email and u.email = \'{email}\'')
+            records = cursor.fetchmany()
+            if (len(records) == 1):
+                response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success', 'records':records})
                 response.set_cookie('role', 'admin')
                 return response
 
@@ -47,7 +48,7 @@ def login(request):
                 'status':'error'
             }
             return render(request, 'login.html', context)
-            
+
     context = {}
     return render(request, 'login.html', context)
 
