@@ -1,6 +1,14 @@
 {% extends 'base.html' %} {% load static %} {% block meta %}
 <title>REGISTER</title>
 {% endblock meta %} {% block content %}
+<head>
+	<script>
+		$(document).ready(function () {
+			document.getElementById("navbar").remove();
+		});
+	</script>
+</head>
+
 <div class="flex justify-center font-bold">
   <h1>Register</h1>
 </div>

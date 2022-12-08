@@ -1,6 +1,13 @@
 {% extends 'base.html' %} {% block meta %}
 <title>Register Pelanggan</title>
 {% endblock meta %} {% block content %}
+<head>
+	<script>
+		$(document).ready(function () {
+			document.getElementById("navbar").remove();
+		});
+	</script>
+</head>
 
 <div class="flex justify-center items-center">
   <div class="bg-red-200 w-fit rounded-lg">

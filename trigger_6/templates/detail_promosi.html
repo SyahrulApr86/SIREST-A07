@@ -7,15 +7,18 @@
     </div>
 
     <div class="mb-4">
-        <p>Jenis Promosi: Promo Hari Spesial</p>
-        <p>Nama Promosi: Promo 17 Agustusan</p>
-        <p>Diskon: 17%</p>
-        <p>Tanggal Berlangsung: 17-08-2022</p>
-        <!-- <p>Minimum Transaksi: 3</p> -->
+        <p>Jenis Promosi: {{records_promo.3}}</p>
+        <p>Nama Promosi: {{records_promo.1}}</p>
+        <p>Diskon: {{records_promo.2}}%</p>
+        {% if records_promo.3 == 'Promo Hari Spesial' %}
+        <p>Tanggal Berlangsung: {{records_promo.4}}</p>
+        {% else %}
+        <p>Minimum Transaksi: {{records_promo.4}}</p>
+        {% endif %}
     </div>
 
     <div class="flex justify-center items-center my-5">
-        <a href="{% url 'trigger_6:show_riwayat' %}">
+        <a href="{% url 'trigger_6:show_daftar_promo' %}">
             <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
                 Kembali
             </button>
