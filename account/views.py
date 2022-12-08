@@ -151,7 +151,7 @@ def login(request):
                 'status':'error'
             }
             return render(request, 'login.html', context)
-            
+
     context = {}
     return render(request, 'login.html', context)
 
