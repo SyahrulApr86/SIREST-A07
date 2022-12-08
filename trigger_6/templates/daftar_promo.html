@@ -22,25 +22,32 @@
                 </tr>
             </thead>
             <tbody>
+                {% for record in records_promo %}
                 <tr class="bg-white border-b">
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                        1
+                        {{record.4}}
                     </th>
                     <td class="py-4 px-6">
-                        Promo 17 Agustusan
+                       {{record.1}}
                     </td>
                     <td class="py-4 px-6">
-                        Promo Hari Spesial
+                        {{record.3}}
                     </td>
                     <td class="py-4 px-6">
                         <div>
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
+                            <a href="{% url 'trigger_6:show_detail_promo' record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
                         </div>
-                        <!-- <div>
+                        {% if role == 'admin' %}
+                        <div>
                             <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
-                        </div> -->
+                        </div>
+                        <div>
+                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                        </div>
+                        {% endif %}
                     </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
