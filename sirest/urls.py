@@ -22,4 +22,5 @@ urlpatterns = [
     path('trigger_6/', include('trigger_6.urls')),
     path('trigger3/', include('trigger3.urls')),
     path('trigger_2/', include('trigger_2.urls')),
+    path('trigger5/',include('trigger5.urls')),
 ]
