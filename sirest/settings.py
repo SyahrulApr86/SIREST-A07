@@ -88,7 +88,16 @@ WSGI_APPLICATION = 'sirest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {}
+DATABASES = {
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME' : 'railway',
+        'USER' : 'postgres',
+        'PASSWORD' : 'tIDurBDfmgUuD3TOcscW',
+        'HOST' : 'containers-us-west-156.railway.app',
+        'PORT' : '8035'
+    },
+}
 
 
 # Password validation

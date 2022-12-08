@@ -12,7 +12,7 @@ urlpatterns = [
     path('register_restoran/', register_restoran, name='register_restoran'),
     path('register_kurir/', register_kurir, name='register_kurir'),
     path('dashboard_admin/',dashboard_admin,name='dashboard-admin'),
-    path('profile_restoran/',profile_restoran,name='profile_restoran'),
-    path('profile_pelanggan/',profile_pelanggan,name='profile_pelanggan'),
-    path('profile_kurir/',profile_kurir,name='profile_kurir'),
+    path('profile_restoran/<email>',profile_restoran,name='profile_restoran'),
+    path('profile_pelanggan/<email>',profile_pelanggan,name='profile_pelanggan'),
+    path('profile_kurir/<email>',profile_kurir,name='profile_kurir'),
 ]

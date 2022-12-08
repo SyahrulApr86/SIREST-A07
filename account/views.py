@@ -9,8 +9,7 @@ from utils.query import *
 
 
 def show_main(request):
-    print(request.COOKIES.get('role'))
-    return render(request, 'main.html', {'role':request.COOKIES.get('role')})
+    return render(request, 'main.html')
 
 def login(request):
     if request.method == "POST":
@@ -21,7 +20,7 @@ def login(request):
         user = cursor.fetchmany();
         if len(user) == 1 and user[0][1] == password:
             cursor.execute(f'select * from user_acc u, admin a where u.email = a.email and u.email = \'{email}\'')
-            records_admin = cursor.fetchmany()
+            records_admin = cursor.fetchall()
             if (len(records_admin) == 1):
                 cursor.execute(f'select u.email, u.fname, u.lname, t.adminid from transaction_actor t, user_acc u where t.email = u.email')
                 # TODO: Ganti jadi fetch all
@@ -52,6 +51,8 @@ def login(request):
                 }
                 response = render(request, 'dashboard_admin.html', context)
                 response.set_cookie('role', 'admin')
+                # response.set_cookie('email', records_admin[0][0])
+                print('masuk admin')
                 return response
 
             cursor.execute(f'select * from user_acc u, restaurant r, transaction_actor ta, restaurant_category rc, restaurant_operating_hours ros where u.email = r.email and u.email = \'{email}\' and r.email = ta.email and r.rcategory = rc.id and r.rname = ros.name and r.rbranch = ros.branch')
@@ -150,10 +151,11 @@ def login(request):
         else:   
             context = {
                 'message':'Cek kembali email dan password anda!',
-                'status':'error'
+                'status':'error',
+                'role':None,
             }
             return render(request, 'login.html', context)
-            
+
     context = {}
     return render(request, 'login.html', context)
 
@@ -203,15 +205,31 @@ def register_kurir(request):
 def dashboard_admin(request):
     return render(request, 'dashboard_admin.html')
 
-def profile_restoran(request):
-    # context = {
-    #     'role':request.COOKIES.get('role')
-    # }
-    # print(request.COOKIES.get('role'))
-    return render(request, 'profile_restoran.html')
+def profile_restoran(request, email):
+    cursor.execute(f'select * from user_acc u, transaction_actor t, restaurant r where u.email = \'{email}\' and u.email = t.email and t.email = r.email')
+    record = cursor.fetchall()
+    context = {
+        'role':request.COOKIES.get('role'),
+        'record':record[0],
+    }
+    print(record[0])
+    return render(request, 'profile_restoran.html', context)
 
-def profile_pelanggan(request):
-    return render(request, 'profile_pelanggan.html')
+def profile_pelanggan(request, email):
+    cursor.execute(f'select * from user_acc u, transaction_actor t, customer c where u.email = \'{email}\' and u.email = t.email and t.email = c.email')
+    record = cursor.fetchall()
+    context = {
+        'role':request.COOKIES.get('role'),
+        'record':record[0],
+    }
+    print(record[0])
+    return render(request, 'profile_pelanggan.html', context)
 
-def profile_kurir(request):
-    return render(request, 'profile_kurir.html')
+def profile_kurir(request, email):
+    cursor.execute(f'select * from user_acc u, transaction_actor t, courier c where u.email = \'{email}\' and u.email = t.email and t.email = c.email')
+    record = cursor.fetchall()
+    context = {
+        'role':request.COOKIES.get('role'),
+        'record':record[0],
+    }
+    return render(request, 'profile_kurir.html', context)
