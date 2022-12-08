@@ -18,34 +18,97 @@ def login(request):
         password = request.POST.get('password')
 
         cursor.execute(f'select email, password from user_acc where email = \'{email}\'')
-        user = cursor.fetchmany()
+        user = cursor.fetchmany();
         if len(user) == 1 and user[0][1] == password:
-            cursor.execute(f'select u.email from user_acc u, admin a where u.email = a.email and u.email = \'{email}\'')
-            records = cursor.fetchmany()
-            if (len(cursor.fetchmany()) == 1):
-                response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success'})
+            cursor.execute(f'select * from user_acc u, admin a where u.email = a.email and u.email = \'{email}\'')
+            records_admin = cursor.fetchmany()
+            if (len(records_admin) == 1):
+                cursor.execute(f'select u.email, u.fname, u.lname, t.adminid from transaction_actor t, user_acc u where t.email = u.email')
+                # TODO: Ganti jadi fetch all
+                records_actor = cursor.fetchmany()
+                print(records_admin)
+
+                for i in range(len(records_actor)):
+                    cursor.execute(f'select * from courier where email = \'{records_actor[i][0]}\'')
+                    if len(cursor.fetchmany()) == 1:
+                        records_actor[i] += ('Kurir', )
+                    cursor.execute(f'select * from customer where email = \'{records_actor[i][0]}\'')
+                    if len(cursor.fetchmany()) == 1:
+                        records_actor[i] += ('Pelanggan', )
+                    cursor.execute(f'select * from restaurant where email = \'{records_actor[i][0]}\'')
+                    if len(cursor.fetchmany()) == 1:
+                        records_actor[i] += ('Restoran', )
+                
+
+                context = {
+                    'role':'admin',
+                    'status':'success',
+                    'email':records_admin[0][0],
+                    'password':records_admin[0][1],
+                    'no_telp':records_admin[0][2],
+                    'fname':records_admin[0][3],
+                    'lname':records_admin[0][4],
+                    'records_actor':records_actor,
+                }
+                response = render(request, 'dashboard_admin.html', context)
                 response.set_cookie('role', 'admin')
                 return response
 
-            cursor.execute(f'select * from user_acc u, restaurant r where u.email = r.email and u.email = \'{email}\'')
+            cursor.execute(f'select * from user_acc u, restaurant r, transaction_actor ta, restaurant_category rc, restaurant_operating_hours ros where u.email = r.email and u.email = \'{email}\' and r.email = ta.email and r.rcategory = rc.id and r.rname = ros.name and r.rbranch = ros.branch')
             records = cursor.fetchmany()
 
+            
             if (len(records) == 1):
-                # print(records)
+                print(records)
                 context = {
-                    'dataRestoran': records,
-                    'role' : 'restoran'
+                    'email':records[0][0],
+                    'password':records[0][1],
+                    'notelp':records[0][2],
+                    'fname':records[0][3],
+                    'lname':records[0][4],
+                    'rname':records[0][5],
+                    'rbranch':records[0][6],
+                    'rphonenum':records[0][8],
+                    'rstreet':records[0][9],
+                    'rdistrict':records[0][10],
+                    'rcity':records[0][11],
+                    'rprovince':records[0][12],
+                    'rating':records[0][13],
+                    'nik':records[0][16],
+                    'bank':records[0][17],
+                    'accountno':records[0][18],
+                    'restopay':records[0][19],
+                    'adminid':records[0][20],
+                    'day':records[0][25],
+                    'starthour':records[0][26],
+                    'endhour':records[0][27],
+                    'category':records[0][22],
+                    'role' : 'restaurant'
                 }
                 print(context)
                 response = render(request, 'dashboard_pengguna.html', context)
                 return response
 
-            cursor.execute(f'select * from user_acc u, courier c where u.email = c.email and u.email = \'{email}\'')
+            cursor.execute(f'select * from user_acc u, courier c, transaction_actor ta where u.email = c.email and u.email = \'{email}\' and c.email = ta.email' )
             records = cursor.fetchmany()
             if (len(records) == 1):
                 # response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success'})
+                print(records)
                 context = {
-                    'dataCourier': records,
+                    'email':records[0][0],
+                    'password':records[0][1],
+                    'notelp':records[0][2],
+                    'fname':records[0][3],
+                    'lname':records[0][4],
+                    'plat':records[0][6],
+                    'nosim':records[0][7],
+                    'vehicletype':records[0][8],
+                    'vehiclebrand':records[0][9],
+                    'nik':records[0][11],
+                    'bank':records[0][12],
+                    'accountno':records[0][13],
+                    'restopay':records[0][14],
+                    'adminid':records[0][15],
                     'role' : 'courier'
                 }
                 print(context)
@@ -54,11 +117,23 @@ def login(request):
                 # response.set_cookie('role', 'courier')
                 return response
 
-            cursor.execute(f'select * from user_acc u, customer c where u.email = c.email and u.email = \'{email}\'')
+            cursor.execute(f'select * from user_acc u, customer c, transaction_actor ta where u.email = c.email and u.email = \'{email}\' and c.email = ta.email')
             records = cursor.fetchmany()
             if (len(records) == 1):
+                print(records)
                 context = {
-                    'dataCustomer': records,
+                    'email':records[0][0],
+                    'password':records[0][1],
+                    'notelp':records[0][2],
+                    'fname':records[0][3],
+                    'lname':records[0][4],
+                    'tanggallahir':records[0][6],
+                    'gender':records[0][7],
+                    'nik':records[0][9],
+                    'bank':records[0][10],
+                    'accountno':records[0][11],
+                    'restopay':records[0][12],
+                    'adminid':records[0][13],
                     'role' : 'customer'
                 }
                 print(context)

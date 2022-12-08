@@ -1,6 +1,7 @@
 from django.db import connection
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from utils.query import *
 
 # Create your views here.
 
@@ -22,9 +23,7 @@ def tambah_tarif(request):
 
     if request.method == "POST":
         # try :
-            
-            with connection.cursor() as cursor:
-                cursor.execute(f""" 
+            cursor.execute(f""" 
                     INSERT INTO DELIVERY_FEE_PER_KM VALUES
                     ('{request.POST['id_trf']}',
                     '{request.POST['province']}',
@@ -33,6 +32,13 @@ def tambah_tarif(request):
                 """)
             messages.add_message(request, messages.SUCCESS, 'Tarif Pengiriman Berhasil Ditambahkan')
             return redirect("/daftartarif")
+    #     except psycopg2.RaiseException as e:
+    #         # except psycopg2.OperationalError as e:
+    # # print('Unable to connect!\n{0}').format(e)
+    #         messages.add_message(request, messages.SUCCESS, 'Tarif Pengiriman Berhasil Ditambahkan')
+    # # sys.exit(1)
+
+
         
 
     with connection.cursor() as c:
@@ -43,12 +49,15 @@ def tambah_tarif(request):
         length = int(maxId) + 1
     return render(request, 'create_tarif_pengiriman.html', {'length': length})
 
+
 def tarif_detail(request):
+    cursor.execute(f'select * from DELIVERY_FEE_PER_KM')
+    record = cursor.fetchmany()
+    print(record)
     context = {
-        'nomor' : '1',
-        'provinsi' : 'DKI Jakarta',
-        'motor' : '6000',
-        'mobil' : '7000',
+        'provinsi' : record[0][1],
+        'motorfee' : record[0][2],
+        'mobilfee' : record[0][3],
     }
     return render(request, "read_tarif_pengiriman.html", context)
 
