@@ -21,5 +21,6 @@ try:
     print("You are connected to - ", record, "\n")
 
     cursor.execute("SET search_path TO sirest")
+
 except (Exception, Error) as error:
     print("Error while connecting to PostgreSQL", error)

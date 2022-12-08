@@ -1,4 +1,8 @@
+import datetime
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
+from utils.query import *
 
 # Create your views here.
 def show_riwayat(request):
@@ -12,22 +16,104 @@ def show_form_penilaian(request, id):
     return render(request, 'form_penilaian.html')
 
 def show_buat_promo(request):
-    return render(request, 'buat_promo.html')
+    return render(request, 'buat_promo.html', {'role':request.COOKIES.get('role')})
 
 def show_form_promo_minimum(request):
-    return render(request, 'form_promo_minimum.html')
+    if request.method == "POST":
+        name = request.POST.get('name')
+        discount = request.POST.get('discount')
+        mintransaction = request.POST.get('mintransaction')
+        if (name == '' or discount == '' or mintransaction == ''):
+            context = {
+                'status':'error',
+                'message':'Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu',
+                'role':request.COOKIES.get('role')
+            }
+            return render(request, 'form_promo_minimum.html', context)
+        else:
+            cursor.execute(f"SELECT MAX(CAST(id as DECIMAL)) from promo")
+            maxId = cursor.fetchall()[0][0]
+            length = int(maxId) + 1
+            cursor.execute(f'insert into promo values (\'{length}\', \'{name}\', \'{discount}\')')
+            connection.commit()
+            cursor.execute(f'insert into min_transaction_promo values (\'{length}\', \'{mintransaction}\')')
+            connection.commit()
+            return HttpResponseRedirect(reverse('trigger_6:show_daftar_promo'))
+            
+    return render(request, 'form_promo_minimum.html', {'role':request.COOKIES.get('role')})
 
 def show_form_promo_hari_spesial(request):
-    return render(request, 'form_promo_hari_spesial.html')
+    if request.method == "POST":
+        name = request.POST.get('name')
+        discount = request.POST.get('discount')
+        mintransaction = request.POST.get('mintransaction')
+        if (name == '' or discount == '' or mintransaction == ''):
+            context = {
+                'status':'error',
+                'message':'Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu',
+                'role':request.COOKIES.get('role')
+            }
+            return render(request, 'form_promo_minimum.html', context)
+        else:
+            cursor.execute(f"SELECT MAX(CAST(id as DECIMAL)) from promo")
+            maxId = cursor.fetchall()[0][0]
+            length = int(maxId) + 1
+            cursor.execute(f'insert into promo values (\'{length}\', \'{name}\', \'{discount}\')')
+            connection.commit()
+            cursor.execute(f'insert into min_transaction_promo values (\'{length}\', \'{mintransaction}\')')
+            connection.commit()
+            return HttpResponseRedirect(reverse('trigger_6:show_daftar_promo'))
+            
+    return render(request, 'form_promo_minimum.html', {'role':request.COOKIES.get('role')})
 
 def show_daftar_promo(request):
-    return render(request, 'daftar_promo.html')
+    cursor.execute('select * from promo')
+    # TODO: GANTI FETCH ALL
+    records_promo = cursor.fetchall()
+    print(records_promo)
 
-def show_ubah_promo(request):
+    for i in range(len(records_promo)):
+        cursor.execute(f'select * from special_day_promo where id = \'{records_promo[i][0]}\'')
+        if len(cursor.fetchmany()) == 1:
+            records_promo[i] += ('Promo Hari Spesial', i+1)
+        cursor.execute(f'select * from min_transaction_promo where id = \'{records_promo[i][0]}\'')
+        if len(cursor.fetchmany()) == 1:
+            records_promo[i] += ('Promo Minimum Transaksi', i+1)
+
+        cursor.execute(f'select count(*) from restaurant_promo r where r.pid = \'{records_promo[i][0]}\'')
+        record = cursor.fetchall()
+        records_promo[i] += record[0]
+
+    context = {
+        'records_promo':records_promo,
+        'role':request.COOKIES.get('role'),
+    }
+
+    return render(request, 'daftar_promo.html', context)
+
+def show_ubah_promo(request, id):
+
     return render(request, 'form_ubah_promosi.html')
 
-def show_daftar_promo_restoran(request):
-    return render(request, 'daftar_promo_restoran.html')
+def show_daftar_promo_restoran(request, rname, rbranch):
+    cursor.execute(f'select * from promo p, restaurant_promo r where p.id = r.pid and r.rname = \'{rname}\' and r.rbranch = \'{rbranch}\'')
+    records_promo_resto = cursor.fetchall()
+    
+    for i in range(len(records_promo_resto)):
+        records_promo_resto[i] += (i+1,)
+        records_promo_resto_list = list(records_promo_resto[i])
+        records_promo_resto_list[6] = records_promo_resto[i][6].date()
+        records_promo_resto_list[7] = records_promo_resto[i][7].date()
+
+        records_promo_resto = tuple(records_promo_resto_list)
+
+    context = {
+        'records_promo_resto':[records_promo_resto],
+        'role':request.COOKIES.get('role'),
+        'rname':rname,
+        'rbranch':rbranch,
+    }
+    return render(request, 'daftar_promo_restoran.html', context)
 
 def show_form_promo_restoran(request):
     return render(request, 'form_promo_restoran.html')
@@ -36,7 +122,46 @@ def show_form_ubah_promo_restoran(request):
     return render(request, 'form_ubah_promo_restoran.html')
 
 def show_detail_promo(request, id):
-    return render(request, 'detail_promosi.html')
+    cursor.execute(f'select * from promo where id = \'{id}\'')
+    records_promo = cursor.fetchmany()
 
-def show_detail_promo_restoran(request, id):
-    return render(request, 'detail_promosi_restoran.html')
+    cursor.execute(f'select * from special_day_promo where id = \'{records_promo[0][0]}\'')
+    record = cursor.fetchmany()
+    if len(record) == 1:
+        records_promo[0] += ('Promo Hari Spesial', record[0][1])
+
+    cursor.execute(f'select * from min_transaction_promo where id = \'{records_promo[0][0]}\'')
+    record = cursor.fetchmany()
+    if len(record) == 1:
+        records_promo[0] += ('Promo Minimum Transaksi', record[0][1])
+    
+    context = {
+        'records_promo':records_promo[0],
+        'role':request.COOKIES.get('role'),
+    }
+
+    return render(request, 'detail_promosi.html', context)
+
+def show_detail_promo_restoran(request, rname, rbranch, id):
+    cursor.execute(f'select * from promo p, restaurant_promo r where p.id = r.pid and r.pid = \'{id}\' and r.rname = \'{rname}\' and r.rbranch = \'{rbranch}\'')
+    record_promo = cursor.fetchall()
+
+    cursor.execute(f'select * from special_day_promo where id = \'{id}\'')
+    record = cursor.fetchmany()
+    if len(record) == 1:
+        record_promo[0] += ('Promo Hari Spesial',)
+
+    cursor.execute(f'select * from min_transaction_promo where id = \'{id}\'')
+    record = cursor.fetchmany()
+    if len(record) == 1:
+        record_promo[0] += ('Promo Minimum Transaksi',)
+
+    record_promo = list(record_promo[0])
+    record_promo[6] = record_promo[6].date()
+    record_promo[7] = record_promo[7].date()
+    context = {
+        'record_promo':record_promo,
+    }
+
+    print(record_promo)
+    return render(request, 'detail_promosi_restoran.html', context)
