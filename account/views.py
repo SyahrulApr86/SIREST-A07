@@ -60,7 +60,7 @@ def login(request):
 
             
             if (len(records) == 1):
-                print(records)
+                # print(records)
                 context = {
                     'email':records[0][0],
                     'password':records[0][1],
@@ -86,16 +86,16 @@ def login(request):
                     'category':records[0][22],
                     'role' : 'restaurant'
                 }
+                # print(context)
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'restaurant')
-                print('masuk resto')
                 return response
 
             cursor.execute(f'select * from user_acc u, courier c, transaction_actor ta where u.email = c.email and u.email = \'{email}\' and c.email = ta.email' )
             records = cursor.fetchmany()
             if (len(records) == 1):
                 # response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success'})
-                print(records)
+                # print(records)
                 context = {
                     'email':records[0][0],
                     'password':records[0][1],
@@ -113,15 +113,17 @@ def login(request):
                     'adminid':records[0][15],
                     'role' : 'courier'
                 }
+                # print(context)
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'courier')
-                print('masuk kurir')
+
+                # response = HttpResponseRedirect(reverse('account:profile_kurir'))
                 return response
 
             cursor.execute(f'select * from user_acc u, customer c, transaction_actor ta where u.email = c.email and u.email = \'{email}\' and c.email = ta.email')
             records = cursor.fetchmany()
             if (len(records) == 1):
-                print(records)
+                # print(records)
                 context = {
                     'email':records[0][0],
                     'password':records[0][1],
@@ -137,10 +139,10 @@ def login(request):
                     'adminid':records[0][13],
                     'role' : 'customer'
                 }
-                print(context)
+                # print(context)
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'customer')
-                print('masuk pelanggan')
+                # response = HttpResponseRedirect(reverse('account:profile_kurir'))
                 return response
  
             # response = HttpResponseRedirect(reverse('account:profile_pelanggan'))
