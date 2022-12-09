@@ -12,7 +12,7 @@
     <div class="flex gap-2 md:w-full justify-between">
         <a href="">
             <div class="text-2xl font-bold text-[#fff] flex items-center cursor-pointer hover:text-cream-tua">
-                SIREST {{role}} {{email}}
+                SIREST {{role}} {{rname}} {{rbranch}}
             </div>
         </a>
         <div class="text-3xl cursor-pointer flex items-center md:hidden">
@@ -87,7 +87,7 @@
                 <div class="px-2 py-2 bg-white text-gray-900 rounded-md shadow ">
                     <a class="block px-4 py-2 mt-2 rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Buat Pesanan</a>
                     <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Pesanan Berlangsung</a>
-                    <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Riwayat Pesanan</a>
+                    <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{% url 'trigger_6:show_riwayat' %}">Riwayat Pesanan</a>
                 </div>
             </div>
         </div>   
@@ -132,7 +132,7 @@
             <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
                 <div class="px-2 py-2 bg-white text-gray-900 rounded-md shadow ">
                     <a class="block px-4 py-2 mt-2 rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Pesanan Berlangsung</a>
-                    <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Riwayat Pesanan</a>
+                    <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{% url 'trigger_6:show_riwayat' %}">Riwayat Pesanan</a>
                 </div>
             </div>
         </div> 
@@ -167,7 +167,7 @@
             <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
                 <div class="px-2 py-2 bg-white text-gray-900 rounded-md shadow ">
                     <a class="block px-4 py-2 mt-2 rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Pesanan Berlangsung</a>
-                    <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Riwayat Pesanan</a>
+                    <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{% url 'trigger_6:show_riwayat' %}">Riwayat Pesanan</a>
                 </div>
             </div>
         </div> 
@@ -178,7 +178,7 @@
         <!-- kurir end -->
 
         <div class="md:mx-5 my-3 md:my-0">
-            <a href="" class="hover:text-[#DBC8AC] hover:text-lg duration-500">Logout</a>
+            <a href="{% url 'account:login' %}" class="hover:text-[#DBC8AC] hover:text-lg duration-500">Logout</a>
         </div>
     </div>
 </nav>

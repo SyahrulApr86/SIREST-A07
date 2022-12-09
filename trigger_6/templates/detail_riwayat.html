@@ -10,54 +10,55 @@
     <div class="flex justify-center items-center p-2 bg-red-300 rounded-t-lg mb-3">
         <h1 class="font-bold text-xl">Detail Pesanan</h1>
     </div>
+    {% for record in record_riwayat %}
     <div class="mb-4">
-        <p>Waktu Pemesanan: 2022-11-04 11:30>05</p>
+        <p>Waktu Pemesanan: {{ record.8 }}</p>
     </div>
 
     <div class="mb-4">
-        <p>Nama Pelanggan: Mikayla Putri</p>
-        <p>Jalan: Jalan Bahagia nomor 72</p>
-        <p>Kecamatan: Cinere</p>
-        <p>Kota: Depok</p>
-        <p>Provinsi: Jawa Barat</p>
+        <p>Nama Pelanggan: {{ record.0 }} {{ record.1 }}</p>
+        <p>Jalan: {{ record.2 }}</p>
+        <p>Kecamatan: {{ record.3 }}</p>
+        <p>Kota: {{ record.4 }}</p>
+        <p>Provinsi: {{ record.5 }}</p>
     </div>
 
     <div class="mb-4">
-        <p>Restoran: Warung Mantap Depok</p>
-        <p>Jalan: Jalan Bahagia nomor 72</p>
-        <p>Kecamatan: Cinere</p>
-        <p>Kota: Depok</p>
-        <p>Provinsi: Jawa Barat</p>
+        <p>Restoran: {{ record.6 }} {{ record.7 }}</p>
+        <p>Jalan: {{ record.15 }}</p>
+        <p>Kecamatan: {{ record.16 }}</p>
+        <p>Kota: {{ record.17 }}</p>
+        <p>Provinsi: {{ record.18 }}</p>
     </div>
 
     <div class="mb-4">
         <p>Makanan yang dipesan:</p>
         <ul class="ml-10">
+            {% for order in ordered_food %}
             <li>
-                Ayam goreng (1) - [paha atas]
+                {{ order.0 }} ({{ order.2 }}) - [{{ order.1 }}]
             </li>
-            <li>
-                Ice Cream (2)
-            </li>
+            {% endfor %}
         </ul>
-        <p>Total Harga Makanan: 11000</p>
-        <p>Total Diskon: 0</p>
-        <p>Biaya Pengantaran: 4000</p>
-        <p>Total Biaya: 15000</p>
-        <p>Jenis Pembayaran: RestoPay</p>
+        <p class="mt-2">Total Harga Makanan: {{ record.19 }}</p>
+        <p>Total Diskon: {{ record.20 }}</p>
+        <p>Biaya Pengantaran: {{ record.21 }}</p>
+        <p>Total Biaya: {{ record.22 }}</p>
+        <p>Jenis Pembayaran: {{ record.23 }}</p>
     </div>
 
     <div class="mb-4">
-        <p>Status Pembayaran: Berhasil</p>
-        <p>Status Pesanan: Pesanan Diantar</p>
+        <p>Status Pembayaran: {{ record.24 }}</p>
+        <p>Status Pesanan: {{ status }}</p>
     </div>
 
     <div class="mb-4">
-        <p>Kurir: Doni Suryana</p>
-        <p>Plat Kendaraan: B 0001 KNN</p>
-        <p>Jenis Kendaraan: Motor</p>
-        <p>Merk Kendaraan: Honda Vario</p>
+        <p>Kurir: {{ record.10 }} {{ record.11 }}</p>
+        <p>Plat Kendaraan: {{ record.12 }}</p>
+        <p>Jenis Kendaraan: {{ record.13 }}</p>
+        <p>Merk Kendaraan: {{ record.14 }}</p>
     </div>
+    {% endfor %}
 
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg mb-4">
         <table class="w-full text-sm text-left text-black">
@@ -72,14 +73,16 @@
                 </tr>
             </thead>
             <tbody>
+                {% for status in transaction_status %}
                 <tr class="bg-white border-b">
                     <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                        Menunggu Konfirmasi Restoran
+                        {{ status.0 }}
                     </th>
                     <td class="py-4 px-6">
-                        11:30:05
+                        {{ status.1 }}
                     </td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

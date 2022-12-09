@@ -6,7 +6,7 @@
         <div>
             <h1>DAFTAR PROMO RESTORAN</h1>
             <div class="flex justify-center items-center">
-                <a href="{% url 'trigger_6:show_riwayat' %}">
+                <a href="{% url 'trigger_6:show_form_promo_restoran' %}">
                     <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
                         Tambah Promo
                     </button>
@@ -15,6 +15,7 @@
         </div>
     </div>
     <h1 class="font-bold text-2xl mb-3">Daftar Promo Restoran:</h1>
+    {% if empty != 0 %}
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-black">
             <thead class="text-xs text-black uppercase bg-red-300">
@@ -50,10 +51,10 @@
                             <a href="{% url 'trigger_6:show_detail_promo_restoran' rname rbranch record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
                         </div>
                         <div>
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
+                            <a href="{% url 'trigger_6:show_form_ubah_promo_restoran' record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
                         </div>
                         <div>
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                            <a href="{% url 'trigger_6:delete_promo_restoran' rname rbranch record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
                         </div>
                     </td>
                 </tr>
@@ -61,6 +62,9 @@
             </tbody>
         </table>
     </div>
+    {% else %}
+    <h1>Tidak ada records.</h1>
+    {% endif %}
 </div>
 
 
