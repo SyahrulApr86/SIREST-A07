@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from account.forms import *
 from utils.query import *
-
+import re
 
 # Create your views here.
 
@@ -86,7 +86,7 @@ def show_main(request):
                 elif (records_actor[i][0],) in list_restaurant:
                     records_actor[i] += ('Restoran', )
 
-            print(records_actor)
+            print(records_admin)
 
             context = {
                 'role': 'admin',
@@ -345,8 +345,81 @@ def register(request):
 
 
 def register_admin(request):
-    form = RegisterFormAdmin(request.POST or None)
+    if request.method == 'POST' or 'post' and not request.method == 'GET':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        nama = request.POST.get('nama')
+        no_hp = request.POST.get('no_hp')
 
+        # check email is valid or not
+        regex = re.compile(
+            r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+
+        if not re.fullmatch(regex, email):
+            form = RegisterFormAdmin(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Email tidak valid',
+            }
+            return render(request, 'register_admin.html', context)
+
+        # if data is not complete
+        if not email or not password or not nama or not no_hp:
+            form = RegisterFormAdmin(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu',
+            }
+            return render(request, 'register_admin.html', context)
+
+        # check email is already registered or not
+        cursor.execute(f'select * from user_acc where email = \'{email}\'')
+        records = cursor.fetchmany()
+        if len(records) > 0:
+            form = RegisterFormAdmin(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Email sudah terdaftar',
+            }
+            return render(request, 'register_admin.html', context)
+
+        # insert data to database
+        fname = None
+        lname = None
+        # if name only contains one word
+        if len(nama.split()) == 1:
+            fname = nama
+            lname = nama
+        else:
+            fname = nama.split()[0]
+            lname = ' '.join(nama.split()[1:])
+
+        try:
+            cursor.execute(
+                f'insert into user_acc values (\'{email}\', \'{password}\', \'{no_hp}\', \'{fname}\', \'{lname}\')')
+            cursor.execute(f'insert into admin values (\'{email}\')')
+
+            connection.commit()
+
+            # set cookie and redirect to dashboard
+            response = HttpResponseRedirect(reverse('account:show_main'))
+            response.set_cookie('role', 'admin')
+            response.set_cookie('email', email)
+            return response
+        except Exception as err:
+            connection.rollback()
+            print("Oops! An exception has occured:", err)
+            print("Exception TYPE:", type(err))
+            message = 'Maaf, password harus memiliki minimal 1 huruf kapital dan 1 angka'
+            form = RegisterFormAdmin(request.POST or None)
+            context = {
+                'form': form,
+                'message': message,
+            }
+
+            return render(request, 'register_admin.html', context)
+
+    form = RegisterFormAdmin(request.POST or None)
     context = {
         'form': form
     }
