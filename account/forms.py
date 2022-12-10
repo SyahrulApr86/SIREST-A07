@@ -95,7 +95,7 @@ class RegisterFormKurir(forms.Form):
     no_sim = forms.CharField(label='No SIM', max_length=20, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'No SIM'}))
     # Jenis Kendaraan Dropdown
-    jenis_kendaraan = forms.ChoiceField(label='Jenis Kendaraan', choices=[('Mobil', 'Mobil'), ('Motor', 'Motor')], widget=forms.Select(
+    jenis_kendaraan = forms.ChoiceField(label='Jenis Kendaraan', choices=[('Car', 'Mobil'), ('Motorcycle', 'Motor')], widget=forms.Select(
         attrs={'class': 'border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2', 'placeholder': 'Jenis Kendaraan'}))
     merk_kendaraan = forms.CharField(label='Merk Kendaraan', max_length=15, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Merk Kendaraan'}))
