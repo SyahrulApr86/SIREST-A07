@@ -15,8 +15,14 @@ def show_main(request):
         # Role Restaurant -> Dashboard Restaurant
         if request.COOKIES.get('role') == 'restaurant':
             cursor.execute(
-                f'select * from user_acc u, restaurant r, transaction_actor ta, restaurant_category rc, restaurant_operating_hours ros where u.email = r.email and u.email = \'{email}\' and r.email = ta.email and r.rcategory = rc.id and r.rname = ros.name and r.rbranch = ros.branch')
+                f'select * from user_acc u, restaurant r, transaction_actor ta, restaurant_category rc where u.email = r.email and u.email = \'{email}\' and r.email = ta.email and r.rcategory = rc.id;'
+            )
             records = cursor.fetchall()
+
+            cursor.execute(
+                f'select day, starthours, endhours from restaurant r, restaurant_operating_hours roh where name = rname and branch = rbranch and email = \'{email}\''
+            )
+            records_hours = cursor.fetchall()
 
             context = {
                 'email': records[0][0],
@@ -37,13 +43,10 @@ def show_main(request):
                 'accountno': records[0][18],
                 'restopay': records[0][19],
                 'adminid': records[0][20],
-                'day': records[0][25],
-                'starthour': records[0][26],
-                'endhour': records[0][27],
+                'jadwal': records_hours,
                 'category': records[0][22],
                 'role': 'restaurant'
             }
-
             response = render(request, 'dashboard_pengguna.html', context)
             response.set_cookie('role', 'restaurant')
             response.set_cookie('email', records[0][0])
@@ -51,7 +54,7 @@ def show_main(request):
             response.set_cookie('rbranch', records[0][6])
             print('masuk resto')
             return response
-
+            
         # Role Admin -> Dashboard Admin
         elif request.COOKIES.get('role') == 'admin':
             # Query untuk mengambil data admin
@@ -229,10 +232,15 @@ def login(request):
                 return response
 
             cursor.execute(
-                f'select * from user_acc u, restaurant r, transaction_actor ta, restaurant_category rc, restaurant_operating_hours ros where u.email = r.email and u.email = \'{email}\' and r.email = ta.email and r.rcategory = rc.id and r.rname = ros.name and r.rbranch = ros.branch')
-            records = cursor.fetchmany()
+                f'select * from user_acc u, restaurant r, transaction_actor ta, restaurant_category rc where u.email = r.email and u.email = \'{email}\' and r.email = ta.email and r.rcategory = rc.id;'
+            )
+            records = cursor.fetchall()
 
             if (len(records) == 1):
+                cursor.execute(
+                    f'select day, starthours, endhours from restaurant r, restaurant_operating_hours roh where name = rname and branch = rbranch and email = \'{email}\''
+                )
+                records_hours = cursor.fetchall()
 
                 context = {
                     'email': records[0][0],
@@ -253,13 +261,10 @@ def login(request):
                     'accountno': records[0][18],
                     'restopay': records[0][19],
                     'adminid': records[0][20],
-                    'day': records[0][25],
-                    'starthour': records[0][26],
-                    'endhour': records[0][27],
+                    'jadwal': records_hours,
                     'category': records[0][22],
                     'role': 'restaurant'
                 }
-                # print(context)
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'restaurant')
                 response.set_cookie('email', records[0][0])
@@ -272,8 +277,6 @@ def login(request):
                 f'select * from user_acc u, courier c, transaction_actor ta where u.email = c.email and u.email = \'{email}\' and c.email = ta.email')
             records = cursor.fetchmany()
             if (len(records) == 1):
-                # response = render(request, 'dashboard_admin.html', {'role':'admin', 'status':'success'})
-                # print(records)
                 context = {
                     'email': records[0][0],
                     'password': records[0][1],
@@ -486,7 +489,6 @@ def register_pelanggan(request):
         try:
             cursor.execute(
                 f'insert into user_acc values (\'{email}\', \'{password}\', \'{no_hp}\', \'{fname}\', \'{lname}\')')
-            # email, nik, nama_bank, no_rekening, 0, null
             cursor.execute(
                 f'insert into transaction_actor values (\'{email}\', \'{nik}\', \'{nama_bank}\', \'{no_rekening}\', 0, null)')
             cursor.execute(
@@ -501,7 +503,7 @@ def register_pelanggan(request):
             return response
 
         except Exception as err:
-            connection.rollback()  
+            connection.rollback()
             print("Oops! An exception has occured:", err)
             print("Exception TYPE:", type(err))
             form = RegisterFormPelanggan(request.POST or None)
@@ -524,6 +526,97 @@ def register_pelanggan(request):
 
 
 def register_restoran(request):
+    if request.method == 'POST' or 'post' and not request.method == 'GET':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        nama = request.POST.get('nama')
+        no_hp = request.POST.get('no_hp')
+        nik = request.POST.get('nik')
+        nama_bank = request.POST.get('nama_bank')
+        no_rekening = request.POST.get('no_rekening')
+        nama_restoran = request.POST.get('nama_restoran')
+        nama_cabang = request.POST.get('cabang')
+        no_hp_restoran = request.POST.get('no_hp_restoran')
+        jalan = request.POST.get('jalan')
+        kecamatan = request.POST.get('kecamatan')
+        kota = request.POST.get('kota')
+        provinsi = request.POST.get('provinsi')
+        kategori = request.POST.get('kategori')
+
+        # check email is valid or not
+        regex = re.compile(
+            r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+
+        if not re.fullmatch(regex, email):
+            form = RegisterFormRestoran(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Email tidak valid',
+            }
+            return render(request, 'register_restoran.html', context)
+
+        # if data is not complete
+        if not email or not password or not nama or not no_hp or not nik or not nama_bank or not no_rekening or not nama_restoran or not nama_cabang or not no_hp_restoran or not jalan or not kecamatan or not kota or not provinsi or not kategori:
+            form = RegisterFormRestoran(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu',
+            }
+            return render(request, 'register_restoran.html', context)
+
+        # check email is already registered or not
+        connection.commit()
+        cursor.execute(f'select * from user_acc where email = \'{email}\'')
+        records = cursor.fetchmany()
+        if len(records) > 0:
+            form = RegisterFormRestoran(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Email sudah terdaftar',
+            }
+            return render(request, 'register_restoran.html', context)
+
+        # insert data to database
+        fname = None
+        lname = None
+        # if name only contains one word
+        if len(nama.split()) == 1:
+            fname = nama
+            lname = nama
+        else:
+            fname = nama.split()[0]
+            lname = ' '.join(nama.split()[1:])
+
+        try:
+            cursor.execute(
+                f'insert into user_acc values (\'{email}\', \'{password}\', \'{no_hp}\', \'{fname}\', \'{lname}\')')
+            cursor.execute(
+                f'insert into transaction_actor values (\'{email}\', \'{nik}\', \'{nama_bank}\', \'{no_rekening}\', 0, null)')
+            cursor.execute(
+                f'insert into restaurant values (\'{nama_restoran}\', \'{nama_cabang}\', \'{email}\', \'{no_hp_restoran}\', \'{jalan}\', \'{kecamatan}\', \'{kota}\', \'{provinsi}\', 0, \'{kategori}\')')
+
+            connection.commit()
+
+            # set cookie and redirect to dashboard
+            response = HttpResponseRedirect(reverse('account:show_main'))
+            response.set_cookie('role', 'restaurant')
+            response.set_cookie('email', email)
+            return response
+
+        except Exception as err:
+            connection.rollback()
+            print("Oops! An exception has occured:", err)
+            print("Exception TYPE:", type(err))
+            form = RegisterFormRestoran(request.POST or None)
+            # err slice to get only error message
+            err = str(err).split('CONTEXT')[0]
+            context = {
+                'form': form,
+                'message': err,
+            }
+
+            return render(request, 'register_restoran.html', context)
+
     form = RegisterFormRestoran(request.POST or None)
 
     context = {

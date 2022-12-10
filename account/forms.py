@@ -1,9 +1,8 @@
 from django import forms
 
 # dummy data (masih hard coded)
-DATA_PROVINSI = [('Jawa Barat', 'Jawa Barat'), ('Jawa Tengah',
-                                                'Jawa Tengah'), ('Jawa Timur', 'Jawa Timur')]
-DATA_KATEGORI = [('Cafe', 'Cafe'), ('Fast Food', 'Fast Food')]
+DATA_PROVINSI = [('Jabar', 'Jawa Barat'), ('Jatim', 'Jawa Timur')]
+DATA_KATEGORI = [('3', 'Cafe'), ('Fast Food', 'Fast Food')]
 
 class RegisterFormAdmin(forms.Form):
     email = forms.EmailField(label='Email', max_length=50, widget=forms.TextInput(
