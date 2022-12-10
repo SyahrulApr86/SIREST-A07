@@ -24,9 +24,32 @@
     <h2>Kecamatan: {{rdistrict}}</h2>
     <h2>Kota: {{rcity}}</h2>
     <h2>Provinsi: {{rprovince}}</h2>
-    <h2>Rating: [{{rating}}]</h2>
+    <h2>Rating: {{rating}}</h2>
     <h2>Kategori restoran: {{category}}</h2>
-    <h2>Jam operasional: [{{day}}, {{starthour}} - {{endhour}}]</h2>
+    <h2>Jam operasional:</h2>
+    
+    {% if jadwal == None %}
+    <h2>Restoran ini belum memiliki jadwal operasional</h2>
+    {% endif %}
+
+    <table class="table-auto">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">Hari</th>
+          <th class="px-4 py-2">Jam buka</th>
+          <th class="px-4 py-2">Jam tutup</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for j in jadwal %}
+        <tr>
+          <td class="border px-4 py-2">{{j.0}}</td>
+          <td class="border px-4 py-2">{{j.1}}</td>
+          <td class="border px-4 py-2">{{j.2}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    
     {% endif %}
 
     {% if role == 'courier' %}
