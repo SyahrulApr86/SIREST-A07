@@ -52,6 +52,7 @@ def show_main(request):
             response.set_cookie('email', records[0][0])
             response.set_cookie('rname', records[0][5])
             response.set_cookie('rbranch', records[0][6])
+            response.set_cookie('adminid', records[0][20])
             print('masuk resto')
             return response
 
@@ -104,7 +105,6 @@ def show_main(request):
             response = render(request, 'dashboard_admin.html', context)
             response.set_cookie('role', 'admin')
             response.set_cookie('email', records_admin[0][0])
-
             print('masuk admin')
             return response
 
@@ -131,6 +131,7 @@ def show_main(request):
             response = render(request, 'dashboard_pengguna.html', context)
             response.set_cookie('role', 'customer')
             response.set_cookie('email', records[0][0])
+            response.set_cookie('adminid', records[0][13])
             print('masuk pelanggan')
             return response
 
@@ -159,6 +160,7 @@ def show_main(request):
             response = render(request, 'dashboard_pengguna.html', context)
             response.set_cookie('role', 'courier')
             response.set_cookie('email', records[0][0])
+            response.set_cookie('adminid', records[0][15])
             print('masuk kurir')
             return response
 
@@ -270,6 +272,7 @@ def login(request):
                 response.set_cookie('email', records[0][0])
                 response.set_cookie('rname', records[0][5])
                 response.set_cookie('rbranch', records[0][6])
+                response.set_cookie('adminid', records[0][20])
                 print('masuk resto')
                 return response
 
@@ -298,6 +301,7 @@ def login(request):
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'courier')
                 response.set_cookie('email', records[0][0])
+                response.set_cookie('adminid', records[0][15])
                 print('masuk kurir')
                 return response
 
@@ -325,6 +329,7 @@ def login(request):
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'customer')
                 response.set_cookie('email', records[0][0])
+                response.set_cookie('adminid', records[0][13])
                 print('masuk pelanggan')
                 return response
 
@@ -500,6 +505,7 @@ def register_pelanggan(request):
             response = HttpResponseRedirect(reverse('account:show_main'))
             response.set_cookie('role', 'customer')
             response.set_cookie('email', email)
+            response.set_cookie('adminid', None)
             return response
 
         except Exception as err:
@@ -601,6 +607,7 @@ def register_restoran(request):
             response = HttpResponseRedirect(reverse('account:show_main'))
             response.set_cookie('role', 'restaurant')
             response.set_cookie('email', email)
+            response.set_cookie('adminid', None)
             return response
 
         except Exception as err:
@@ -698,6 +705,7 @@ def register_kurir(request):
             response = HttpResponseRedirect(reverse('account:show_main'))
             response.set_cookie('role', 'courier')
             response.set_cookie('email', email)
+            response.set_cookie('adminid', None)
             return response
 
         except Exception as err:

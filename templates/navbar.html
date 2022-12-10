@@ -12,7 +12,12 @@
     <div class="flex gap-2 md:w-full justify-between">
         <a href="">
             <div class="text-2xl font-bold text-[#fff] flex items-center cursor-pointer hover:text-cream-tua">
-                SIREST {{role}} {{rname}} {{rbranch}}
+                {% comment %}  if adminid is not none {% endcomment %}
+                {% if adminid is not none %}
+                    SIREST {{role}} {{rname}} {{rbranch}}
+                {% else %}
+                    SIREST {{role}} {{rname}} {{rbranch}} <h3 class="text-xs"> Not Verified</h3>
+                {% endif %}
             </div>
         </a>
         <div class="text-3xl cursor-pointer flex items-center md:hidden">
@@ -73,7 +78,7 @@
         <!-- admin end -->
 
         <!-- pelanggan start -->
-        {% if role == 'customer' %}
+        {% if role == 'customer' and adminid != None %}
         <div class="md:mx-5 my-3 md:my-0  text-center">
             <a href="" class="hover:text-[#DBC8AC] hover:text-lg duration-500 whitespace-nowrap">Daftar Restoran dan Makanan</a>
         </div>
@@ -99,7 +104,7 @@
         <!-- pelanggan end -->
         
         <!-- restoran start -->
-        {% if role == 'restaurant' %}
+        {% if role == 'restaurant' and adminid != None %}
         <div @click.away="open = false" class="relative" x-data="{ open: false }">
             <button @click="open = !open" class="flex flex-row items-center w-full md:mx-5 my-3 md:my-0 text-left bg-transparent rounded-lg focus:outline-none focus:shadow-outline hover:text-[#DBC8AC] hover:text-lg duration-500 whitespace-nowrap">
                 <span>Jam Operasional</span>
@@ -155,7 +160,7 @@
         <!-- restoran end -->
 
         <!-- kurir start -->
-        {% if role == 'courier' %}
+        {% if role == 'courier' and adminid != None %}
         <div class="md:mx-5 my-3 md:my-0">
             <a href="" class="hover:text-[#DBC8AC] hover:text-lg duration-500 whitespace-nowrap">Daftar Restoran dan Makanan</a>
         </div>
