@@ -1,0 +1,100 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Profile</title>
+{% endblock meta %} {% block content %}
+
+<div class="flex justify-center items-center">
+  <div class="bg-red-200 w-fit rounded-lg">
+    <div
+      class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center items-center bg-cream-tua p-10 rounded-xl lg:scale-100 md:scale-90 scale-75"
+    >
+      <h1 class="text-3xl font-bold mb-2s">PROFIL</h1>
+      <h2>Email: {{record.0}}</h2>
+      <h2>Password: {{record.1}}</h2>
+      <h2>Nama: {{record.2}}</h2>
+      <h2>Nomor Hp: {{record.3}}</h2>
+      <h2>NIK: {{record.4}}</h2>
+      <h2>Nama bank: {{record.5}}</h2>
+      <br />
+      <h2>Nama restoran: {{record.6}}</h2>
+      <h2>Cabang: {{record.7}}</h2>
+      <h2>Nomor telepon: {{record.8}}</h2>
+      <h2>Jalan: {{record.9}}</h2>
+      <h2>Kecamatan: {{record.10}}</h2>
+      <h2>Kota: {{record.10}}</h2>
+      <h2>Provinsi: {{record.11}}</h2>
+      <h2>Rating: {{record.12}}</h2>
+      <h2>Kategori: {{record.13}}</h2>
+      <h2>Jam Operasional:</h2>
+      {% if jadwal == None %}
+      <h2>Restoran ini belum memiliki jadwal operasional</h2>
+      {% else %}
+      <table class="table-auto">
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Hari</th>
+            <th class="px-4 py-2">Jam buka</th>
+            <th class="px-4 py-2">Jam tutup</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for j in jadwal %}
+          <tr>
+            <td class="border px-4 py-2">{{j.0}}</td>
+            <td class="border px-4 py-2">{{j.1}}</td>
+            <td class="border px-4 py-2">{{j.2}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% endif %}
+
+      <h2>Promo Berlangsung :</h2>
+
+      {% if promo == None %}
+      <h2>Restoran ini belum memiliki promo</h2>
+      {% else %}
+      <table class="table-auto">
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Nama Promo</th>
+            <th class="px-4 py-2">Diskon</th>
+            <th class="px-4 py-2">Tanggal Mulai</th>
+            <th class="px-4 py-2">Tanggal Berakhir</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in promo %}
+          <tr>
+            <td class="border px-4 py-2">{{p.16}}</td>
+            <td class="border px-4 py-2">{{p.17}} Persen</td>
+            <td class="border px-4 py-2">{{p.13}}</td>
+            <td class="border px-4 py-2">{{p.14}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% endif %}
+
+      <br />
+
+      {% if record.10 != None %}
+      <h2>Status: Terverifikasi</h2>
+      <h2>Diverifikasi Oleh: {{record.10}}</h2>
+      {% else %}
+      <h2>Status: Belum Terverifikasi</h2>
+      {% endif %}
+
+      <h2>Saldo Restopay: {{record.9}}</h2>
+
+      <a
+        href="{% url 'account:show_main' %}"
+        class="btn mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >Kembali</a
+      >
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
