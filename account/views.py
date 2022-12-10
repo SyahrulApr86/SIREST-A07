@@ -410,11 +410,12 @@ def register_admin(request):
             connection.rollback()
             print("Oops! An exception has occured:", err)
             print("Exception TYPE:", type(err))
-            message = 'Maaf, password harus memiliki minimal 1 huruf kapital dan 1 angka'
+            # err slice to get only error message
+            err = str(err).split('CONTEXT')[0]
             form = RegisterFormAdmin(request.POST or None)
             context = {
                 'form': form,
-                'message': message,
+                'message': err,
             }
 
             return render(request, 'register_admin.html', context)
@@ -428,6 +429,91 @@ def register_admin(request):
 
 
 def register_pelanggan(request):
+    if request.method == 'POST' or 'post' and not request.method == 'GET':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        nama = request.POST.get('nama')
+        no_hp = request.POST.get('no_hp')
+        nik = request.POST.get('nik')
+        nama_bank = request.POST.get('nama_bank')
+        no_rekening = request.POST.get('no_rekening')
+        tanggal_lahir = request.POST.get('tanggal_lahir')
+        jenis_kelamin = request.POST.get('jenis_kelamin')
+
+        # check email is valid or not
+        regex = re.compile(
+            r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+
+        if not re.fullmatch(regex, email):
+            form = RegisterFormPelanggan(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Email tidak valid',
+            }
+            return render(request, 'register_pelanggan.html', context)
+
+        # if data is not complete
+        if not email or not password or not nama or not no_hp or not nik or not nama_bank or not no_rekening or not tanggal_lahir or not jenis_kelamin:
+            form = RegisterFormPelanggan(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu',
+            }
+            return render(request, 'register_pelanggan.html', context)
+
+        # check email is already registered or not
+        cursor.execute(f'select * from user_acc where email = \'{email}\'')
+        records = cursor.fetchmany()
+        if len(records) > 0:
+            form = RegisterFormPelanggan(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Email sudah terdaftar',
+            }
+            return render(request, 'register_pelanggan.html', context)
+
+        # insert data to database
+        fname = None
+        lname = None
+        # if name only contains one word
+        if len(nama.split()) == 1:
+            fname = nama
+            lname = nama
+        else:
+            fname = nama.split()[0]
+            lname = ' '.join(nama.split()[1:])
+
+        try:
+            cursor.execute(
+                f'insert into user_acc values (\'{email}\', \'{password}\', \'{no_hp}\', \'{fname}\', \'{lname}\')')
+            # email, nik, nama_bank, no_rekening, 0, null
+            cursor.execute(
+                f'insert into transaction_actor values (\'{email}\', \'{nik}\', \'{nama_bank}\', \'{no_rekening}\', 0, null)')
+            cursor.execute(
+                f'insert into customer values (\'{email}\', \'{tanggal_lahir}\', \'{jenis_kelamin}\')')
+
+            connection.commit()
+
+            # set cookie and redirect to dashboard
+            response = HttpResponseRedirect(reverse('account:show_main'))
+            response.set_cookie('role', 'customer')
+            response.set_cookie('email', email)
+            return response
+
+        except Exception as err:
+            connection.rollback()  
+            print("Oops! An exception has occured:", err)
+            print("Exception TYPE:", type(err))
+            form = RegisterFormPelanggan(request.POST or None)
+            # err slice to get only error message
+            err = str(err).split('CONTEXT')[0]
+            context = {
+                'form': form,
+                'message': err,
+            }
+
+            return render(request, 'register_pelanggan.html', context)
+
     form = RegisterFormPelanggan(request.POST or None)
 
     context = {
