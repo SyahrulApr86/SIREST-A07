@@ -10,13 +10,17 @@
     <h1 class="text-3xl font-bold mb-2s">PROFIL</h1>
     <h2>Email: {{record.0}}</h2>
     <h2>Password: {{record.1}}</h2>
-    <h2>Nama: {{record.3}} {{record.4}}</h2>
-    <h2>Nomor Hp: {{record.2}}</h2>
-    <h2>NIK: {{record.6}}</h2>
-    <h2>Nama bank: {{record.7}}</h2>
-    <h2>Nomor rekening: {{record.8}}</h2>
-    <h2>Tanggal lahir: [teks]</h2>
-    <h2>Jenis kelamin: [teks]</h2>
+    <h2>Nama: {{record.2}}</h2>
+    <h2>Nomor Hp: {{record.3}}</h2>
+    <h2>NIK: {{record.4}}</h2>
+    <h2>Nama bank: {{record.5}}</h2>
+    <h2>Nomor rekening: {{record.6}}</h2>
+    <h2>Tanggal lahir: {{record.7}}</h2>
+    {% if record.8 == 'M' %}
+    <h2>Jenis kelamin: Laki-laki</h2>
+    {% else %}
+    <h2>Jenis kelamin: Perempuan</h2>
+    {% endif %}
       
     </div>
   </div>

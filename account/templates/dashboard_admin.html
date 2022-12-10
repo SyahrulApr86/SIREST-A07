@@ -31,11 +31,11 @@
                     <td>{{record.0}}</td>
                     <td>{{record.1}} {{record.2}}</td>
                     <td>{{record.4}}</td>
-                    {% if record.3 == 'null' %}
+                    {% if record.3 == None %}
                     <td>Belum Terverifikasi</td>
                     {% else %}
                     <td>Terverifikasi</td>
-                    {% endif %}
+                    {% endif %} 
                     <td>
                         {% if record.4 == 'Kurir' %}
                         <a href="{% url 'account:profile_kurir' record.0 %}" class="m-2 flex items-center justify-center">

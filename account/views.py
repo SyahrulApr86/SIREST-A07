@@ -9,13 +9,15 @@ from utils.query import *
 
 
 def show_main(request):
+    # Jika user sudah login, redirect ke halaman dashboard
     if request.COOKIES.get('role'):
         email = request.COOKIES.get('email')
+        # Role Restaurant -> Dashboard Restaurant
         if request.COOKIES.get('role') == 'restaurant':
             cursor.execute(
                 f'select * from user_acc u, restaurant r, transaction_actor ta, restaurant_category rc, restaurant_operating_hours ros where u.email = r.email and u.email = \'{email}\' and r.email = ta.email and r.rcategory = rc.id and r.rname = ros.name and r.rbranch = ros.branch')
             records = cursor.fetchall()
-            print(records)
+
             context = {
                 'email': records[0][0],
                 'password': records[0][1],
@@ -50,14 +52,19 @@ def show_main(request):
             print('masuk resto')
             return response
 
+        # Role Admin -> Dashboard Admin
         elif request.COOKIES.get('role') == 'admin':
+            # Query untuk mengambil data admin
             cursor.execute(
                 f'select * from user_acc u, admin a where u.email = a.email and u.email = \'{email}\'')
             records_admin = cursor.fetchall()
+
+            # Query untuk mengambil data semua user
             cursor.execute(
                 f'select u.email, u.fname, u.lname, t.adminid from transaction_actor t, user_acc u where t.email = u.email')
             records_actor = cursor.fetchall()
 
+            # Query untuk mengambil data email dari masing-masing role
             cursor.execute(
                 f'select email from courier')
             list_courier = cursor.fetchall()
@@ -70,6 +77,7 @@ def show_main(request):
                 f'select email from restaurant')
             list_restaurant = cursor.fetchall()
 
+            # Penambahan kolom role untuk setiap user
             for i in range(len(records_actor)):
                 if (records_actor[i][0],) in list_courier:
                     records_actor[i] += ('Kurir', )
@@ -77,6 +85,8 @@ def show_main(request):
                     records_actor[i] += ('Pelanggan', )
                 elif (records_actor[i][0],) in list_restaurant:
                     records_actor[i] += ('Restoran', )
+
+            print(records_actor)
 
             context = {
                 'role': 'admin',
@@ -95,6 +105,61 @@ def show_main(request):
             print('masuk admin')
             return response
 
+        # Role Customer -> Dashboard Customer
+        elif request.COOKIES.get('role') == 'customer':
+            cursor.execute(
+                f'select * from user_acc u, customer c, transaction_actor ta where u.email = c.email and u.email = \'{email}\' and c.email = ta.email')
+            records = cursor.fetchmany()
+            context = {
+                'email': records[0][0],
+                'password': records[0][1],
+                'notelp': records[0][2],
+                'fname': records[0][3],
+                'lname': records[0][4],
+                'tanggallahir': records[0][6],
+                'gender': records[0][7],
+                'nik': records[0][9],
+                'bank': records[0][10],
+                'accountno': records[0][11],
+                'restopay': records[0][12],
+                'adminid': records[0][13],
+                'role': 'customer'
+            }
+            response = render(request, 'dashboard_pengguna.html', context)
+            response.set_cookie('role', 'customer')
+            response.set_cookie('email', records[0][0])
+            print('masuk pelanggan')
+            return response
+
+        # Role Courier -> Dashboard Courier
+        elif request.COOKIES.get('role') == 'courier':
+            cursor.execute(
+                f'select * from user_acc u, courier c, transaction_actor ta where u.email = c.email and u.email = \'{email}\' and c.email = ta.email')
+            records = cursor.fetchmany()
+            context = {
+                'email': records[0][0],
+                'password': records[0][1],
+                'notelp': records[0][2],
+                'fname': records[0][3],
+                'lname': records[0][4],
+                'plat': records[0][6],
+                'nosim': records[0][7],
+                'vehicletype': records[0][8],
+                'vehiclebrand': records[0][9],
+                'nik': records[0][11],
+                'bank': records[0][12],
+                'accountno': records[0][13],
+                'restopay': records[0][14],
+                'adminid': records[0][15],
+                'role': 'courier'
+            }
+            response = render(request, 'dashboard_pengguna.html', context)
+            response.set_cookie('role', 'courier')
+            response.set_cookie('email', records[0][0])
+            print('masuk kurir')
+            return response
+
+    # Jika tidak ada cookie role, redirect ke halaman login
     return render(request, 'main.html')
 
 
@@ -168,7 +233,7 @@ def login(request):
             records = cursor.fetchmany()
 
             if (len(records) == 1):
-                # print(records)
+
                 context = {
                     'email': records[0][0],
                     'password': records[0][1],
@@ -198,7 +263,6 @@ def login(request):
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'restaurant')
                 response.set_cookie('email', records[0][0])
-                print(email)
                 response.set_cookie('rname', records[0][5])
                 response.set_cookie('rbranch', records[0][6])
                 print('masuk resto')
@@ -338,7 +402,7 @@ def profile_restoran(request, email):
 
 def profile_pelanggan(request, email):
     cursor.execute(
-        f'select * from user_acc u, transaction_actor t, customer c where u.email = \'{email}\' and u.email = t.email and t.email = c.email')
+        f'select u.email, password, fname || \' \' || lname as name, phonenum, nik, bankname, accountno, birthdate, sex from user_acc u, transaction_actor t, customer c where u.email = \'{email}\' and u.email = t.email and t.email = c.email')
     record = cursor.fetchall()
     context = {
         'role': request.COOKIES.get('role'),
