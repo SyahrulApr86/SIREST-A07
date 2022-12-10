@@ -690,7 +690,7 @@ def register_kurir(request):
         else:
             fname = nama.split()[0]
             lname = ' '.join(nama.split()[1:])
-            
+
         try:
             cursor.execute(
                 f'insert into user_acc values (\'{email}\', \'{password}\', \'{no_hp}\', \'{fname}\', \'{lname}\')')
@@ -722,7 +722,6 @@ def register_kurir(request):
 
             return render(request, 'register_kurir.html', context)
 
-
     form = RegisterFormKurir(request.POST or None)
 
     context = {
@@ -740,9 +739,20 @@ def profile_restoran(request, email):
     cursor.execute(
         f'select * from user_acc u, transaction_actor t, restaurant r where u.email = \'{email}\' and u.email = t.email and t.email = r.email')
     record = cursor.fetchall()
+    cursor.execute(
+        f'select day, starthours, endhours from restaurant r, restaurant_operating_hours roh where name = rname and branch = rbranch and email = \'{email}\''
+    )
+    records_hours = cursor.fetchall()
+    cursor.execute(
+        f'select * from restaurant r, restaurant_promo rp, promo where pid =id and  r.rname = rp.rname and r.rbranch = rp.rbranch and r.email = \'{email}\''
+    )
+    records_promo = cursor.fetchall()
+
     context = {
         'role': request.COOKIES.get('role'),
         'record': record[0],
+        'jadwal': records_hours,
+        'promo': records_promo,
     }
     print(record[0])
     return render(request, 'profile_restoran.html', context)
@@ -750,13 +760,12 @@ def profile_restoran(request, email):
 
 def profile_pelanggan(request, email):
     cursor.execute(
-        f'select u.email, password, fname || \' \' || lname as name, phonenum, nik, bankname, accountno, birthdate, sex from user_acc u, transaction_actor t, customer c where u.email = \'{email}\' and u.email = t.email and t.email = c.email')
+        f'select u.email, password, fname || \' \' || lname as name, phonenum, nik, bankname, accountno, birthdate, sex, restopay, adminid from user_acc u, transaction_actor t, customer c where u.email = \'{email}\' and u.email = t.email and t.email = c.email')
     record = cursor.fetchall()
     context = {
         'role': request.COOKIES.get('role'),
         'record': record[0],
     }
-    print(record[0])
     return render(request, 'profile_pelanggan.html', context)
 
 
@@ -769,3 +778,9 @@ def profile_kurir(request, email):
         'record': record[0],
     }
     return render(request, 'profile_kurir.html', context)
+
+def verifikasi_user(request, email_user, email_admin):
+    cursor.execute(
+        f'update transaction_actor set adminid = \'{email_admin}\' where email = \'{email_user}\'')
+    connection.commit()
+    return HttpResponseRedirect(reverse('account:show_main'))
