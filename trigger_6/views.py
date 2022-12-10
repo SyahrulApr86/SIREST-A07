@@ -171,6 +171,7 @@ def show_daftar_promo(request):
         'rname':request.COOKIES.get('rname'),
         'rbranch':request.COOKIES.get('rbranch'),
     }
+    print('this is context', context)
 
     return render(request, 'daftar_promo.html', context)
 
