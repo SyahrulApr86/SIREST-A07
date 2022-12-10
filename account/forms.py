@@ -5,7 +5,6 @@ DATA_PROVINSI = [('Jawa Barat', 'Jawa Barat'), ('Jawa Tengah',
                                                 'Jawa Tengah'), ('Jawa Timur', 'Jawa Timur')]
 DATA_KATEGORI = [('Cafe', 'Cafe'), ('Fast Food', 'Fast Food')]
 
-
 class RegisterFormAdmin(forms.Form):
     email = forms.EmailField(label='Email', max_length=50, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Email'}))
