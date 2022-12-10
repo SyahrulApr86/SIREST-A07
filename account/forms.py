@@ -1,8 +1,17 @@
 from django import forms
+from utils.query import *
 
-# dummy data (masih hard coded)
-DATA_PROVINSI = [('Jabar', 'Jawa Barat'), ('Jatim', 'Jawa Timur')]
-DATA_KATEGORI = [('3', 'Cafe'), ('Fast Food', 'Fast Food')]
+cursor.execute("select distinct province from delivery_fee_per_km")
+records = cursor.fetchall()
+DATA_PROVINSI = []
+for record in records:
+    DATA_PROVINSI.append((record[0], record[0]))
+
+cursor.execute("select id, name from restaurant_category")
+records = cursor.fetchall()
+DATA_KATEGORI = []
+for record in records:
+    DATA_KATEGORI.append((record[0], record[1]))
 
 class RegisterFormAdmin(forms.Form):
     email = forms.EmailField(label='Email', max_length=50, widget=forms.TextInput(

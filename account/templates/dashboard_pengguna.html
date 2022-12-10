@@ -30,7 +30,7 @@
       <h2>Kategori restoran: {{category}}</h2>
       <h2>Jam operasional:</h2>
 
-      {% if jadwal == None %}
+      {% if jadwal|length == 0 %}
       <h2>Restoran ini belum memiliki jadwal operasional</h2>
       {% else %}
       <table class="table-auto">

@@ -25,7 +25,7 @@
       <h2>Rating: {{record.12}}</h2>
       <h2>Kategori: {{record.13}}</h2>
       <h2>Jam Operasional:</h2>
-      {% if jadwal == None %}
+      {% if jadwal|length == 0 %}
       <h2>Restoran ini belum memiliki jadwal operasional</h2>
       {% else %}
       <table class="table-auto">
@@ -51,7 +51,7 @@
 
       <h2>Promo Berlangsung :</h2>
 
-      {% if promo == None %}
+      {% if promo|length == 0 %}
       <h2>Restoran ini belum memiliki promo</h2>
       {% else %}
       <table class="table-auto">
