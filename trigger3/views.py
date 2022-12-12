@@ -9,9 +9,6 @@ from utils.query import *
 
 # TODO : ACTIVATE TRIGGER
 def tambah_tarif(request):
-    # if not is_authenticated(request) :
-    #     return redirect("/")
-    # else:
     role = request.COOKIES.get('role')
     adminid = request.COOKIES.get('adminid')
     if role == None:
@@ -93,7 +90,8 @@ def update_tarif(request, id):
     
     cursor.execute(f'select * from delivery_fee_per_km where id = \'{id}\'')
     record = cursor.fetchall()
-    
+
+
     if request.method == "POST":
         try:
             cursor.execute(f"""
@@ -107,8 +105,6 @@ def update_tarif(request, id):
         except Exception as e :
             messages.error(request, e)
             connection.rollback()
-            # cursor.execute("ROLLBACK")
-            # connection.commit()
 
     context = {
         'provinsi' : record[0][1],
@@ -151,8 +147,6 @@ def tambah_makanan(request):
     
 
     if request.method == "POST":
-        # TODO: HARDCODED
-        # masih hardcoded fcategorynya
         
         category = request.POST['kategoriMakanan']
         cursor.execute(f'select id FROM food_category where name = \'{category}\'  ')
@@ -303,8 +297,6 @@ def delete_makanan(request, foodname):
     if role != 'restaurant':
         return redirect("/")
     
-    # cursor.execute(f'select * FROM FOOD WHERE FoodName = \'{foodname}\' ')
-    # record = cursor.fetchall()
     
     cursor.execute(f"""
         DELETE FROM FOOD

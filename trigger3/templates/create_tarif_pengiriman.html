@@ -27,15 +27,15 @@
                         <div class="flex flex-col justify-around gap-2 w-full">
                             <div class="flex flex-col text-sm font-medium block justify-around">
                                 <p>Provinsi:</p>
-                                <input class="form-control rounded-lg text-black" required placeholder="Provinsi" type='text' id="province" name="province"/>
+                                <input class="form-control rounded-lg text-black" required placeholder="Provinsi" type='text' id="province" name="province" oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')"/>
                             </div>
                             <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                 <p>Biaya Motor:</p>
-                                <input class="form-control rounded-lg text-black" required placeholder="Tarif Motor" type='text' id="motorfee" name="motorfee"/>
+                                <input class="form-control rounded-lg text-black" required placeholder="Tarif Motor" type='text' id="motorfee" name="motorfee" oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')"/>
                             </div>
                             <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                 <p>Biaya Mobil:</p>
-                                <input class="form-control rounded-lg text-black" required placeholder="Tarif Mobil" type='text' id="carfee" name="carfee"/>
+                                <input class="form-control rounded-lg text-black" required placeholder="Tarif Mobil" type='text' id="carfee" name="carfee" oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')"/>
                             </div>
                             <input type="hidden" id = "id_trf" name="id_trf" value="{{length}}">
                             <div class="flex justify-center">

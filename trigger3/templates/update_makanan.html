@@ -40,15 +40,15 @@
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     <p>Deskripsi:</p>
-                                    <input type="text" name="deskripsi" id="deskripsi" class="form-control rounded-lg text-black" placeholder="{{description}}" required>
+                                    <input type="text" name="deskripsi" id="deskripsi" class="form-control rounded-lg text-black" placeholder="{{description}}" required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')">
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     <p>Stok:</p>
-                                    <input type="text" name="stok" id="stok" class="form-control rounded-lg text-black" placeholder="{{stock}}" required>
+                                    <input type="text" name="stok" id="stok" class="form-control rounded-lg text-black" placeholder="{{stock}}" required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')">
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     <p>Harga:</p>
-                                    <input type="text" name="harga" id="harga" class="form-control rounded-lg text-black" placeholder="{{price}}" required>
+                                    <input type="text" name="harga" id="harga" class="form-control rounded-lg text-black" placeholder="{{price}}" required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')">
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     
