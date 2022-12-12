@@ -1,30 +1,53 @@
+
 {% extends 'base.html' %}
-{% load static %}
 
 {% block meta %}
-<title>Tambah Tarif Pengiriman</title>
+<title>Tambah Tarif</title>
 {% endblock meta %}
 
-{% block content %}
- <div class="flex flex-col justify-center items-center mt-10">
-  <p class="text-gray-900 font-bold text-2xl py-5">Tambah Tarif Baru</p>
-  <form method="POST" class="border-2 p-12 flex flex-col space-y-2 rounded-lg">
-      {% csrf_token %}
-      {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {%endif%}
-    <label htmlFor="province">Provinsi</label>
-    <input class="rounded" required placeholder="Provinsi" type='text' id="province" name="province"/>
-    <label htmlFor="motorfee">Tarif Motor</label>
-    <input class="rounded" required placeholder="Tarif motor" type='text' id="motorfee" name="motorfee"/>
-    <label htmlFor="carfee">Tarif Mobil</label>
-    <input class="rounded" required placeholder="Tarif mobil" type='text' id="carfee" name="carfee"/>
-    <input type="hidden" id = "id_trf" name="id_trf" value="{{length}}">
-    <button type = "submit"class="border-2 border-gray-900/50 rounded">Simpan</button> 
-  </form>
- </div>
+{% block content %}   
+
+<div class="flex flex-col h-screen justify-center">
+    <div class="flex justify-center">
+        <div class="flex flex-col gap-2">
+            <div class="font-extrabold text-center">
+                FORM BUAT TARIF PENGIRIMAN PER KM
+            </div>
+        <div>
+            <form action="" method="post">
+                {% csrf_token %}
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {%endif%}
+                    <div class="flex gap-10">
+                        <div class="flex flex-col justify-around gap-2 w-full">
+                            <div class="flex flex-col text-sm font-medium block justify-around">
+                                <p>Provinsi:</p>
+                                <input class="form-control rounded-lg text-black" required placeholder="Provinsi" type='text' id="province" name="province"/>
+                            </div>
+                            <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
+                                <p>Biaya Motor:</p>
+                                <input class="form-control rounded-lg text-black" required placeholder="Tarif Motor" type='text' id="motorfee" name="motorfee"/>
+                            </div>
+                            <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
+                                <p>Biaya Mobil:</p>
+                                <input class="form-control rounded-lg text-black" required placeholder="Tarif Mobil" type='text' id="carfee" name="carfee"/>
+                            </div>
+                            <input type="hidden" id = "id_trf" name="id_trf" value="{{length}}">
+                            <div class="flex justify-center">
+                                <button type = "submit"class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Simpan</button> 
+                                <!-- <input type="submit" name="submit" value="SIMPAN" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"/>  -->
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}
+
