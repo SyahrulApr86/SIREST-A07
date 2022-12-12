@@ -10,7 +10,7 @@
 <div class="flex justify-center items-center">
     <div class=" w-fit rounded-lg">
         <div class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center p-4 items-center rounded-xl lg:scale-100 md:scale-90 scale-75">
-            <h1 class="text-xl font-bold mb-3">DAFTAR MAKANAN: {{dataMenu.0.0}} {{dataMenu.0.1}}</h1>
+            <h1 class="text-xl font-bold mb-3">DAFTAR MAKANAN: {{rname}} {{rbranch}}</h1>
         </div>
     </div>
 </div>        
@@ -52,9 +52,15 @@
                                     {{forloop.counter}}
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                    {{menu.2}}
+                                    {{menu.0}}
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{menu.1}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
+                                    {{menu.2}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
                                     {{menu.3}}
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
@@ -62,12 +68,6 @@
                                 </td>
                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
                                     {{menu.5}}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                    {{menu.8}}
-                                </td>
-                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                    Bahan
                                 </td>
                             </tr>
                         {%endfor%}

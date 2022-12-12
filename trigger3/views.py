@@ -13,6 +13,7 @@ def tambah_tarif(request):
     #     return redirect("/")
     # else:
     role = request.COOKIES.get('role')
+    adminid = request.COOKIES.get('adminid')
     if role == None:
         return redirect("/login")
     if role != 'admin':
@@ -42,7 +43,7 @@ def tambah_tarif(request):
     length = int(maxId) + 1
     
     
-    return render(request, 'create_tarif_pengiriman.html', {'length': length, 'role':request.COOKIES.get('role')})
+    return render(request, 'create_tarif_pengiriman.html', {'length': length, 'role':request.COOKIES.get('role'), 'adminid': adminid})
 
 
 def tarif_detail(request):
@@ -50,17 +51,21 @@ def tarif_detail(request):
     record = cursor.fetchall()
     context = {
         'dataTarif' : record,
-        'role':request.COOKIES.get('role')
+        'role':request.COOKIES.get('role'),
+        'adminid' :request.COOKIES.get('adminid')
     }
     return render(request, "read_tarif_pengiriman.html", context)
 
 def makanan_resto(request):
 
-    # role = request.COOKIES.get('role')
-    # if role == None:
-    #     return redirect("/login")
-    # if role != 'restoran':
-    #     return redirect("/")
+    role = request.COOKIES.get('role')
+    adminid = request.COOKIES.get('adminid')
+
+    if role == None:
+        return redirect("/login")
+    if role != 'restaurant':
+        return redirect("/")
+    
     
     rname = request.COOKIES.get('rname')
     rbranch = request.COOKIES.get('rbranch')
@@ -70,7 +75,8 @@ def makanan_resto(request):
     context = {
         'dataMakanan' : record,
         # 'dataBahan' : bahan,
-        'role':request.COOKIES.get('role')
+        'role':request.COOKIES.get('role'),
+        'adminid': adminid,
     }
     
     return render(request, "read_makanan.html", context)
@@ -79,6 +85,7 @@ def makanan_resto(request):
 
 def update_tarif(request, id):
     role = request.COOKIES.get('role')
+    adminid = request.COOKIES.get('adminid')
     if role == None:
         return redirect("/login")
     if role != 'admin':
@@ -107,7 +114,8 @@ def update_tarif(request, id):
         'provinsi' : record[0][1],
         'motorfee' : record[0][2],
         'carfee' : record[0][3],
-        'role':request.COOKIES.get('role')
+        'role':request.COOKIES.get('role'),
+        'adminid': adminid,
     }
     return render(request, "update_tarif_pengiriman.html", context)
 
@@ -132,6 +140,7 @@ def delete_tarif(request, id):
 
 def tambah_makanan(request):
     role = request.COOKIES.get('role')
+    adminid = request.COOKIES.get('adminid')
     if role == None:
         return redirect("/login")
     if role != 'restaurant':
@@ -193,10 +202,13 @@ def tambah_makanan(request):
         'kategoriMakanan' : kategoriAll,
         'jsonBahan': json.dumps(bahanAll),
         'bahanMakanan' : bahanAll,
+        'adminid': adminid,
+        'role': role
     }
     return render(request, "create_makanan.html", context)
 
 def update_makanan(request, foodname):
+    adminid = request.COOKIES.get('adminid')
     role = request.COOKIES.get('role')
     if role == None:
         return redirect("/login")
@@ -278,7 +290,9 @@ def update_makanan(request, foodname):
         'bahanMakanan' : bahanAll,
         'jsonBahan': json.dumps(bahanAll),
         'kategoriMakanan' : kategoriAll,
-        'bahanUsed' : bahanSelected
+        'bahanUsed' : bahanSelected,
+        'adminid': adminid,
+        'role': role
     }
     return render(request, "update_makanan.html", context)
 
@@ -303,6 +317,7 @@ def delete_makanan(request, foodname):
 
 def daftar_restoran(request):
     role = request.COOKIES.get('role')
+    adminid = request.COOKIES.get('adminid')
     if role == None:
         return redirect("/login")
     if role == 'restaurant':
@@ -312,25 +327,34 @@ def daftar_restoran(request):
     record = cursor.fetchall()
     context = {
         'dataRestoran' : record,
+        'adminid': adminid,
+        'role': role
     }
     return render(request, "daftar_restoran_cust.html", context)
 
 def menu_restoran_cust(request, rname, rbranch):
     role = request.COOKIES.get('role')
+    adminid = request.COOKIES.get('adminid')
     if role == None:
         return redirect("/login")
     if role == 'restaurant':
         return redirect("/")
 
-    cursor.execute(f'select * from food f, food_category fg where fg.id = f.fcategory and f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\'')
+
+    cursor.execute(f'select f.foodname, f.description, f.stock, f.price, fg.name, string_agg(i.name, \', \') from food f, food_category fg, food_ingredient fi, ingredient i where f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\' and  fg.id = f.fcategory and f.rbranch = fi.rbranch and f.rname = fi.rname and f.foodname = fi.foodname and fi.Ingredient = i.id group by f.foodname, f.description, f.stock, f.price,  fg.name')
     record = cursor.fetchall()
     context = {
-        'dataMenu' : record
+        'dataMenu' : record,
+        'rname' : rname,
+        'rbranch' : rbranch,
+        'adminid': adminid,
+        'role': role
     }
     return render(request, "menu_restoran_cust.html", context)
 
 def detail_restoran(request, rname, rbranch):
     role = request.COOKIES.get('role')
+    adminid = request.COOKIES.get('adminid')
     if role == None:
         return redirect("/login")
     if role == 'restaurant':
@@ -339,7 +363,9 @@ def detail_restoran(request, rname, rbranch):
     cursor.execute(f'select * from restaurant r, restaurant_category rc, restaurant_operating_hours ros where r.rname = \'{rname}\' and r.rbranch = \'{rbranch}\' and r.rcategory = rc.id and r.rname = ros.name and r.rbranch = ros.branch')
     records = cursor.fetchmany()
     context = {
-        'dataRestoran' : records 
+        'dataRestoran' : records,
+        'adminid': adminid,
+        'role': role
     }
     
     return render(request, "detail_restoran.html", context)
