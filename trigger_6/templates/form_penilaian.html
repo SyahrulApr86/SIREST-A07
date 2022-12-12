@@ -14,6 +14,7 @@
             <div class="font-extrabold text-center">
                 FORM PENILAIAN PESANAN
             </div>
+            <h1 class="text-red-500 font-bold my-2">{{message}}</h1>
             <div>
                 <form action="" method="post">
                     {% csrf_token %}
@@ -25,6 +26,7 @@
                                 </div>
                                 <select name="nilai" id="nilai"
                                     class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2">
+                                    <option value="0"></option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>

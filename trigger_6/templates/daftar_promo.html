@@ -2,7 +2,11 @@
 <title>Riwayat</title>
 {% endblock meta %} {% block content %}
 <div class="m-20">
+    {% if role == 'admin' %}
     <h1 class="font-bold text-2xl mb-3">Daftar Promo:</h1>
+    {% else %}
+    <h1 class="font-bold text-2xl mb-3">Daftar Promo Tersedia:</h1>
+    {% endif %}
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-black">
             <thead class="text-xs text-black uppercase bg-red-300">
@@ -39,11 +43,11 @@
                         </div>
                         {% if role == 'admin' %}
                         <div>
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
+                            <a href="{% url 'trigger_6:show_ubah_promo' record.3 record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
                         </div>
                         {% if record.5 == 0 %}
                         <div>
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                            <a href="{% url 'trigger_6:delete_promo' record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
                         </div>
                         {% endif %}
                         {% endif %}
