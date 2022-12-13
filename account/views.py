@@ -9,7 +9,7 @@ import re
 
 
 def show_main(request):
-    cursor.execute('set search_path to sirest')
+    
     
 
     # Jika user sudah login, redirect ke halaman dashboard
@@ -166,7 +166,7 @@ def show_main(request):
 
 
 def logout_user(request):
-    cursor.execute('set search_path to sirest')
+    
     response = HttpResponseRedirect(reverse('account:show_main'))
     for cookie in request.COOKIES:
         response.delete_cookie(cookie)
@@ -174,7 +174,7 @@ def logout_user(request):
 
 
 def login(request):
-    cursor.execute('set search_path to sirest')
+    
     # if user is logged in, redirect to dashboard
     if request.COOKIES.get('role'):
         return HttpResponseRedirect(reverse('account:show_main'))
@@ -337,12 +337,12 @@ def login(request):
 
 
 def register(request):
-    cursor.execute('set search_path to sirest')
+    
     return render(request, 'register.html')
 
 
 def register_admin(request):
-    cursor.execute('set search_path to sirest')
+    
     if request.method == 'POST' or 'post' and not request.method == 'GET':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -427,7 +427,7 @@ def register_admin(request):
 
 
 def register_pelanggan(request):
-    cursor.execute('set search_path to sirest')
+    
     if request.method == 'POST' or 'post' and not request.method == 'GET':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -523,7 +523,7 @@ def register_pelanggan(request):
 
 
 def register_restoran(request):
-    cursor.execute('set search_path to sirest')
+    
     if request.method == 'POST' or 'post' and not request.method == 'GET':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -626,7 +626,7 @@ def register_restoran(request):
 
 
 def register_kurir(request):
-    cursor.execute('set search_path to sirest')
+    
     if request.method == 'POST' or 'post' and not request.method == 'GET':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -725,14 +725,14 @@ def register_kurir(request):
 
 
 def dashboard_admin(request):
-    cursor.execute('set search_path to sirest')
+    
     role = request.COOKIES.get('role')
 
     return render(request, 'dashboard_admin.html')
 
 
 def profile_restoran(request, email):
-    cursor.execute('set search_path to sirest')
+    
 
     cursor.execute(
         f'select * from user_acc u, transaction_actor t, restaurant r where u.email = \'{email}\' and u.email = t.email and t.email = r.email')
@@ -756,7 +756,7 @@ def profile_restoran(request, email):
 
 
 def profile_pelanggan(request, email):
-    cursor.execute('set search_path to sirest')
+    
     role = request.COOKIES.get('role')
 
     cursor.execute(
@@ -770,7 +770,7 @@ def profile_pelanggan(request, email):
 
 
 def profile_kurir(request, email):
-    cursor.execute('set search_path to sirest')
+    
     role = request.COOKIES.get('role')
 
     cursor.execute(
@@ -783,7 +783,7 @@ def profile_kurir(request, email):
     return render(request, 'profile_kurir.html', context)
 
 def verifikasi_user(request, email_user, email_admin):
-    cursor.execute('set search_path to sirest')
+    
     cursor.execute(
         f'update transaction_actor set adminid = \'{email_admin}\' where email = \'{email_user}\'')
     connection.commit()
