@@ -7,6 +7,7 @@
 
 {% block content %}  
 
+<div class="m-20">
 <div class="flex justify-center items-center">
     <div class=" w-fit rounded-lg">
         <div class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center p-4 items-center rounded-xl lg:scale-100 md:scale-90 scale-75">
@@ -37,49 +38,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b">
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                1
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                MCD Djuanda
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                4.8
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <a href="{% url 'trigger3:detail_restoran' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
-                                </div>
-                                <div>
-                                    <a href="{% url 'trigger3:menu_restoran_cust' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Menu</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                2
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Pushup Semarang
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                4.6
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <a href="{% url 'trigger3:detail_restoran' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
-                                </div>
-                                <div>
-                                    <a href="{% url 'trigger3:menu_restoran_cust' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Menu</a>
-                                </div>
-                            </td>
-                        </tr>
+                        {% for restoran in dataRestoran %}
+                            <tr class="border-b">
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{forloop.counter}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{restoran.0}} {{restoran.1}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{restoran.8}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <a href="{% url 'trigger3:detail_restoran' restoran.0 restoran.1 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'trigger3:menu_restoran_cust' restoran.0 restoran.1 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Menu</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 {% endblock content %} 
