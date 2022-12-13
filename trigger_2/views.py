@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 
 
 def saldo_restopay(request):
+    cursor.execute('set search_path to sirest')
     email = request.COOKIES.get('email')
     cursor.execute(
         f"SELECT restopay FROM transaction_actor WHERE email = '{email}'")
@@ -26,6 +27,7 @@ def saldo_restopay(request):
 
 
 def isi_saldo(request):
+    cursor.execute('set search_path to sirest')
     email = request.COOKIES.get('email')
     cursor.execute(
         f"select restopay, bankname, accountno from transaction_actor WHERE email = '{email}'")
@@ -152,6 +154,7 @@ def isi_saldo(request):
 
 
 def tarik_saldo(request):
+    cursor.execute('set search_path to sirest')
     email = request.COOKIES.get('email')
     cursor.execute(
         f"select restopay, bankname, accountno from transaction_actor WHERE email = '{email}'")
@@ -293,6 +296,7 @@ def tarik_saldo(request):
 
 
 def daftar_pesanan(request):
+    cursor.execute('set search_path to sirest')
     email = request.COOKIES.get('email')
 
     cursor.execute(
@@ -324,6 +328,7 @@ def daftar_pesanan(request):
 
 
 def ubah_status_pesanan(request, email, datetime, status):
+    cursor.execute('set search_path to sirest')
     if status == "Nunggu Konfirmasi Resto":
         status = 3
     elif status == "Pesanan Dibuat":
@@ -370,6 +375,7 @@ def ubah_status_pesanan(request, email, datetime, status):
 
 
 def detail_pesanan(request, email, datetime):
+    cursor.execute('set search_path to sirest')
     cursor.execute(
         f"""
             select datetime, concat(fname, ' ', lname), street, district, city, province, totalfood, totaldiscount, deliveryfee, totalprice, payment_method.name, payment_status.name
@@ -511,6 +517,7 @@ def detail_pesanan(request, email, datetime):
 
 
 def buat_jam_operasional(request):
+    cursor.execute('set search_path to sirest')
     email = request.COOKIES.get('email')
     rname = request.COOKIES.get('rname')
     rbranch = request.COOKIES.get('rbranch')
@@ -602,6 +609,7 @@ def buat_jam_operasional(request):
 
 
 def daftar_jam_operasional(request):
+    cursor.execute('set search_path to sirest')
     email = request.COOKIES.get('email')
     rname = request.COOKIES.get('rname')
     rbranch = request.COOKIES.get('rbranch')
@@ -629,6 +637,7 @@ def daftar_jam_operasional(request):
 
 
 def edit_jam_operasional(request, rname, rbranch, day):
+    cursor.execute('set search_path to sirest')
     if request.method == 'POST' or 'post' and not request.method == 'GET':
         jam_buka = request.POST.get('jam_buka')
         jam_tutup = request.POST.get('jam_tutup')
@@ -697,6 +706,7 @@ def edit_jam_operasional(request, rname, rbranch, day):
     return render(request, 'edit_jam_operasional.html', context)
 
 def hapus_jam_operasional(request, rname, rbranch, day):
+    cursor.execute('set search_path to sirest')
     try:
         cursor.execute(
             f"""
