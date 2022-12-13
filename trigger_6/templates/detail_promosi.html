@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Detail Promo</title>
+{% endblock meta %} {% block content %}
+<div class="border-black m-20">
+    <div class="flex justify-center items-center p-2 bg-red-300 rounded-t-lg mb-3">
+        <h1 class="font-bold text-xl">Detail Promosi</h1>
+    </div>
+
+    <div class="mb-4">
+        <p>Jenis Promosi: {{records_promo.3}}</p>
+        <p>Nama Promosi: {{records_promo.1}}</p>
+        <p>Diskon: {{records_promo.2}}%</p>
+        {% if records_promo.3 == 'Promo Hari Spesial' %}
+        <p>Tanggal Berlangsung: {{records_promo.4}}</p>
+        {% else %}
+        <p>Minimum Transaksi: {{records_promo.4}}</p>
+        {% endif %}
+    </div>
+
+    <div class="flex justify-center items-center my-5">
+        <a href="{% url 'trigger_6:show_daftar_promo' %}">
+            <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
+                Kembali
+            </button>
+        </a>
+    </div>
+</div>
+{% endblock content %}

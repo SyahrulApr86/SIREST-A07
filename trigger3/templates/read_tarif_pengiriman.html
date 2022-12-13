@@ -6,67 +6,71 @@
 {% endblock meta %}
 
 {% block content %}  
-
-<div class="flex justify-center items-center">
-    <div class=" w-fit rounded-lg">
-        <div class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center p-4 items-center rounded-xl lg:scale-100 md:scale-90 scale-75">
-            <h1 class="text-xl font-bold mb-3">DAFTAR TARIF PENGIRIMAN PER KM</h1>
+<div class="m-20">
+    <div class="flex justify-center items-center">
+        <div class=" w-fit rounded-lg">
+            <div class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center mb-4 items-center rounded-xl lg:scale-100 md:scale-90 scale-75">
+                <h1 class="text-xl font-bold mb-3">DAFTAR TARIF PENGIRIMAN PER KM</h1>
+            </div>
         </div>
-    </div>
-</div>        
+    </div>        
 
-<div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-            <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-                <table class="min-w-full text-sm text-left text-black">
-                    <thead class="text-xs text-black uppercase bg-red-300">            
-                        <tr>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                No
-                            </th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                Provinsi
-                            </th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                Biaya Motor
-                            </th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                Biaya Mobil
-                            </th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                Aksi
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b">
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{nomor}}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{provinsi}}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{motor}}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                {{mobil}}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <a href="{% url 'trigger3:update_tarif' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
-                                </div>
-                                <div>
-                                    <a href="{% url 'trigger3:tarif_detail' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="flex flex-col">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                    <table class="min-w-full text-sm text-left text-black">
+                        <thead class="text-xs text-black uppercase bg-red-300">            
+                            <tr>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    No
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Provinsi
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Biaya Motor
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Biaya Mobil
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tarif in dataTarif %}
+                            <tr class="border-b">
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{forloop.counter}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{tarif.1}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{tarif.2}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
+                                    {{tarif.3}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <a href="{% url 'trigger3:update_tarif' tarif.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'trigger3:delete_tarif' tarif.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
 
 {% endblock content %} 

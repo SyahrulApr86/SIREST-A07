@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Riwayat</title>
+{% endblock meta %} {% block content %}
+<div class="m-20">
+    <div class="flex justify-center items-center mb-10">
+        <div>
+            <h1>DAFTAR PROMO RESTORAN</h1>
+            <div class="flex justify-center items-center">
+                <a href="{% url 'trigger_6:show_form_promo_restoran' %}">
+                    <button class="bg-red-300 w-fit text-black p-2 font-bold rounded-lg ">
+                        Tambah Promo
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <h1 class="font-bold text-2xl mb-3">Daftar Promo Restoran:</h1>
+    {% if empty != 0 %}
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-black">
+            <thead class="text-xs text-black uppercase bg-red-300">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        No
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Nama Promosi
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Periode Promosi
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Aksi
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records_promo_resto %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                        {{forloop.counter}}
+                    </th>
+                    <td class="py-4 px-6">
+                        {{record.1}}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{record.6}} s.d. {{record.7}}
+                    </td>
+                    <td class="py-4 px-6">
+                        <div>
+                            <a href="{% url 'trigger_6:show_detail_promo_restoran' rname rbranch record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
+                        </div>
+                        <div>
+                            <a href="{% url 'trigger_6:show_form_ubah_promo_restoran' record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
+                        </div>
+                        <div>
+                            <a href="{% url 'trigger_6:delete_promo_restoran' rname rbranch record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <h1>Tidak ada records.</h1>
+    {% endif %}
+</div>
+
+
+{% endblock content %}

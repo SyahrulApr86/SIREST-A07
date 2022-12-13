@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<title>Buat Promo</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="m-20">
+    <div class="flex justify-center font-bold">
+        <h1>SIREST - A7</h1>
+    </div>
+    <div class="flex justify-center">
+        <div class="flex justify-between items-center w-fit">
+            <a href="{% url 'trigger_6:show_form_promo_minimum' %}" class="m-2">
+                <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
+                    Promo Minimum Transaksi
+                </button>
+            </a>
+            <a href="{% url 'trigger_6:show_form_promo_hari_spesial' %}" class="m-2">
+                <button type="button" class="bg-red-300 hover:bg-merah-muda w-fit text-black p-2 font-bold rounded-lg flex items-center justify-center">
+                    Promo Hari Spesial
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

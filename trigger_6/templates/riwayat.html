@@ -1,0 +1,192 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Riwayat</title>
+{% endblock meta %} {% block content %}
+<div class="m-20">
+
+    {% if role == 'customer' %}
+    <h1 class="font-bold text-2xl mb-3">Riwayat Pelanggan:</h1>
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-black">
+            <thead class="text-xs text-black uppercase bg-red-300">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        No
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Restoran
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Nama Kurir
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Waktu Pesanan Dibuat
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Status Pesanan
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Rating
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Aksi
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in record %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                        {{ forloop.counter }}
+                    </th>
+                    <td class="py-4 px-6">
+                        {{ rec.2 }} {{ rec.3 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.6 }} {{ rec.7 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.4 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.8 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {% if rec.5 == null %}
+                        -
+                        {% else %}
+                        {{ rec.5 }}
+                        {% endif %}
+                    </td>
+                    <td class="py-4 px-6">
+                        <div>
+                            <a href="{% url 'trigger_6:show_detail_riwayat' rec.9 rec.4 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
+                        </div>
+                        {% if rec.5 == null %}
+                        <div>
+                            <a href="{% url 'trigger_6:show_form_penilaian' rec.9 rec.4 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Nilai</a>
+                        </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    {% if role == 'restaurant' %}
+    <h1 class="font-bold text-2xl mb-3">Riwayat Restoran:</h1>
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-black">
+            <thead class="text-xs text-black uppercase bg-red-300">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        No
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Nama Pelanggan
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Nama Kurir
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Waktu Pesanan Dibuat
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Status Pesanan
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Aksi
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in record %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                        {{ forloop.counter }}
+                    </th>
+                    <td class="py-4 px-6">
+                        {{ rec.0 }} {{ rec.1 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.6 }} {{ rec.7 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.4 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.8 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        <div>
+                            <a href="{% url 'trigger_6:show_detail_riwayat' rec.9 rec.4 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    
+    {% if role == 'courier' %}
+    <h1 class="font-bold text-2xl mb-3">Riwayat Kurir:</h1>
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left text-black">
+            <thead class="text-xs text-black uppercase bg-red-300">
+                <tr>
+                    <th scope="col" class="py-3 px-6">
+                        No
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Restoran-Cabang
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Nama Pelanggan
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Waktu Pesanan Dibuat
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Status Pesanan
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        Aksi
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rec in record %}
+                <tr class="bg-white border-b">
+                    <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                        {{ forloop.counter }}
+                    </th>
+                    <td class="py-4 px-6">
+                        {{ rec.2 }} {{ rec.3 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.0 }} {{ rec.1 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.4 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        {{ rec.8 }}
+                    </td>
+                    <td class="py-4 px-6">
+                        <div>
+                            <a href="{% url 'trigger_6:show_detail_riwayat' rec.9 rec.4 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+</div>
+
+
+{% endblock content %}

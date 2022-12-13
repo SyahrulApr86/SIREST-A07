@@ -1,0 +1,78 @@
+{% extends 'base.html' %} {% block meta %}
+<title>Dashboard Pengguna</title>
+{% endblock meta %} {% block content %}
+
+<div class="flex justify-center items-center">
+  <div class="bg-red-200 w-fit rounded-lg">
+    <div
+      class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center items-center bg-cream-tua p-10 rounded-xl lg:scale-100 md:scale-90 scale-75"
+    >
+      <h1 class="text-3xl font-bold mb-2s">
+        Dashboard Pengguna: {{fname}} {{lname}}
+      </h1>
+      <h2>Email: {{email}}</h2>
+      <h2>Password: {{password}}</h2>
+      <h2>Nama: {{fname}} {{lname}}</h2>
+      <h2>Nomor Hp: {{notelp}}</h2>
+      <h2>NIK: {{nik}}</h2>
+      <h2>Nama bank: {{bank}}</h2>
+      <h2>Nomor rekening: {{accountno}}</h2>
+
+      {% if role == 'restaurant' %}
+      <h2>Nama restoran: {{rname}}</h2>
+      <h2>Cabang: {{rbranch}}</h2>
+      <h2>Nomor telepon: {{rphonenum}}</h2>
+      <h2>Jalan: {{rstreet}}</h2>
+      <h2>Kecamatan: {{rdistrict}}</h2>
+      <h2>Kota: {{rcity}}</h2>
+      <h2>Provinsi: {{rprovince}}</h2>
+      <h2>Rating: {{rating}}</h2>
+      <h2>Kategori restoran: {{category}}</h2>
+      <h2>Jam operasional:</h2>
+
+      {% if jadwal|length == 0 %}
+      <h2>Restoran ini belum memiliki jadwal operasional</h2>
+      {% else %}
+      <table class="table-auto">
+        <thead>
+          <tr>
+            <th class="px-4 py-2">Hari</th>
+            <th class="px-4 py-2">Jam buka</th>
+            <th class="px-4 py-2">Jam tutup</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for j in jadwal %}
+          <tr>
+            <td class="border px-4 py-2">{{j.0}}</td>
+            <td class="border px-4 py-2">{{j.1}}</td>
+            <td class="border px-4 py-2">{{j.2}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% endif %} {% endif %} {% if role == 'courier' %}
+      <h2>Plat Nomor Kendaraan: {{plat}}</h2>
+      <h2>Nomor SIM: {{sim}}</h2>
+      <h2>Jenis kendaraan: {{vehicletype}}</h2>
+      <h2>Merk kendaraan: {{vehiclebrand}}</h2>
+      {% endif %} {% if role == 'customer' %}
+      <h2>Tanggal lahir: {{tanggallahir}}</h2>
+      {% if gender == 'F'%}
+      <h2>Jenis kelamin: Perempuan</h2>
+      {% else %}
+      <h2>Jenis kelamin: Laki-laki</h2>
+      {% endif %} {% endif %} {% if adminid != None %}
+      <h2>Status: Terverifikasi</h2>
+      <h2>Diverifikasi Oleh: {{adminid}}</h2>
+      {% else %}
+      <h2>Status: Belum Terverifikasi</h2>
+      {% endif %}
+
+      <h2>Saldo Restopay: {{restopay}}</h2>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

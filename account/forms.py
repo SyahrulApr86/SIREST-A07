@@ -1,10 +1,17 @@
 from django import forms
+from utils.query import *
 
-# dummy data (masih hard coded)
-DATA_PROVINSI = [('Jawa Barat', 'Jawa Barat'), ('Jawa Tengah',
-                                                'Jawa Tengah'), ('Jawa Timur', 'Jawa Timur')]
-DATA_KATEGORI = [('Cafe', 'Cafe'), ('Fast Food', 'Fast Food')]
+cursor.execute("select distinct province from delivery_fee_per_km")
+records = cursor.fetchall()
+DATA_PROVINSI = []
+for record in records:
+    DATA_PROVINSI.append((record[0], record[0]))
 
+cursor.execute("select id, name from restaurant_category")
+records = cursor.fetchall()
+DATA_KATEGORI = []
+for record in records:
+    DATA_KATEGORI.append((record[0], record[1]))
 
 class RegisterFormAdmin(forms.Form):
     email = forms.EmailField(label='Email', max_length=50, widget=forms.TextInput(
@@ -15,6 +22,10 @@ class RegisterFormAdmin(forms.Form):
         attrs={'class': 'form-control', 'placeholder': 'Nama'}))
     no_hp = forms.CharField(label='No HP', max_length=20, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'No HP'}))
+
+    error_messages = {
+        'required': 'This field is required',
+    }
 
 
 class RegisterFormPelanggan(forms.Form):
@@ -97,7 +108,7 @@ class RegisterFormKurir(forms.Form):
     no_sim = forms.CharField(label='No SIM', max_length=20, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'No SIM'}))
     # Jenis Kendaraan Dropdown
-    jenis_kendaraan = forms.ChoiceField(label='Jenis Kendaraan', choices=[('Mobil', 'Mobil'), ('Motor', 'Motor')], widget=forms.Select(
+    jenis_kendaraan = forms.ChoiceField(label='Jenis Kendaraan', choices=[('Car', 'Mobil'), ('Motorcycle', 'Motor')], widget=forms.Select(
         attrs={'class': 'border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2', 'placeholder': 'Jenis Kendaraan'}))
     merk_kendaraan = forms.CharField(label='Merk Kendaraan', max_length=15, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Merk Kendaraan'}))

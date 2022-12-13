@@ -3,51 +3,59 @@
 {% endblock meta %} {% block content %}
 <h1 class="font-bold text-2xl mb-3">Pesanan Berlangsung:</h1>
 <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left text-black">
-        <thead class="text-xs text-black uppercase bg-red-300">
-            <tr>
-                <th scope="col" class="py-3 px-6">
-                    No
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Nama Pelanggan
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Waktu Pesanan Dibuat
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Status Pesanan
-                </th>
-                <th scope="col" class="py-3 px-6">
-                    Aksi
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for pesanan in daftar_pesanan %}
-            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                <td class="py-3 px-6">
-                    {{ forloop.counter }}
-                </td>
-                <td class="py-3 px-6">
-                    {{ pesanan.nama }}
-                </td>
-                <td class="py-3 px-6">
-                    {{ pesanan.waktu_pemesanan }}
-                </td>
-                <td class="py-3 px-6">
-                    {{ pesanan.status_pesanan }}
-                </td>
-                <td class="py-3 px-6">
-                    <a href="" class="text-blue-500">Detail</a>
-                    <br>
-                    <a href="" class="text-blue-500">Kirim</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+  <table class="w-full text-sm text-left text-black">
+    <thead class="text-xs text-black uppercase bg-red-300">
+      <tr>
+        <th scope="col" class="py-3 px-6">No</th>
+        <th scope="col" class="py-3 px-6">Nama Pelanggan</th>
+        <th scope="col" class="py-3 px-6">Waktu Pesanan Dibuat</th>
+        <th scope="col" class="py-3 px-6">Status Pesanan</th>
+        <th scope="col" class="py-3 px-6">Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pesanan in daftar_pesanan %}
+      <tr class="border-b border-gray-200 hover:bg-gray-100">
+        <td class="py-3 px-6">{{ forloop.counter }}</td>
+        <td class="py-3 px-6">{{ pesanan.0 }}</td>
+        <td class="py-3 px-6">{{ pesanan.1 }}</td>
+        <td class="py-3 px-6">{{ pesanan.2 }}</td>
+        <td class="py-3 px-6">
+          <a href="{% url 'trigger_2:detail_pesanan' pesanan.3 pesanan.1 %}" class="text-blue-500">Detail</a>
+          <br />
 
+          {% if pesanan.2 == 'Nunggu Konfirmasi Resto' %}
+          <a
+            href="{% url 'trigger_2:ubah_status_pesanan' pesanan.3 pesanan.1 pesanan.2 %}"
+            class="text-blue-500"
+            >Konfirmasi</a
+          >
+          {% elif pesanan.2 == 'Pesanan Dibuat' %}
+          <a
+            href="{% url 'trigger_2:ubah_status_pesanan' pesanan.3 pesanan.1 pesanan.2 %}"
+            class="text-blue-500"
+            >Kirim</a
+          >
+          {% elif pesanan.2 == 'Menunggu Kurir' %}
+          <a
+            href="{% url 'trigger_2:ubah_status_pesanan' pesanan.3 pesanan.1 pesanan.2 %}"
+            class="text-blue-500"
+            >Kurir didapat</a
+          >
+          {% elif pesanan.2 == 'Pesanan Diantar' %}
+          <a
+            href="{% url 'trigger_2:ubah_status_pesanan' pesanan.3 pesanan.1 pesanan.2 %}"
+            class="text-blue-500"
+            >Pesanan Diterima</a
+          >
+          {% endif %}
+          <br />
+          <a href="{% url 'trigger_2:ubah_status_pesanan' pesanan.3 pesanan.1 "batal" %}" class="text-blue-500">Batalkan</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock content %}

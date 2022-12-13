@@ -6,10 +6,11 @@
 
 {% block content %}  
 
+<div class="m-20">
 <div class="flex justify-center items-center">
     <div class=" w-fit rounded-lg">
         <div class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center p-4 items-center rounded-xl lg:scale-100 md:scale-90 scale-75">
-            <h1 class="text-xl font-bold mb-3">DAFTAR MAKANAN: MCD DJUANDA</h1>
+            <h1 class="text-xl font-bold mb-3">DAFTAR MAKANAN: {{rname}} {{rbranch}}</h1>
         </div>
     </div>
 </div>        
@@ -45,57 +46,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b">
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                1
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Ayam Spicy
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Fried chicken enak
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                8
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                40000
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                Fast food
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                Ayam, tepung
-                            </td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                2
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Burger
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Burger enak
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                9
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                25000
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                Fast food
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                Daging, roti
-                            </td>
-                        </tr>
+                        {% for menu in dataMenu %}
+                            <tr class="border-b">
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{forloop.counter}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{menu.0}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                    {{menu.1}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
+                                    {{menu.2}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
+                                    {{menu.3}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
+                                    {{menu.4}}
+                                </td>
+                                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
+                                    {{menu.5}}
+                                </td>
+                            </tr>
+                        {%endfor%}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 {% endblock content %} 

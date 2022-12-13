@@ -5,19 +5,18 @@
 <div class="flex justify-center items-center ">
     <div class="bg-red-200 w-fit rounded-lg mt-3">
         <div class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center items-center bg-cream-tua p-10 rounded-xl lg:scale-120 md:scale-100 scale-85">
-            <h1 class="text-xl font-bold mb-3 text-center">DETAIL RESTORAN: MCD DJUANDA</h1>
+            <h1 class="text-xl font-bold mb-3 text-center">DETAIL RESTORAN: {{dataRestoran.0.0}} {{dataRestoran.0.1}}</h1>
             <div class="text-left">
-                <p>Nama Restoran: MCD</p>
-                <p>Cabang: Djuanda</p>
-                <p>Nomor Telepon: 14045</p>
-                <p>Jalan: Djuanda</p>
-                <p>Kecamatan: Bogor Tengah</p>
-                <p>Kota: Bogor</p>
-                <p>Provinsi: Jawa Barat</p>
-                <p>Rating: 4.8</p>
-                <p>Kategori Restoran: Fast Food</p>
-                <p>Jam Operasional: [08.00 - 22.00, 23.00 - 07.00] </p>
-                <p>Promo Berlangsung: [November Ceria, November Hemat, P50Transaksi] </p>
+                <h2>Nama restoran: {{dataRestoran.0.0}}</h2>
+                <h2>Cabang: {{dataRestoran.0.1}}</h2>
+                <h2>Nomor telepon: {{dataRestoran.0.3}}</h2>
+                <h2>Jalan: {{dataRestoran.0.4}}</h2>
+                <h2>Kecamatan: {{dataRestoran.0.5}}</h2>
+                <h2>Kota: {{dataRestoran.0.6}}</h2>
+                <h2>Provinsi: {{dataRestoran.0.7}}</h2>
+                <h2>Rating: [{{dataRestoran.0.8}}]</h2>
+                <h2>Kategori restoran: {{dataRestoran.0.11}}</h2>
+                <h2>Jam operasional: [{{dataRestoran.0.14}}, {{dataRestoran.0.15}} - {{dataRestoran.0.16}}]</h2>
             </div>
             <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mt-2" onclick="location.href = '/trigger3/daftarresto'">Kembali</button>
 
