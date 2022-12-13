@@ -1,17 +1,66 @@
 {% extends 'base.html' %} {% block meta %}
 <title>Riwayat</title>
 {% endblock meta %} {% block content %}
+
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#name').click(function () {
-                console.log('nadya')
-                $.get(`/trigger_6/ubah`, function (data) {
-                    console.log(data)
+        // $(document).ready(function () {
+        //     $('#name').click(function () {
+        //         console.log('nadya')
+        //         $.get(`/trigger_6/ubah-form-input`, function (data) {
+        //             console.log(data.foo)
+        //         });
+        //     })
+        // });
+
+        function handleClick(value) {
+            let csrfcookie = function () {
+                let cookieValue = null,
+                    name = "csrftoken";
+                if (document.cookie && document.cookie !== "") {
+                    let cookies = document.cookie.split(";");
+                    for (let i = 0; i < cookies.length; i++) {
+                        let cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) == (name + "=")) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            };
+
+            $.ajax({
+                url: `/trigger_6/ubah-form-input/${value}`,
+                type: 'POST',
+                beforeSend: function (request, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        request.setRequestHeader("X-CSRFToken", csrfcookie());
+                    }
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#jenis').val(data.jenis_promo)
+                    $('#discount').val(data.discount)
+                    var label = ''
+                    if (data.jenis_promo == 'Promo Hari Spesial'){
+                        label = 'Tanggal Spesial:'
+                        input = data.special_date
+                    } else {
+                        label = 'Minimum Transaksi:'
+                        input = data.min_transaction
+                    }
+                    $('#add').empty()
+                    $('#add').append(
+                        `<p id="add-label">${label}</p>
+                         <input type="" name="add-input" id="add-input" class="form-control rounded-lg text-black"
+                        required disabled>`
+                    )
+                    $('#add-input').val(input)
+                },
             });
-            })
-        });
+        }
     </script>
 </head>
 
@@ -21,6 +70,7 @@
             <div class="font-extrabold text-center">
                 FORM PROMO RESTORAN
             </div>
+            <h1 class="text-red-500 font-bold my-2">{{message}}</h1>
             <div>
                 <form action="" method="post">
                     {% csrf_token %}
@@ -31,15 +81,15 @@
                                 <select name="name" id="name"
                                     onchange="handleClick(this.value); this.selectedindex = -1"
                                     class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2">
-                                    <option style="display: none" ></option>
+                                    <option style="display: none"></option>
                                     {% for promoname in record_promoname %}
-                                    <option value="{{ promoname.0 }}">{{ promoname.0 }}</option>
+                                    <option value="{{ promoname.1 }}">{{ promoname.0 }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="flex flex-col text-sm font-medium justify-around">
                                 <p>Jenis Promo:</p>
-                                <input type="text" name="name" id="name" class="form-control rounded-lg text-black"
+                                <input type="text" name="jenis" id="jenis" class="form-control rounded-lg text-black"
                                     required disabled>
                             </div>
                             <div class="flex flex-col text-sm font-medium mb-2 justify-around">
@@ -47,24 +97,16 @@
                                 <input type="text" name="discount" id="discount"
                                     class="form-control rounded-lg text-black" required disabled>
                             </div>
-                            <!-- <div class="flex flex-col text-sm font-medium mb-2 justify-around">
-                                <p>Minimum Transaksi:</p>
-                                <input type="text" name="discount" id="discount" class="form-control rounded-lg text-black" required disabled>
-                            </div> -->
-                            <div class="flex flex-col text-sm font-medium mb-2 justify-around">
-                                <p>Tanggal Spesial:</p>
-                                <input type="date" name="date" id="date" class="form-control rounded-lg text-black"
-                                    required disabled>
-                            </div>
+                            <div class="flex flex-col text-sm font-medium mb-2 justify-around" id="add"></div>
                             <div class="flex flex-col text-sm font-medium mb-2 justify-around">
                                 <p>Tanggal Mulai:</p>
                                 <input type="date" name="startdate" id="startdate"
-                                    class="form-control rounded-lg text-black" required>
+                                    class="form-control rounded-lg text-black" required oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')">
                             </div>
                             <div class="flex flex-col text-sm font-medium mb-2 justify-around">
                                 <p>Tanggal Berakhir:</p>
                                 <input type="date" name="enddate" id="enddate"
-                                    class="form-control rounded-lg text-black" required>
+                                    class="form-control rounded-lg text-black" required oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')">
                             </div>
                             <div class="flex justify-center">
                                 <input type="submit" name="submit" value="SIMPAN"

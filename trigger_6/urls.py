@@ -20,5 +20,5 @@ urlpatterns = [
     path('detail-promo-restoran/<rname>/<rbranch>/<id>', show_detail_promo_restoran, name='show_detail_promo_restoran'),
     path('delete-promo/<id>', delete_promo, name='delete_promo'),
     path('delete-promo-restoran/<rname>/<rbranch>/<id>', delete_promo_restoran, name='delete_promo_restoran'),
-    path('ubah-form-input/', ubah_form_input, name='ubah_form_input')
+    path('ubah-form-input/<id>', ubah_form_input, name='ubah_form_input')
 ]
