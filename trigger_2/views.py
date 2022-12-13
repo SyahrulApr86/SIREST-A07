@@ -16,10 +16,19 @@ def saldo_restopay(request):
         f"SELECT restopay FROM transaction_actor WHERE email = '{email}'")
     saldo = cursor.fetchall()[0][0]
 
+    if request.COOKIES.get('role') == 'restaurant':
+        role = 'restaurant'
+    elif request.COOKIES.get('role') == 'admin':
+        role = 'admin'
+    elif request.COOKIES.get('role') == 'courier':
+        role = 'courier'
+    elif request.COOKIES.get('role') == 'customer':
+        role = 'customer'
+
     context = {
         'saldo': saldo,
         'adminid': request.COOKIES.get('adminid'),
-        'role': 'restaurant',
+        'role': role,
         'rname': request.COOKIES.get('rname'),
         'rbranch': request.COOKIES.get('rbranch'),
     }
@@ -36,6 +45,15 @@ def isi_saldo(request):
     nama_bank = record[1]
     nomor_rekening = record[2]
 
+    if request.COOKIES.get('role') == 'restaurant':
+        role = 'restaurant'
+    elif request.COOKIES.get('role') == 'admin':
+        role = 'admin'
+    elif request.COOKIES.get('role') == 'courier':
+        role = 'courier'
+    elif request.COOKIES.get('role') == 'customer':
+        role = 'customer'
+
     if request.method == 'POST' or 'post' and not request.method == 'GET':
         saldo_pengisian = request.POST.get('saldo_pengisian')
 
@@ -49,7 +67,7 @@ def isi_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Saldo Pengisian tidak boleh kosong',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -67,7 +85,7 @@ def isi_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Input tidak valid',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -84,7 +102,7 @@ def isi_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Input tidak valid',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -110,7 +128,7 @@ def isi_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Isi Saldo Berhasil',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -129,7 +147,7 @@ def isi_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Isi Saldo Gagal',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -144,7 +162,7 @@ def isi_saldo(request):
         'saldo': saldo,
         'nama_bank': nama_bank,
         'nomor_rekening': nomor_rekening,
-        'role': 'restaurant',
+        'role': role,
         'rname': request.COOKIES.get('rname'),
         'rbranch': request.COOKIES.get('rbranch'),
         'adminid': request.COOKIES.get('adminid'),
@@ -163,6 +181,15 @@ def tarik_saldo(request):
     nama_bank = record[1]
     nomor_rekening = record[2]
 
+    if request.COOKIES.get('role') == 'restaurant':
+        role = 'restaurant'
+    elif request.COOKIES.get('role') == 'admin':
+        role = 'admin'
+    elif request.COOKIES.get('role') == 'courier':
+        role = 'courier'
+    elif request.COOKIES.get('role') == 'customer':
+        role = 'customer'
+
     if request.method == 'POST' or 'post' and not request.method == 'GET':
         saldo_penarikan = request.POST.get('saldo_penarikan')
 
@@ -176,7 +203,7 @@ def tarik_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Saldo Penarikan tidak boleh kosong',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -193,7 +220,7 @@ def tarik_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Input tidak valid',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -210,7 +237,7 @@ def tarik_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Input tidak valid',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -227,7 +254,7 @@ def tarik_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Saldo tidak mencukupi',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -253,7 +280,7 @@ def tarik_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Tarik Saldo Berhasil',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -271,7 +298,7 @@ def tarik_saldo(request):
                 'nama_bank': nama_bank,
                 'nomor_rekening': nomor_rekening,
                 'message': 'Tarik Saldo Gagal',
-                'role': 'restaurant',
+                'role': role,
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
@@ -286,7 +313,7 @@ def tarik_saldo(request):
         'saldo': saldo,
         'nama_bank': nama_bank,
         'nomor_rekening': nomor_rekening,
-        'role': 'restaurant',
+        'role': role,
         'rname': request.COOKIES.get('rname'),
         'rbranch': request.COOKIES.get('rbranch'),
         'adminid': request.COOKIES.get('adminid'),
@@ -317,9 +344,18 @@ def daftar_pesanan(request):
 
     record = cursor.fetchall()
 
+    if request.COOKIES.get('role') == 'restaurant':
+        role = 'restaurant'
+    elif request.COOKIES.get('role') == 'admin':
+        role = 'admin'
+    elif request.COOKIES.get('role') == 'courier':
+        role = 'courier'
+    elif request.COOKIES.get('role') == 'customer':
+        role = 'customer'
+
     context = {
         'daftar_pesanan': record,
-        'role': 'restaurant',
+        'role': role,
         'rname': request.COOKIES.get('rname'),
         'rbranch': request.COOKIES.get('rbranch'),
         'adminid': request.COOKIES.get('adminid'),
@@ -483,8 +519,18 @@ def detail_pesanan(request, email, datetime):
         jenis_kendaraan = record[0][2]
         merek_kendaraan = record[0][3]
 
+
+    if request.COOKIES.get('role') == 'restaurant':
+        role = 'restaurant'
+    elif request.COOKIES.get('role') == 'admin':
+        role = 'admin'
+    elif request.COOKIES.get('role') == 'courier':
+        role = 'courier'
+    elif request.COOKIES.get('role') == 'customer':
+        role = 'customer'
+        
     context = {
-        'role': 'restaurant',
+        'role': role,
         'rname': request.COOKIES.get('rname'),
         'rbranch': request.COOKIES.get('rbranch'),
         'adminid': request.COOKIES.get('adminid'),
