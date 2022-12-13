@@ -72,11 +72,8 @@
       <ul
         class="max-w-md list-disc list-inside text-balck-500 dark:text-balck-400"
       >
-        {% for makanan in daftar_makanan %}
-        <li>
-          {{ makanan.nama_makanan }} ( {{makanan.jumlah_makanan}} ) -
-          {{makanan.catatan_makanan}}
-        </li>
+        {% for makanan in daftar_pesanan %}
+        <li>{{ makanan.0 }} ( {{makanan.1}} ) - {{makanan.2}}</li>
         {% endfor %}
       </ul>
 
@@ -91,11 +88,11 @@
         </tr>
         <tr>
           <th>Biaya Pengantaran:</th>
-          <td class="font-medium">{{ biaya_pengantaran }}</td>
+          <td class="font-medium">{{ biaya_pengiriman }}</td>
         </tr>
         <tr>
           <th>Total Biaya:</th>
-          <td class="font-medium">{{ total_biaya }}</td>
+          <td class="font-medium">{{ total_harga }}</td>
         </tr>
         <tr>
           <th>Jenis Pembayaran:</th>
@@ -119,7 +116,7 @@
       <table class="border-separate border-spacing-2">
         <tr>
           <th>Kurir:</th>
-          <td class="font-medium">{{ kurir }}</td>
+          <td class="font-medium">{{ nama_kurir }}</td>
         </tr>
         <tr>
           <th>Plat Kendaraan:</th>
@@ -135,12 +132,13 @@
         </tr>
       </table>
 
-      <button
+      <a
+        href="{% url 'trigger_2:daftar_pesanan' %}"
         type="submit"
         class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
       >
         Kembali
-      </button>
+      </a>
     </div>
   </div>
 </div>

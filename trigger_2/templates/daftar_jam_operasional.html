@@ -30,18 +30,18 @@
                     {{ forloop.counter }}
                 </td>
                 <td class="py-3 px-6">
-                    {{ jam_operasional.hari }}
+                    {{ jam_operasional.2 }}
                 </td>
                 <td class="py-3 px-6">
-                    {{ jam_operasional.jam_buka }}
+                    {{ jam_operasional.3 }}
                 </td>
                 <td class="py-3 px-6">
-                    {{ jam_operasional.jam_tutup }}
+                    {{ jam_operasional.4 }}
                 </td>
                 <td class="py-3 px-6">
-                    <a href="" class="text-blue-500">Ubah</a>
+                    <a href="{% url 'trigger_2:edit_jam_operasional' jam_operasional.0 jam_operasional.1 jam_operasional.2 %}" class="text-blue-500">Ubah</a>
                     <br>
-                    <a href="" class="text-blue-500">Hapus</a>
+                    <a href="{% url 'trigger_2:hapus_jam_operasional' jam_operasional.0 jam_operasional.1 jam_operasional.2 %}" class="text-blue-500">Hapus</a>
                 </td>
             </tr>
             {% endfor %}

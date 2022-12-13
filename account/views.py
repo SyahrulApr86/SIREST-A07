@@ -332,9 +332,6 @@ def login(request):
                 print('masuk pelanggan')
                 return response
 
-            # response = HttpResponseRedirect(reverse('account:profile_pelanggan'))
-            # response.set_cookie('role', 'customer')
-            # return response
         else:
             context = {
                 'message': 'Cek kembali email dan password anda!',
@@ -753,7 +750,7 @@ def profile_restoran(request, email):
         'jadwal': records_hours,
         'promo': records_promo,
     }
-    print(record[0])
+ 
     return render(request, 'profile_restoran.html', context)
 
 
