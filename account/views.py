@@ -229,7 +229,6 @@ def login(request):
                 response = render(request, 'dashboard_admin.html', context)
                 response.set_cookie('role', 'admin')
                 response.set_cookie('email', records_admin[0][0])
-
                 print('masuk admin')
                 return response
 

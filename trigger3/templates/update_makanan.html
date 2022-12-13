@@ -36,55 +36,60 @@
                             <div class="flex flex-col justify-around gap-2 w-full">
                                 <div class="flex flex-col text-sm font-medium block justify-around">
                                     <p>Nama Makanan:</p>
-                                    <input type="text" name="nama" id="nama" class="form-control rounded-lg text-black w-full" placeholder="Sate Ayam" disabled>
+                                    <input type="text" name="nama" id="nama" class="form-control rounded-lg text-black w-full" placeholder="{{foodname}}" disabled>
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     <p>Deskripsi:</p>
-                                    <input type="text" name="deskripsi" id="deskripsi" class="form-control rounded-lg text-black" placeholder="Sate enak" required>
+                                    <input type="text" name="deskripsi" id="deskripsi" class="form-control rounded-lg text-black" placeholder="{{description}}" required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')">
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     <p>Stok:</p>
-                                    <input type="text" name="stok" id="stok" class="form-control rounded-lg text-black" placeholder="6" required>
+                                    <input type="text" name="stok" id="stok" class="form-control rounded-lg text-black" placeholder="{{stock}}" required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')">
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     <p>Harga:</p>
-                                    <input type="text" name="harga" id="harga" class="form-control rounded-lg text-black" placeholder="15000" required>
+                                    <input type="text" name="harga" id="harga" class="form-control rounded-lg text-black" placeholder="{{price}}" required oninvalid="this.setCustomValidity('Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu')" oninput="setCustomValidity('')">
                                 </div>
                                 <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     
                                     <label for="kategoriMakanan">Kategori Makanan:</label>
                                         
-                                    <select name="kategoriMakanan" id="kategoriMakanan" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2">
-                                        <option value="Kuah">Kuah</option>
-                                        <option value="Kering">Kering</option>
-                                        <option value="Santan">Santan</option>
+                                    <select name="kategoriMakanan" id="kategoriMakanan" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        {% for kategori in kategoriMakanan %}
+                                        <option value="{{kategori.0}}">{{kategori.0}}</option>
+                                        {%endfor%}
                                     </select>
                                     <!-- <button>+</button> -->
                                 </div>
-                                <div class="flex flex-col text-sm font-medium block mb-2 justify-around gap-2">
+                                <div class="flex flex-col text-sm font-medium block mb-2 justify-around">
                                     <div class="flex justify-between items-center">
 
                                         <label for="bahanMakanan">Bahan Makanan:</label>
-                                        <button class="text-white bg-blue-700 hover:bg-blue-800 text-sm px-2 py-1 rounded-lg text-center">
-                                            <ion-icon name="add-outline"></ion-icon>
-                                        </button>
+                                        <a id="dropdown-icon" class="text-white bg-blue-700 hover:bg-blue-800 text-sm px-2 py-1 rounded-lg text-center">
+                                            <ion-icon name="add-outline" ></ion-icon>
+                                        </a>
                                     </div>
-                                    <div class="flex justify-between items-center">
-                                        <p>Bahan Makanan: Ayam</p>
-                                        <button class="text-white bg-red-700 hover:bg-red-800 text-sm px-2 py-1 rounded-lg text-center">
-                                            <ion-icon name="remove-circle-outline"></ion-icon>
-                                        </button>
+                                    <div>
+                                        {% for bahanU in bahanUsed %}
+                                        <div id="bahan-{{forloop.counter0}}" class="flex justify-between items-center">
+                                            <p>Bahan Makanan: {{bahanU.0}}</p>
+                                            <a id="deleteButton" href="javascript:remove({{ forloop.counter0 }}, '{{bahanU.0}}')" class="text-white bg-red-700 hover:bg-red-800 text-sm px-2 py-1 rounded-lg text-center">
+                                                <ion-icon name="remove-circle-outline"></ion-icon>
+                                            </a>
+                                        </div>
+                                        {% endfor %}
+                                        <input type="hidden" id ="deleteBahan" name="deleteBahan" value="">
                                     </div>
-                                    <div class="flex justify-between items-center">
-                                        <p>Bahan Makanan: Bakso</p>
-                                        <button class="text-white bg-red-700 hover:bg-red-800 text-sm px-2 py-1 rounded-lg text-center">
-                                            <ion-icon name="remove-circle-outline"></ion-icon>
-                                        </button>
+                                    <div id="bahanForm">
+                                        <div>
+                                            <select name="select-0" id="select-0" id="bahanMakananDrop" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2">
+                                                {% for bahan in bahanMakanan %}
+                                                <option id="select-0" value="{{bahan.0}}">{{bahan.0}}</option>
+                                                {%endfor%}
+                                            </select>
+                                        </div>
+                                        <input type="hidden" id = "click" name="click" value="1">
                                     </div>
-                                    <select name="bahanMakanan" id="bahanMakanan" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2">
-                                        <option value="Daging">Daging</option>
-                                        <option value="Ikan">Ikan</option>
-                                    </select>
                                 </div>
 
                                 <div class="flex justify-center">
@@ -97,6 +102,54 @@
         </div>
     </div>
 
+    <script>
+        document.getElementById('click').value = 1;
+        function toggleDropdown() {
+            document.getElementById('click').value =parseInt( document.getElementById('click').value) + 1;
+            console.log(document.getElementById('click').value);
+            var form = document.getElementById('bahanForm');
+            var div = document.createElement('div');
+            var input = document.createElement('select');
+
+            input.id = `select-${document.getElementById('click').value - 1}`;
+            input.name = `select-${document.getElementById('click').value - 1}`;
+            input.classList.add("border");
+            input.classList.add("border-gray-300");
+            input.classList.add("rounded-lg");
+            input.classList.add("text-sm");
+            input.classList.add("block");
+            input.classList.add("w-full");
+            input.classList.add("p-2.5");
+            input.classList.add("w-full");
+            input.classList.add("mt-2");
+            var bahanMakanan = JSON.parse('{{ jsonBahan|escapejs }}');
+            // console.log(bahanMakanan);
+            
+            for (var i = 0; i<bahanMakanan.length; i++){
+                var el = document.createElement("option");
+                el.text = bahanMakanan[i][0];
+                el.value = bahanMakanan[i][0];
+                // console.log(el.id)
+                input.add(el)
+            } 
+            div.appendChild(input);
+            form.appendChild(div);
+        }
+        document.getElementById("dropdown-icon").addEventListener("click", toggleDropdown);
+
+        
+        document.getElementById('deleteBahan').value = "";
+        function remove(index, bahan){
+            var strAgg = "bahan-" + index;
+            var removeEl = document.getElementById(strAgg);
+            removeEl.remove();
+            document.getElementById('deleteBahan').value = document.getElementById('deleteBahan').value + "," + bahan;
+            console.log(document.getElementById('deleteBahan').value)
+            console.log($('#deleteBahan').val());
+
+        }
+
+    </script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>

@@ -55,9 +55,15 @@
                                         {{forloop.counter}}
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {{makanan.2}}
+                                        {{makanan.0}}
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {{makanan.1}}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
+                                        {{makanan.2}}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
                                         {{makanan.3}}
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
@@ -66,21 +72,21 @@
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
                                         {{makanan.5}}
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                        {{makanan.8}}
-                                    </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap ">
-                                        <!-- {% for bahan in dataBahan %}
-                                            {{bahan}}
-                                        {% endfor %} -->
-                                    </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                         <div>
-                                            <a href="{% url 'trigger3:update_makanan' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
+                                            <a href="{% url 'trigger3:update_makanan' makanan.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
                                         </div>
-                                        <div>
-                                            <a href="{% url 'trigger3:makanan_detail' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
-                                        </div>
+                                        
+                                        
+                                        {% if makanan.0 in deletable_food %}
+                                            <div>
+                                                <a href="{% url 'trigger3:delete_makanan' makanan.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                                            </div>
+                                        {% else %}
+                                            <div>
+                                                <a onclick="alert('Sedang ada yang memesan makanan!');" class="font-medium text-gray-600 dark:text-gray-500 hover:underline" disabled>Hapus</a>
+                                            </div>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
