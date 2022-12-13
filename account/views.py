@@ -23,7 +23,6 @@ def show_main(request):
                 f'select day, starthours, endhours from restaurant r, restaurant_operating_hours roh where name = rname and branch = rbranch and email = \'{email}\''
             )
             records_hours = cursor.fetchall()
-            print(records)
             context = {
                 'email': records[0][0],
                 'password': records[0][1],
@@ -53,7 +52,6 @@ def show_main(request):
             response.set_cookie('rname', records[0][5])
             response.set_cookie('rbranch', records[0][6])
             response.set_cookie('adminid', records[0][20])
-            print('masuk resto')
             return response
 
         # Role Admin -> Dashboard Admin
@@ -90,7 +88,6 @@ def show_main(request):
                 elif (records_actor[i][0],) in list_restaurant:
                     records_actor[i] += ('Restoran', )
 
-            print(records_admin)
 
             context = {
                 'role': 'admin',
@@ -105,7 +102,6 @@ def show_main(request):
             response = render(request, 'dashboard_admin.html', context)
             response.set_cookie('role', 'admin')
             response.set_cookie('email', records_admin[0][0])
-            print('masuk admin')
             return response
 
         # Role Customer -> Dashboard Customer
@@ -132,7 +128,6 @@ def show_main(request):
             response.set_cookie('role', 'customer')
             response.set_cookie('email', records[0][0])
             response.set_cookie('adminid', records[0][13])
-            print('masuk pelanggan')
             return response
 
         # Role Courier -> Dashboard Courier
@@ -161,7 +156,6 @@ def show_main(request):
             response.set_cookie('role', 'courier')
             response.set_cookie('email', records[0][0])
             response.set_cookie('adminid', records[0][15])
-            print('masuk kurir')
             return response
 
     # Jika tidak ada cookie role, redirect ke halaman login
@@ -229,7 +223,6 @@ def login(request):
                 response = render(request, 'dashboard_admin.html', context)
                 response.set_cookie('role', 'admin')
                 response.set_cookie('email', records_admin[0][0])
-                print('masuk admin')
                 return response
 
             cursor.execute(
@@ -272,7 +265,6 @@ def login(request):
                 response.set_cookie('rname', records[0][5])
                 response.set_cookie('rbranch', records[0][6])
                 response.set_cookie('adminid', records[0][20])
-                print('masuk resto')
                 return response
 
             cursor.execute(
@@ -296,19 +288,16 @@ def login(request):
                     'adminid': records[0][15],
                     'role': 'courier'
                 }
-                # print(context)
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'courier')
                 response.set_cookie('email', records[0][0])
                 response.set_cookie('adminid', records[0][15])
-                print('masuk kurir')
                 return response
 
             cursor.execute(
                 f'select * from user_acc u, customer c, transaction_actor ta where u.email = c.email and u.email = \'{email}\' and c.email = ta.email')
             records = cursor.fetchmany()
             if (len(records) == 1):
-                # print(records)
                 context = {
                     'email': records[0][0],
                     'password': records[0][1],
@@ -324,12 +313,10 @@ def login(request):
                     'adminid': records[0][13],
                     'role': 'customer'
                 }
-                # print(context)
                 response = render(request, 'dashboard_pengguna.html', context)
                 response.set_cookie('role', 'customer')
                 response.set_cookie('email', records[0][0])
                 response.set_cookie('adminid', records[0][13])
-                print('masuk pelanggan')
                 return response
 
             # response = HttpResponseRedirect(reverse('account:profile_pelanggan'))
@@ -753,7 +740,6 @@ def profile_restoran(request, email):
         'jadwal': records_hours,
         'promo': records_promo,
     }
-    print(record[0])
     return render(request, 'profile_restoran.html', context)
 
 

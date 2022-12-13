@@ -43,6 +43,7 @@ def show_riwayat(request):
         'rname': request.COOKIES.get('rname'),
         'rbranch': request.COOKIES.get('rbranch'),
         'record': record,
+        'adminid':request.COOKIES.get('adminid')
     }
     print(record)
     return render(request, 'riwayat.html', context)
@@ -78,11 +79,9 @@ def show_detail_riwayat(request, email, datetime):
         'role': request.COOKIES.get('role'),
         'rname': request.COOKIES.get('rname'),
         'rbranch': request.COOKIES.get('rbranch'),
+        'adminid':request.COOKIES.get('adminid')
     }
-    print('masuk')
-    print(record_riwayat)
-    print(ordered_food)
-    print(transaction_status)
+
     return render(request, 'detail_riwayat.html', context)
 
 
@@ -98,11 +97,12 @@ def show_form_penilaian(request, email, datetime):
             context = {
                 'status': 'error',
                 'message': 'Data yang diisikan belum lengkap, silahkan lengkapi data terlebih dahulu',
-                'role': request.COOKIES.get('role')
+                'role': request.COOKIES.get('role'),
+                'adminid':request.COOKIES.get('adminid')
             }
             return render(request, 'form_penilaian.html', context)
 
-    return render(request, 'form_penilaian.html', {'role': request.COOKIES.get('role')})
+    return render(request, 'form_penilaian.html', {'role': request.COOKIES.get('role'), 'adminid':request.COOKIES.get('adminid')})
 
 
 def show_buat_promo(request):
@@ -171,7 +171,6 @@ def show_form_promo_hari_spesial(request):
 
 def show_daftar_promo(request):
     cursor.execute('select * from promo')
-    # TODO: GANTI FETCH ALL
     records_promo = cursor.fetchall()
     records_promo = sorted(records_promo, key=lambda x: x[1].lower())
     print(records_promo)
@@ -195,6 +194,7 @@ def show_daftar_promo(request):
         'records_promo': records_promo,
         'role': request.COOKIES.get('role'),
         'rname': request.COOKIES.get('rname'),
+        'adminid':request.COOKIES.get('adminid'),
         'rbranch': request.COOKIES.get('rbranch'),
     }
 
@@ -256,7 +256,8 @@ def show_daftar_promo_restoran(request, rname, rbranch):
         'role':request.COOKIES.get('role'),
         'rname':rname,
         'rbranch':rbranch,
-        'empty':len(records_promo_resto)
+        'empty':len(records_promo_resto),
+        'adminid':request.COOKIES.get('adminid')
     }
 
     return render(request, 'daftar_promo_restoran.html', context)
@@ -284,11 +285,12 @@ def show_form_promo_restoran(request):
         except Exception as e:
             connection.rollback()
             context = {
-                'message':e.args[0:40],
+                'message':e.args[0][0:40],
                 'role':request.COOKIES.get('role'),
                 'rname':rname,
                 'rbranch':rbranch,
                 'record_promoname':record_promoname,
+                'adminid':request.COOKIES.get('adminid')
             }
             return render(request, 'form_promo_restoran.html', context)
 
@@ -297,6 +299,7 @@ def show_form_promo_restoran(request):
         'rname':rname,
         'rbranch':rbranch,
         'record_promoname':record_promoname,
+        'adminid':request.COOKIES.get('adminid')
     }
     return render(request, 'form_promo_restoran.html', context)
 
@@ -330,6 +333,7 @@ def show_form_ubah_promo_restoran(request, id):
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'discount': record_pname[0][1],
+                'adminid':request.COOKIES.get('adminid')
             }
             return render(request, 'form_ubah_promo_restoran.html', context)
         else:
@@ -349,7 +353,8 @@ def show_form_ubah_promo_restoran(request, id):
                     'role': request.COOKIES.get('role'),
                     'rname': request.COOKIES.get('rname'),
                     'rbranch': request.COOKIES.get('rbranch'),
-                    'discount': record_pname[0][1],
+                    'discount': record_pname[0][1],    
+                    'adminid':request.COOKIES.get('adminid'),
                 }
                 return render(request, 'form_ubah_promo_restoran.html', context)
 
@@ -360,6 +365,7 @@ def show_form_ubah_promo_restoran(request, id):
         'role': request.COOKIES.get('role'),
         'rname': request.COOKIES.get('rname'),
         'rbranch': request.COOKIES.get('rbranch'),
+        'adminid':request.COOKIES.get('adminid')
     }
 
     return render(request, 'form_ubah_promo_restoran.html', context)
@@ -385,6 +391,7 @@ def show_detail_promo(request, id):
         'records_promo': records_promo[0],
         'role': request.COOKIES.get('role'),
         'rname': request.COOKIES.get('rname'),
+        'adminid':request.COOKIES.get('adminid'),
         'rbranch': request.COOKIES.get('rbranch'),
     }
 
@@ -409,14 +416,16 @@ def show_detail_promo_restoran(request, rname, rbranch, id):
     record_promo = list(record_promo[0])
     record_promo[6] = record_promo[6].date()
     record_promo[7] = record_promo[7].date()
+
     context = {
         'record_promo': record_promo,
         'id': id,
-        'rname': rname,
-        'rbranch': rbranch,
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid':request.COOKIES.get('adminid'),
+        'role': request.COOKIES.get('role'),
     }
 
-    print(record_promo)
     return render(request, 'detail_promosi_restoran.html', context)
 
 
@@ -430,7 +439,7 @@ def delete_promo_restoran(request, rname, rbranch, id):
     cursor.execute(
         f'delete from restaurant_promo where pid = \'{id}\' and rname = \'{rname}\' and rbranch = \'{rbranch}\'')
     connection.commit()
-    return HttpResponseRedirect(reverse('trigger_6:show_daftar_promo_restoran'))
+    return HttpResponseRedirect(reverse('trigger_6:show_daftar_promo_restoran', kwargs={'rname':rname, 'rbranch':rbranch}))
 
 def ubah_form_input(request, id):
     cursor.execute(f'select discount from sirest.promo where id = \'{id}\'')
