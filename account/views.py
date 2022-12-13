@@ -23,7 +23,7 @@ def show_main(request):
                 f'select day, starthours, endhours from restaurant r, restaurant_operating_hours roh where name = rname and branch = rbranch and email = \'{email}\''
             )
             records_hours = cursor.fetchall()
-
+            print(records)
             context = {
                 'email': records[0][0],
                 'password': records[0][1],
@@ -170,8 +170,8 @@ def show_main(request):
 
 def logout_user(request):
     response = HttpResponseRedirect(reverse('account:show_main'))
-    response.delete_cookie('email')
-    response.delete_cookie('role')
+    for cookie in request.COOKIES:
+        response.delete_cookie(cookie)
     return response
 
 
