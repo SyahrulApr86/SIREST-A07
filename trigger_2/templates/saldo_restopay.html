@@ -10,7 +10,7 @@
       <h1 class="text-2xl mb-3 ">Saldo RestoPay Anda saat ini sebesar:</h1>
       <h1 class="text-2xl mb-3">Rp. <strong>{{ saldo }}</strong></h1>
       <a
-        href=""
+        href="{% url 'trigger_2:isi_saldo' %}"
         class="btn rounded-lg hover:cursor-pointer h-10 w-28 bg-red-600 hover:bg-red-700 text-white login_btn"
         >Isi Saldo</a
       >
@@ -18,7 +18,7 @@
       <br>
 
       <a
-        href=""
+        href="{% url 'trigger_2:tarik_saldo' %}"
         class="btn rounded-lg hover:cursor-pointer h-10 w-28 bg-red-600 hover:bg-red-700 text-white login_btn"
         >Tarik Saldo</a
       >
@@ -26,7 +26,7 @@
       <br>
 
       <a
-        href=""
+        href="{% url 'account:show_main' %}"
         class="btn rounded-lg hover:cursor-pointer h-10 w-28 bg-red-600 hover:bg-red-700 text-white login_btn"
         >Kembali</a
       >
