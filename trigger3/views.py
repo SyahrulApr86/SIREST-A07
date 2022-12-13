@@ -9,6 +9,7 @@ from utils.query import *
 
 # TODO : ACTIVATE TRIGGER
 def tambah_tarif(request):
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     adminid = request.COOKIES.get('adminid')
     if role == None:
@@ -44,6 +45,7 @@ def tambah_tarif(request):
 
 
 def tarif_detail(request):
+    cursor.execute('set search_path to sirest')
     cursor.execute(f'select * from DELIVERY_FEE_PER_KM')
     record = cursor.fetchall()
     context = {
@@ -54,7 +56,7 @@ def tarif_detail(request):
     return render(request, "read_tarif_pengiriman.html", context)
 
 def makanan_resto(request):
-
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     adminid = request.COOKIES.get('adminid')
 
@@ -68,10 +70,18 @@ def makanan_resto(request):
     rbranch = request.COOKIES.get('rbranch')
     cursor.execute(f'select f.foodname, f.description, f.stock, f.price, fg.name, string_agg(i.name, \', \') from food f, food_category fg, food_ingredient fi, ingredient i where f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\' and  fg.id = f.fcategory and f.rbranch = fi.rbranch and f.rname = fi.rname and f.foodname = fi.foodname and fi.Ingredient = i.id group by f.foodname, f.description, f.stock, f.price,  fg.name')
     record = cursor.fetchall()
-    
+
+    cursor.execute(f'select foodname from food where rbranch = \'{rbranch}\' and rname = \'{rname}\' and (rname, rbranch, foodname) not in (select distinct rname, rbranch, foodname from transaction_food) ')
+    deletable = cursor.fetchall()
+
+
+    foodArr = []
+    for food in deletable:
+        foodArr.append(food[0])
+
     context = {
+        'deletable_food' : foodArr,
         'dataMakanan' : record,
-        # 'dataBahan' : bahan,
         'role':request.COOKIES.get('role'),
         'adminid': adminid,
     }
@@ -81,6 +91,7 @@ def makanan_resto(request):
 
 
 def update_tarif(request, id):
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     adminid = request.COOKIES.get('adminid')
     if role == None:
@@ -116,6 +127,7 @@ def update_tarif(request, id):
     return render(request, "update_tarif_pengiriman.html", context)
 
 def delete_tarif(request, id):
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     if role == None:
         return redirect("/login")
@@ -135,6 +147,7 @@ def delete_tarif(request, id):
 
 
 def tambah_makanan(request):
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     adminid = request.COOKIES.get('adminid')
     if role == None:
@@ -202,6 +215,7 @@ def tambah_makanan(request):
     return render(request, "create_makanan.html", context)
 
 def update_makanan(request, foodname):
+    cursor.execute('set search_path to sirest')
     adminid = request.COOKIES.get('adminid')
     role = request.COOKIES.get('role')
     if role == None:
@@ -291,6 +305,7 @@ def update_makanan(request, foodname):
     return render(request, "update_makanan.html", context)
 
 def delete_makanan(request, foodname):
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     if role == None:
         return redirect("/login")
@@ -308,6 +323,7 @@ def delete_makanan(request, foodname):
     return redirect("/trigger3/daftarmakanan")
 
 def daftar_restoran(request):
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     adminid = request.COOKIES.get('adminid')
     if role == None:
@@ -325,6 +341,7 @@ def daftar_restoran(request):
     return render(request, "daftar_restoran_cust.html", context)
 
 def menu_restoran_cust(request, rname, rbranch):
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     adminid = request.COOKIES.get('adminid')
     if role == None:
@@ -333,7 +350,7 @@ def menu_restoran_cust(request, rname, rbranch):
         return redirect("/")
 
 
-    cursor.execute(f'select f.foodname, f.description, f.stock, f.price, fg.name, string_agg(i.name, \', \') from food f, food_category fg, food_ingredient fi, ingredient i where f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\' and  fg.id = f.fcategory and f.rbranch = fi.rbranch and f.rname = fi.rname and f.foodname = fi.foodname and fi.Ingredient = i.id group by f.foodname, f.description, f.stock, f.price,  fg.name')
+    cursor.execute(f'select f.foodname, f.description, f.stock, f.price, fg.name, string_agg(i.name, \', \') from food f, food_category fg, food_ingredient fi, ingredient i where f.stock > 0 and f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\' and  fg.id = f.fcategory and f.rbranch = fi.rbranch and f.rname = fi.rname and f.foodname = fi.foodname and fi.Ingredient = i.id group by f.foodname, f.description, f.stock, f.price,  fg.name')
     record = cursor.fetchall()
     context = {
         'dataMenu' : record,
@@ -345,6 +362,7 @@ def menu_restoran_cust(request, rname, rbranch):
     return render(request, "menu_restoran_cust.html", context)
 
 def detail_restoran(request, rname, rbranch):
+    cursor.execute('set search_path to sirest')
     role = request.COOKIES.get('role')
     adminid = request.COOKIES.get('adminid')
     if role == None:
