@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from utils.query import *
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -239,43 +240,64 @@ def show_ubah_promo(request, jenis, id):
 
 
 def show_daftar_promo_restoran(request, rname, rbranch):
-    cursor.execute(
-        f'select * from promo p, restaurant_promo r where p.id = r.pid and r.rname = \'{rname}\' and r.rbranch = \'{rbranch}\'')
+    cursor.execute('set search_path to sirest')
+    cursor.execute(f'select * from promo p, restaurant_promo r where p.id = r.pid and r.rname = \'{rname}\' and r.rbranch = \'{rbranch}\'')
     records_promo_resto = cursor.fetchall()
+    print(len(records_promo_resto))
 
     for i in range(len(records_promo_resto)):
-        records_promo_resto[i] += (i+1,)
         records_promo_resto_list = list(records_promo_resto[i])
-        records_promo_resto_list[6] = records_promo_resto[i][6].date()
-        records_promo_resto_list[7] = records_promo_resto[i][7].date()
-
-        records_promo_resto = tuple(records_promo_resto_list)
+        records_promo_resto_list[6] = records_promo_resto_list[6].date()
+        records_promo_resto_list[7] = records_promo_resto_list[7].date()
+        records_promo_resto[i] = records_promo_resto_list
 
     context = {
-        'records_promo_resto': [records_promo_resto],
-        'role': request.COOKIES.get('role'),
-        'rname': rname,
-        'rbranch': rbranch,
-        'empty': len(records_promo_resto)
+        'records_promo_resto':records_promo_resto,
+        'role':request.COOKIES.get('role'),
+        'rname':rname,
+        'rbranch':rbranch,
+        'empty':len(records_promo_resto)
     }
-    print([records_promo_resto])
+
     return render(request, 'daftar_promo_restoran.html', context)
 
 
 def show_form_promo_restoran(request):
-    if request.method == 'POST':
-        print(request.POST)
-
-    cursor.execute('select promoname from promo')
+    cursor.execute('set search_path to sirest')
+    rname = request.COOKIES.get('rname')
+    rbranch = request.COOKIES.get('rbranch')
+    cursor.execute('select promoname, id from promo')
     record_promoname = cursor.fetchall()
-    context = {
-        'role': request.COOKIES.get('role'),
-        'rname': request.COOKIES.get('rname'),
-        'rbranch': request.COOKIES.get('rbranch'),
-        'record_promoname': record_promoname,
 
+    if request.method == 'POST':
+        try:
+            if len(request.POST) != 5:
+                raise Exception('Harap isi semua field yang ada.')
+
+            pid = request.POST.get('name')
+            startdate = request.POST.get('startdate')
+            enddate = request.POST.get('enddate')
+            cursor.execute(f'insert into restaurant_promo values (\'{rname}\', \'{rbranch}\', \'{pid}\', \'{startdate}\', \'{enddate}\')')
+            connection.commit()
+            return HttpResponseRedirect(reverse('trigger_6:show_daftar_promo_restoran', kwargs={'rname':rname, 'rbranch':rbranch}))
+
+        except Exception as e:
+            connection.rollback()
+            context = {
+                'message':e.args[0:40],
+                'role':request.COOKIES.get('role'),
+                'rname':rname,
+                'rbranch':rbranch,
+                'record_promoname':record_promoname,
+            }
+            return render(request, 'form_promo_restoran.html', context)
+
+    context =  {
+        'role':request.COOKIES.get('role'),
+        'rname':rname,
+        'rbranch':rbranch,
+        'record_promoname':record_promoname,
     }
-    print(record_promoname)
     return render(request, 'form_promo_restoran.html', context)
 
 
@@ -410,7 +432,31 @@ def delete_promo_restoran(request, rname, rbranch, id):
     connection.commit()
     return HttpResponseRedirect(reverse('trigger_6:show_daftar_promo_restoran'))
 
+def ubah_form_input(request, id):
+    cursor.execute(f'select discount from sirest.promo where id = \'{id}\'')
+    discount = cursor.fetchone()
+    
+    cursor.execute(f'select id from sirest.special_day_promo')
+    special_day_promo_id = cursor.fetchall()
 
-def ubah_form_input(request):
-    print('messi')
-    return JsonResponse({'foo': 'bar'})
+    if (str(id),) in special_day_promo_id:
+        jenis_promo = 'Promo Hari Spesial'
+        cursor.execute(f'select date from sirest.special_day_promo where id = \'{id}\'')
+        special_date = cursor.fetchone()
+        context = {
+            'discount':discount[0],
+            'jenis_promo':jenis_promo,
+            'special_date':special_date[0],
+        }
+    else:
+        jenis_promo = 'Promo Minimum Transaksi'
+        cursor.execute(f'select minimumtransactionnum from sirest.min_transaction_promo where id = \'{id}\'')
+        min_transaction = cursor.fetchone()
+
+        context = {
+            'discount':discount[0],
+            'jenis_promo':jenis_promo,
+            'min_transaction':min_transaction,
+        }
+
+    return JsonResponse(context)
