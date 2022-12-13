@@ -76,9 +76,17 @@
                                         <div>
                                             <a href="{% url 'trigger3:update_makanan' makanan.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Ubah</a>
                                         </div>
-                                        <div>
-                                            <a href="{% url 'trigger3:delete_makanan' makanan.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
-                                        </div>
+                                        
+                                        
+                                        {% if makanan.0 in deletable_food %}
+                                            <div>
+                                                <a href="{% url 'trigger3:delete_makanan' makanan.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                                            </div>
+                                        {% else %}
+                                            <div>
+                                                <a onclick="alert('Sedang ada yang memesan makanan!');" class="font-medium text-gray-600 dark:text-gray-500 hover:underline" disabled>Hapus</a>
+                                            </div>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
