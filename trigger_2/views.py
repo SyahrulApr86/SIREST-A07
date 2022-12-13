@@ -4,6 +4,7 @@ from utils.query import *
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 import random
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -50,6 +51,7 @@ def isi_saldo(request):
                 'rname': request.COOKIES.get('rname'),
                 'rbranch': request.COOKIES.get('rbranch'),
                 'adminid': request.COOKIES.get('adminid'),
+                'email': request.COOKIES.get('email')
             }
 
             return render(request, 'isi_saldo.html', context)
@@ -115,7 +117,23 @@ def isi_saldo(request):
             return render(request, 'isi_saldo.html', context)
 
         except Exception as e:
-            return render(request, 'isi_saldo.html', {'message': 'Isi Saldo Gagal'})
+            # rollback
+            connection.rollback()
+            form = FormIsiSaldo(request.POST or None)
+
+            context = {
+                'form': form,
+                'saldo': saldo,
+                'nama_bank': nama_bank,
+                'nomor_rekening': nomor_rekening,
+                'message': 'Isi Saldo Gagal',
+                'role': 'restaurant',
+                'rname': request.COOKIES.get('rname'),
+                'rbranch': request.COOKIES.get('rbranch'),
+                'adminid': request.COOKIES.get('adminid'),
+            }
+
+            return render(request, 'isi_saldo.html', context)
 
     form = FormIsiSaldo(request.POST or None)
 
@@ -240,6 +258,8 @@ def tarik_saldo(request):
 
             return render(request, 'tarik_saldo.html', context)
         except Exception as e:
+            # rollback
+            connection.rollback()
             form = FormTarikSaldo(request.POST or None)
 
             context = {
@@ -275,7 +295,6 @@ def tarik_saldo(request):
 def daftar_pesanan(request):
     email = request.COOKIES.get('email')
 
-    
     cursor.execute(
         f"""
         select concat(fname, ' ', lname), t.datetime, ts.name, ua.email
@@ -492,67 +511,206 @@ def detail_pesanan(request, email, datetime):
 
 
 def buat_jam_operasional(request):
+    email = request.COOKIES.get('email')
+    rname = request.COOKIES.get('rname')
+    rbranch = request.COOKIES.get('rbranch')
+
+    if request.method == 'POST' or 'post' and not request.method == 'GET':
+        hari = request.POST.get('hari')
+        jam_buka = request.POST.get('jam_buka')
+        jam_tutup = request.POST.get('jam_tutup')
+
+        # cek apakah jam buka dan jam tutup valid
+        if not (jam_buka < jam_tutup):
+            form = FormBuatJamOperasional(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Jam buka dan jam tutup tidak valid',
+                'role': 'restaurant',
+                'rname': request.COOKIES.get('rname'),
+                'rbranch': request.COOKIES.get('rbranch'),
+                'adminid': request.COOKIES.get('adminid'),
+                'email': request.COOKIES.get('email')
+            }
+            return render(request, 'buat_jam_operasional.html', context)
+
+        # cek apakah jam buka dan jam tutup sudah ada
+        cursor.execute(
+            f"""
+                select *
+                from restaurant_operating_hours
+                where name = '{rname}'
+                and branch = '{rbranch}'
+                and day = '{hari}';
+            """
+        )
+        record = cursor.fetchall()
+        if len(record) != 0:
+            form = FormBuatJamOperasional(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Jam Operasional di hari tersebut sudah ada',
+                'role': 'restaurant',
+                'rname': request.COOKIES.get('rname'),
+                'rbranch': request.COOKIES.get('rbranch'),
+                'adminid': request.COOKIES.get('adminid'),
+                'email': request.COOKIES.get('email')
+            }
+            return render(request, 'buat_jam_operasional.html', context)
+
+        # insert ke database
+        try:
+            cursor.execute(
+                f"""
+                    insert into restaurant_operating_hours
+                    values ('{rname}', '{rbranch}', '{hari}', '{jam_buka}', '{jam_tutup}');
+                """
+            )
+            connection.commit()
+
+            # redirect ke halaman daftar jam operasional
+            return redirect('trigger_2:daftar_jam_operasional')
+
+        except Exception as e:
+            # rollback
+            print(e)
+            connection.rollback()
+            form = FormBuatJamOperasional(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Gagal membuat jam operasional',
+                'role': 'restaurant',
+                'rname': request.COOKIES.get('rname'),
+                'rbranch': request.COOKIES.get('rbranch'),
+                'adminid': request.COOKIES.get('adminid'),
+                'email': request.COOKIES.get('email')
+            }
+            return render(request, 'buat_jam_operasional.html', context)
+
     form = FormBuatJamOperasional(request.POST or None)
 
     context = {
         'form': form,
+        'role': 'restaurant',
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
+        'email': request.COOKIES.get('email')
     }
 
     return render(request, 'buat_jam_operasional.html', context)
 
 
 def daftar_jam_operasional(request):
+    email = request.COOKIES.get('email')
+    rname = request.COOKIES.get('rname')
+    rbranch = request.COOKIES.get('rbranch')
+
+    cursor.execute(
+        f"""
+            select *
+            from restaurant_operating_hours
+            where name = '{rname}'
+            and branch = '{rbranch}';
+        """
+    )
+
+    daftar_jam_operasional = cursor.fetchall()
+
     context = {
-        'daftar_jam_operasional': [
-            {
-                'hari': 'Senin',
-                'jam_buka': '08:00:00',
-                'jam_tutup': '16:00:00',
-            },
-            {
-                'hari': 'Selasa',
-                'jam_buka': '08:00:00',
-                'jam_tutup': '16:00:00',
-            },
-            {
-                'hari': 'Rabu',
-                'jam_buka': '08:00:00',
-                'jam_tutup': '16:00:00',
-            },
-            {
-                'hari': 'Kamis',
-                'jam_buka': '08:00:00',
-                'jam_tutup': '16:00:00',
-            },
-            {
-                'hari': 'Jumat',
-                'jam_buka': '08:00:00',
-                'jam_tutup': '16:00:00',
-            },
-            {
-                'hari': 'Sabtu',
-                'jam_buka': '08:00:00',
-                'jam_tutup': '16:00:00',
-            },
-            {
-                'hari': 'Minggu',
-                'jam_buka': '08:00:00',
-                'jam_tutup': '16:00:00',
-            },
-        ]
+        'daftar_jam_operasional': daftar_jam_operasional,
+        'role': 'restaurant',
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
+        'email': request.COOKIES.get('email')
     }
     return render(request, 'daftar_jam_operasional.html', context)
 
 
-def edit_jam_operasional(request, id_jam_operasional):
+def edit_jam_operasional(request, rname, rbranch, day):
+    if request.method == 'POST' or 'post' and not request.method == 'GET':
+        jam_buka = request.POST.get('jam_buka')
+        jam_tutup = request.POST.get('jam_tutup')
+
+        # cek apakah jam buka dan jam tutup valid
+        if not (jam_buka < jam_tutup):
+            form = FormEditJamOperasional(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Jam buka dan jam tutup tidak valid',
+                'hari': day,
+                'role': 'restaurant',
+                'rname': request.COOKIES.get('rname'),
+                'rbranch': request.COOKIES.get('rbranch'),
+                'adminid': request.COOKIES.get('adminid'),
+                'email': request.COOKIES.get('email')
+            }
+            return render(request, 'edit_jam_operasional.html', context)
+
+        # insert ke database
+        try:
+            cursor.execute(
+                f"""
+                    update restaurant_operating_hours
+                    set starthours = '{jam_buka}',
+                        endhours = '{jam_tutup}'
+                    where name = '{rname}'
+                    and branch = '{rbranch}'
+                    and day = '{day}';
+                """
+            )
+            connection.commit()
+
+            # redirect ke halaman daftar jam operasional
+            return redirect('trigger_2:daftar_jam_operasional')
+
+        except Exception as e:
+            # rollback
+            print(e)
+            connection.rollback()
+            form = FormEditJamOperasional(request.POST or None)
+            context = {
+                'form': form,
+                'message': 'Gagal mengubah jam operasional',
+                'hari': day,
+                'role': 'restaurant',
+                'rname': request.COOKIES.get('rname'),
+                'rbranch': request.COOKIES.get('rbranch'),
+                'adminid': request.COOKIES.get('adminid'),
+                'email': request.COOKIES.get('email')
+            }
+            return render(request, 'edit_jam_operasional.html', context)
+
     form = FormEditJamOperasional(request.POST or None)
 
     context = {
         'form': form,
-        'id_jam_operasional': id_jam_operasional,
-        'hari': 'Senin',
-        'jam_buka': '08:00:00',
-        'jam_tutup': '16:00:00',
+        'hari': day,
+        'role': 'restaurant',
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
+        'email': request.COOKIES.get('email')
     }
 
     return render(request, 'edit_jam_operasional.html', context)
+
+def hapus_jam_operasional(request, rname, rbranch, day):
+    try:
+        cursor.execute(
+            f"""
+                delete from restaurant_operating_hours
+                where name = '{rname}'
+                and branch = '{rbranch}'
+                and day = '{day}';
+            """
+        )
+        connection.commit()
+
+        return redirect('trigger_2:daftar_jam_operasional')
+
+    except Exception as e:
+        print(e)
+        connection.rollback()
+        return redirect('trigger_2:daftar_jam_operasional')
