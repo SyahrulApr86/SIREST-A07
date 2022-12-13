@@ -13,36 +13,26 @@
   ></script>
 </head>
 
-<nav
-  class="sticky z-50 top-0 md:px-20 px-4 py-2 bg-[#DD5353] shadow-2xl md:flex md:items-center md:justify-between mb-3"
-  id="navbar"
->
-  <div class="flex gap-2 md:w-full justify-between">
-    <a href="{% url 'account:show_main' %}">
-      <div
-        class="text-2xl font-bold text-[#fff] flex items-center cursor-pointer hover:text-cream-tua"
-      >
-        {% if adminid is not none %} 
-        SIREST {{role}} {{rname}} {{rbranch}} 
-        {% else %} 
-        SIREST {{role}} {{rname}} {{rbranch}}
-        <h3 class="text-xs">Not Verified</h3>
-        {% endif %}
-      </div>
-    </a>
-    <div class="text-3xl cursor-pointer flex items-center md:hidden">
-      <ion-icon name="menu" onclick="menu(this)" class="fill-white"></ion-icon>
+<nav class="sticky z-50 top-0 md:px-20 px-4 py-2 bg-[#DD5353] shadow-2xl md:flex md:items-center md:justify-between mb-3" id="navbar">
+    <div class="flex gap-2 md:w-full justify-between">
+        <a href="{% url 'account:show_main' %}">
+            <div class="text-2xl font-bold text-[#fff] flex items-center cursor-pointer hover:text-cream-tua">
+                {% comment %}  if adminid is not none {% endcomment %}
+                {% if adminid is not none or role == 'admin' %}
+                    SIREST {{role}}
+                {% else %}
+                    SIREST {{role}}  <h3 class="text-xs"> Not Verified</h3>
+                {% endif %}
+            </div>
+        </a>
+        <div class="text-3xl cursor-pointer flex items-center md:hidden">
+            <ion-icon name="menu" onclick="menu(this)" class="fill-white"></ion-icon>
+        </div>
     </div>
-  </div>
-  <div
-    id="list-navbar"
-    class="text-base text-white hidden md:show md:flex md:flex-row md:items-center md:justify-end"
-  >
-    <div class="md:mx-5 my-3 md:my-0">
-      <a href="" class="hover:text-[#DBC8AC] hover:text-lg duration-500"
-        >Dashboard</a
-      >
-    </div>
+    <div id="list-navbar" class="text-base text-white hidden md:show md:flex md:flex-row md:items-center md:justify-end">
+        <div class="md:mx-5 my-3 md:my-0">
+            <a href="{% url 'account:show_main' %}" class="hover:text-[#DBC8AC] hover:text-lg duration-500">Dashboard</a>
+        </div>
 
         <!-- {admin start} -->
         {% if role == 'admin' %}
@@ -320,7 +310,7 @@
             <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48">
                 <div class="px-2 py-2 bg-white text-gray-900 rounded-md shadow ">
                     <a class="block px-4 py-2 mt-2 rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{% url 'trigger_6:show_daftar_promo' %}">Daftar Promo Tersedia</a>
-                    <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="#">Daftar Promo Restoran</a>
+                    <a class="block px-4 py-2 mt-2  rounded-lg hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline" href="{% url 'trigger_6:show_daftar_promo_restoran' rname rbranch %}">Daftar Promo Restoran</a>
                 </div>
             </div>
         </div> 
