@@ -7,31 +7,33 @@
         <div class="login w-[25rem] drop-shadow-2xl flex flex-col justify-center items-center bg-cream-tua p-10 rounded-xl lg:scale-120 md:scale-100 scale-85">
             <h1 class="text-xl font-bold mb-3 text-center">Detail Pemesanan (Kurir)</h1>
             <div class="text-left">
-                <p>Waktu Pemesanan: 2022-11-04 11:30:05</p>
-                <p>Nama Pelanggan: Mikayla Putri</p>
-                <p>Jalan: Jalan Bahagia nomor 72</p>
-                <p>Kecamatan: Cinere</p>
-                <p>Kota: Depok</p>
-                <p>Provinsi: Jawa Barat</p>
-                <p>Restoran: Warung Mantap Depok</p>
-                <p>Jalan: Jalan Sejahtera nomor 5</p>
-                <p>Kecamatan: Bojongsari</p>
-                <p>Kota: Depok</p>
-                <p>Provinsi: Jawa Barat</p>
+                <p>Waktu Pemesanan: {{waktu}}</p>
+                <p>Nama Pelanggan: {{nama}}</p>
+                <p>Jalan: {{jalan}}</p>
+                <p>Kecamatan: {{kec}}</p>
+                <p>Kota: {{kota}}</p>
+                <p>Provinsi: {{prov}}</p>
+                <p>Restoran: {{resto}}</p>
+                <br>
+                <p>Jalan: {{jalanr}}</p>
+                <p>Kecamatan: {{kecr}}</p>
+                <p>Kota: {{kotar}}</p>
+                <p>Provinsi: {{provr}}</p>
                 <p>Makanan yang dipesan:</p>
-                <p>Ayam Goreng (1) - [catatan bila ada]</p>
-                <p>Ice Cream (2) - [catatan bila ada]</p>
-                <p>Total Harga Makanan: 11000</p>
-                <p>Total Diskon: 0</p>
-                <p>Biaya Pengantaran: 4000</p>
-                <p>Total Biaya: 15000</p>
-                <p>Jenis Pembayaran: RestoPay</p>
-                <p>Status Pembayaran: Berhasil</p>
+                {% for eat in makanan %}
+                    <p>{{eat.0}} ({{eat.1}}) - [{{eat.2}}]</p>
+                {% endfor %}
+                <p>Total Harga Makanan: {{totalfood}}</p>
+                <p>Total Diskon: {{totaldisc}}</p>
+                <p>Biaya Pengantaran: {{deliveryfee}}</p>
+                <p>Total Biaya: {{totalsemua}}</p>
+                <p>Jenis Pembayaran: {{jenisbayar}}</p>
+                <p>Status Pembayaran: {{statusbayar}}</p>
                 <p>Status Pesanan: Pesanan Diantar</p>
-                <p>Kurir: Doni Suryana</p>
-                <p>Plat Kendaraan: B 0001 KNN</p>
-                <p>Jenis Kendaraan: Motor</p>
-                <p>Merk Kendaraan: Honda Vario</p>
+                <p>Kurir: {{kurir}}</p>
+                <p>Plat Kendaraan: {{plat}}</p>
+                <p>Jenis Kendaraan: {{jeniskendaraan}}</p>
+                <p>Merk Kendaraan: {{merk}}</p>
 
             </div>
             <button class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded mt-2" onclick="location.href = '/trigger5/pemesanankurir'">Kembali</button>
