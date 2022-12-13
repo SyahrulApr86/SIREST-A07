@@ -63,6 +63,7 @@
                 </div>
             </div>
         </div>   
+        
     <!-- {admin start} -->
     {% if role == 'admin' %}
     <div @click.away="open = false" class="relative" x-data="{ open: false }">
@@ -237,12 +238,7 @@
     </div>
     {% endif %}
     <!-- admin end -->
-
-        <!-- pelanggan start -->
-        {% if role == 'customer' and adminid != None %}
-        <div class="md:mx-5 my-3 md:my-0  text-center">
-            <a href="{% url 'trigger3:daftar_restoran' %}" class="hover:text-[#DBC8AC] hover:text-lg duration-500 whitespace-nowrap">Daftar Restoran dan Makanan</a>
-        </div>
+    
     <!-- pelanggan start -->
     {% if role == 'customer' and adminid != None %}
     <div class="md:mx-5 my-3 md:my-0 text-center">

@@ -728,10 +728,18 @@ def register_kurir(request):
 
 
 def dashboard_admin(request):
+    role = request.COOKIES.get('role')
+    if role != 'admin':
+        return HttpResponseRedirect(reverse('account:show_main'))
+
     return render(request, 'dashboard_admin.html')
 
 
 def profile_restoran(request, email):
+    role = request.COOKIES.get('role')
+    if role != 'restaurant':
+        return HttpResponseRedirect(reverse('account:show_main'))
+
     cursor.execute(
         f'select * from user_acc u, transaction_actor t, restaurant r where u.email = \'{email}\' and u.email = t.email and t.email = r.email')
     record = cursor.fetchall()
@@ -755,6 +763,10 @@ def profile_restoran(request, email):
 
 
 def profile_pelanggan(request, email):
+    role = request.COOKIES.get('role')
+    if role != 'customer':
+        return HttpResponseRedirect(reverse('account:show_main'))
+
     cursor.execute(
         f'select u.email, password, fname || \' \' || lname as name, phonenum, nik, bankname, accountno, birthdate, sex, restopay, adminid from user_acc u, transaction_actor t, customer c where u.email = \'{email}\' and u.email = t.email and t.email = c.email')
     record = cursor.fetchall()
@@ -766,6 +778,10 @@ def profile_pelanggan(request, email):
 
 
 def profile_kurir(request, email):
+    role = request.COOKIES.get('role')
+    if role != 'courier':
+        return HttpResponseRedirect(reverse('account:show_main'))
+
     cursor.execute(
         f'select * from user_acc u, transaction_actor t, courier c where u.email = \'{email}\' and u.email = t.email and t.email = c.email')
     record = cursor.fetchall()

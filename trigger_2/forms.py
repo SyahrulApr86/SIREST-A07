@@ -28,6 +28,8 @@ class FormBuatJamOperasional(forms.Form):
         attrs={'class': 'w-[20rem] h-[2.5rem] rounded-lg border-2 border-gray-300', 'type': 'time'}))
 
 
+
+
 class FormEditJamOperasional(forms.Form):
     # Jam buka time picker
     jam_buka = forms.TimeField(label='Jam Buka', widget=forms.TimeInput(

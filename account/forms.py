@@ -23,6 +23,10 @@ class RegisterFormAdmin(forms.Form):
     no_hp = forms.CharField(label='No HP', max_length=20, widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'No HP'}))
 
+    error_messages = {
+        'required': 'This field is required',
+    }
+
 
 class RegisterFormPelanggan(forms.Form):
     email = forms.EmailField(label='Email', max_length=50, widget=forms.TextInput(
