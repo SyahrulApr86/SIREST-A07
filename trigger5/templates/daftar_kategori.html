@@ -34,45 +34,23 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for iter in list_kategori_resto %}
                         <tr class="border-b">
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                1
+                                {{ forloop.counter }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Indonesia
+                                {{iter.1}}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <div>
-                                    <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                                    {% if iter.2 %}
+                                        <a href="hapus-kategori/{{iter.0}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
+                                    {% endif %}
                                 </div>
                             </td>
                         </tr>
-                        <tr class="border-b">
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                2
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                India
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b">
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                3
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Jepang
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                <div>
-                                    <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
-                                </div>
-                            </td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

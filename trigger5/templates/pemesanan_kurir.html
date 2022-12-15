@@ -43,31 +43,36 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for iter in list_transaksi %}
                         <tr class="border-b">
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                1
+                                {{ forloop.counter }}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Warung Mantap Depok
+                                {{iter.1}}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                Mikayla Putri
+                                {{iter.0}}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                2022-11-04 11:30:05
+                                {{iter.2}}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 Pesanan Diantar
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                <!-- Working -->
                                 <div>
-                                    <a href="{% url 'trigger5:detail_pemesanan_kurir' %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
+                                    <a href="selesai/{{iter.3}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Selesai</a>
                                 </div>
+
                                 <div>
-                                    <a href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Selesai</a>
+                                    <a href="detail/{{iter.3}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Detail</a>
                                 </div>
+                                
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
