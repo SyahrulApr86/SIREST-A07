@@ -314,9 +314,9 @@ def daftar_bahanmakanan(request):
     context = {
         'list_ingredient': final_data_ingredient,
         'role':request.COOKIES.get('role'),
-        #'adminid': adminid,
-        #'rname': request.COOKIES.get('rname'),
-        #'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
     }
     return render(request, "daftar_bahanmakanan.html", context)
 
