@@ -18,17 +18,19 @@
             </tr>
         </thead>
         <tbody>
-            {% for kategori_makanan in daftar_kategori_makanan %}
+            {% for record in records %}
             <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="py-3 px-6">
                     {{ forloop.counter }}
                 </td>
                 <td class="py-3 px-6">
-                    {{ kategori_makanan.nama }}
+                    {{ record.1 }}
                 </td>
                 <td class="py-3 px-6">
-                    <a href="" class="text-blue-500">Hapus</a>
+                    {% if record.2 == None %}
+                    <a href="{% url 'trigger4:delete_kategori_makanan' record.0 %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Hapus</a>
                 </td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

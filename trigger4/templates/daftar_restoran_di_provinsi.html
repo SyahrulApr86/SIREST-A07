@@ -21,19 +21,19 @@
             </tr>
         </thead>
         <tbody>
-            {% for restoran in daftar_restoran %}
+            {% for record in records %}
             <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="py-3 px-6">
                     {{ forloop.counter }}
                 </td>
                 <td class="py-3 px-6">
-                    {{ restoran.Nama_Cabang_Restoran}}
+                    {{ record.0}}-{{ record.1}}
                 </td>
                 <td class="py-3 px-6">
-                    {{ restoran.Promo_Berlangsung}}
+                    {{ record.2}}
                 </td>
                 <td class="py-3 px-6">
-                    <a href="" class="text-blue-500">Pilih</a>
+                    <a href="{% url 'trigger4:pemilihan_pesanan_pada_restoran' record.0 record.1 %}" class="text-blue-500">Pilih</a>
                 </td>
             </tr>
             {% endfor %}
