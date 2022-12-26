@@ -367,8 +367,8 @@ def menu_restoran_cust(request, rname, rbranch):
     record = cursor.fetchall()
     context = {
         'dataMenu': record,
-        'rname': request.COOKIES.get('rname'),
-        'rbranch': request.COOKIES.get('rbranch'),
+        'rname': rname,
+        'rbranch': rbranch,
         'adminid': request.COOKIES.get('adminid'),
         'role': role
     }
