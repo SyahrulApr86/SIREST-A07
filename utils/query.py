@@ -4,9 +4,9 @@ from psycopg2 import Error
 try:
     # Connect to an existing database
     connection = psycopg2.connect(user="postgres",
-                                  password="tIDurBDfmgUuD3TOcscW",
-                                  host="containers-us-west-156.railway.app",
-                                  port="8035",
+                                  password="2fsJCPn53SqthFvo4tLq",
+                                  host="containers-us-west-122.railway.app",
+                                  port="7959",
                                   database="railway")
 
     # Create a cursor to perform database operations
