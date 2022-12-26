@@ -24,22 +24,24 @@
             </tr>
         </thead>
         <tbody>
-            {% for makanan in daftar_makanan %}
+            {% for rec in records %}
             <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="py-3 px-6">
                     {{ forloop.counter }}
                 </td>
                 <td class="py-3 px-6">
-                    {{ makanan.Nama_Makanan}}
+                    {{ rec.0}}
                 </td>
                 <td class="py-3 px-6">
-                    {{ makanan.Harga}}
+                    {{ rec.1}}
                 </td>
                 <td class="py-3 px-6">
                     <input type="number" id="quantity" name="quantity" min="0" max="10">
                 </td>
                 <td class="py-3 px-6">
-                    <a href="" class="text-blue-500">Pilih</a>
+                        <p>Catatan</p>
+                        <input type="text" name="name" id="name" class="form-control rounded-lg text-black">
+                    </div>
                 </td>
             </tr>
             {% endfor %}

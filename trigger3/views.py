@@ -16,11 +16,9 @@ def tambah_tarif(request):
         return redirect("/login")
     if role != 'admin':
         return redirect("/")
-    
 
-    
     if request.method == "POST":
-        try :
+        try:
             cursor.execute(f""" 
                 INSERT INTO DELIVERY_FEE_PER_KM VALUES
                 ('{request.POST['id_trf']}',
@@ -30,7 +28,7 @@ def tambah_tarif(request):
             """)
             connection.commit()
             return redirect("/trigger3/daftartarif")
-        except Exception as e :
+        except Exception as e:
             messages.error(request, e)
             connection.rollback()
 
@@ -39,9 +37,9 @@ def tambah_tarif(request):
         """)
     maxId = cursor.fetchall()[0][0]
     length = int(maxId) + 1
-    
-    
-    return render(request, 'create_tarif_pengiriman.html', {'length': length, 'role':request.COOKIES.get('role'), 'adminid': adminid})
+
+    return render(request, 'create_tarif_pengiriman.html', {'length': length, 'role': request.COOKIES.get('role'), 'adminid': adminid, 'rname': request.COOKIES.get('rname'), 'rbranch': request.COOKIES.get('rbranch'),
+                                                            })
 
 
 def tarif_detail(request):
@@ -49,11 +47,15 @@ def tarif_detail(request):
     cursor.execute(f'select * from DELIVERY_FEE_PER_KM')
     record = cursor.fetchall()
     context = {
-        'dataTarif' : record,
-        'role':request.COOKIES.get('role'),
-        'adminid' :request.COOKIES.get('adminid')
+        'dataTarif': record,
+        'role': request.COOKIES.get('role'),
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
+
     }
     return render(request, "read_tarif_pengiriman.html", context)
+
 
 def makanan_resto(request):
     cursor.execute('set search_path to sirest')
@@ -64,30 +66,31 @@ def makanan_resto(request):
         return redirect("/login")
     if role != 'restaurant':
         return redirect("/")
-    
-    
+
     rname = request.COOKIES.get('rname')
     rbranch = request.COOKIES.get('rbranch')
-    cursor.execute(f'select f.foodname, f.description, f.stock, f.price, fg.name, string_agg(i.name, \', \') from food f, food_category fg, food_ingredient fi, ingredient i where f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\' and  fg.id = f.fcategory and f.rbranch = fi.rbranch and f.rname = fi.rname and f.foodname = fi.foodname and fi.Ingredient = i.id group by f.foodname, f.description, f.stock, f.price,  fg.name')
+    cursor.execute(
+        f'select f.foodname, f.description, f.stock, f.price, fg.name, string_agg(i.name, \', \') from food f, food_category fg, food_ingredient fi, ingredient i where f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\' and  fg.id = f.fcategory and f.rbranch = fi.rbranch and f.rname = fi.rname and f.foodname = fi.foodname and fi.Ingredient = i.id group by f.foodname, f.description, f.stock, f.price,  fg.name')
     record = cursor.fetchall()
 
-    cursor.execute(f'select foodname from food where rbranch = \'{rbranch}\' and rname = \'{rname}\' and (rname, rbranch, foodname) not in (select distinct rname, rbranch, foodname from transaction_food) ')
+    cursor.execute(
+        f'select foodname from food where rbranch = \'{rbranch}\' and rname = \'{rname}\' and (rname, rbranch, foodname) not in (select distinct rname, rbranch, foodname from transaction_food) ')
     deletable = cursor.fetchall()
-
 
     foodArr = []
     for food in deletable:
         foodArr.append(food[0])
 
     context = {
-        'deletable_food' : foodArr,
-        'dataMakanan' : record,
-        'role':request.COOKIES.get('role'),
-        'adminid': adminid,
+        'deletable_food': foodArr,
+        'dataMakanan': record,
+        'role': request.COOKIES.get('role'),
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
     }
-    
+
     return render(request, "read_makanan.html", context)
-    
 
 
 def update_tarif(request, id):
@@ -98,10 +101,9 @@ def update_tarif(request, id):
         return redirect("/login")
     if role != 'admin':
         return redirect("/")
-    
+
     cursor.execute(f'select * from delivery_fee_per_km where id = \'{id}\'')
     record = cursor.fetchall()
-
 
     if request.method == "POST":
         try:
@@ -113,18 +115,21 @@ def update_tarif(request, id):
                         """)
             connection.commit()
             return redirect("/trigger3/daftartarif")
-        except Exception as e :
+        except Exception as e:
             messages.error(request, e)
             connection.rollback()
 
     context = {
-        'provinsi' : record[0][1],
-        'motorfee' : record[0][2],
-        'carfee' : record[0][3],
-        'role':request.COOKIES.get('role'),
-        'adminid': adminid,
+        'provinsi': record[0][1],
+        'motorfee': record[0][2],
+        'carfee': record[0][3],
+        'role': request.COOKIES.get('role'),
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
     }
     return render(request, "update_tarif_pengiriman.html", context)
+
 
 def delete_tarif(request, id):
     cursor.execute('set search_path to sirest')
@@ -133,11 +138,10 @@ def delete_tarif(request, id):
         return redirect("/login")
     if role != 'admin':
         return redirect("/")
-    
+
     cursor.execute(f'select * from delivery_fee_per_km where id = \'{id}\'')
     record = cursor.fetchall()
-    
-    
+
     cursor.execute(f"""
         DELETE FROM DELIVERY_FEE_PER_KM
         WHERE id = '{id}';
@@ -157,14 +161,14 @@ def tambah_makanan(request):
 
     rname = request.COOKIES.get('rname')
     rbranch = request.COOKIES.get('rbranch')
-    
 
     if request.method == "POST":
-        
+
         category = request.POST['kategoriMakanan']
-        cursor.execute(f'select id FROM food_category where name = \'{category}\'  ')
+        cursor.execute(
+            f'select id FROM food_category where name = \'{category}\'  ')
         idCategory = cursor.fetchmany()
-        
+
         cursor.execute(f""" 
                     INSERT INTO FOOD VALUES
                     ('{rname}',
@@ -182,7 +186,8 @@ def tambah_makanan(request):
 
         for x in range(int(click)):
             ingredient = request.POST[f'select-{x}']
-            cursor.execute(f'select id FROM ingredient where name = \'{ingredient}\'  ')
+            cursor.execute(
+                f'select id FROM ingredient where name = \'{ingredient}\'  ')
             idBahan = cursor.fetchmany()
 
             cursor.execute(f""" 
@@ -195,24 +200,24 @@ def tambah_makanan(request):
                 """)
             connection.commit()
 
-
-
         return redirect("/trigger3/daftarmakanan")
-
 
     cursor.execute(f'select name FROM FOOD_CATEGORY')
     kategoriAll = cursor.fetchall()
     cursor.execute(f'select name FROM INGREDIENT')
     bahanAll = cursor.fetchall()
-    
+
     context = {
-        'kategoriMakanan' : kategoriAll,
+        'kategoriMakanan': kategoriAll,
         'jsonBahan': json.dumps(bahanAll),
-        'bahanMakanan' : bahanAll,
-        'adminid': adminid,
+        'bahanMakanan': bahanAll,
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
         'role': role
     }
     return render(request, "create_makanan.html", context)
+
 
 def update_makanan(request, foodname):
     cursor.execute('set search_path to sirest')
@@ -222,18 +227,19 @@ def update_makanan(request, foodname):
         return redirect("/login")
     if role != 'restaurant':
         return redirect("/")
-    
+
     rname = request.COOKIES.get('rname')
     rbranch = request.COOKIES.get('rbranch')
 
     cursor.execute(f'select * from food where foodname = \'{foodname}\'')
     record = cursor.fetchall()
-    
+
     if request.method == "POST":
-        
+
         # Update food nya
         category = request.POST['kategoriMakanan']
-        cursor.execute(f'select id FROM food_category where name = \'{category}\'  ')
+        cursor.execute(
+            f'select id FROM food_category where name = \'{category}\'  ')
         idCategory = cursor.fetchmany()
 
         cursor.execute(f"""
@@ -252,7 +258,8 @@ def update_makanan(request, foodname):
         bahanArr.remove("")
 
         for bahan in bahanArr:
-            cursor.execute(f'select id FROM ingredient where name = \'{bahan}\'  ')
+            cursor.execute(
+                f'select id FROM ingredient where name = \'{bahan}\'  ')
             bahanIns = cursor.fetchall()
 
             cursor.execute(f"""
@@ -265,7 +272,8 @@ def update_makanan(request, foodname):
         click = request.POST['click']
         for x in range(int(click)):
             ingredient = request.POST[f'select-{x}']
-            cursor.execute(f'select id FROM ingredient where name = \'{ingredient}\'  ')
+            cursor.execute(
+                f'select id FROM ingredient where name = \'{ingredient}\'  ')
             idBahan = cursor.fetchmany()
 
             cursor.execute(f""" 
@@ -278,31 +286,33 @@ def update_makanan(request, foodname):
                 """)
             connection.commit()
 
-
         return redirect("/trigger3/daftarmakanan")
 
-
     cursor.execute(f'select name FROM FOOD_CATEGORY')
-    kategoriAll = cursor.fetchall()    
+    kategoriAll = cursor.fetchall()
     cursor.execute(f'select name FROM INGREDIENT')
     bahanAll = cursor.fetchall()
-    cursor.execute(f'select i.name FROM food_ingredient fi, ingredient i where fi.foodname = \'{foodname}\' and fi.ingredient = i.id')
+    cursor.execute(
+        f'select i.name FROM food_ingredient fi, ingredient i where fi.foodname = \'{foodname}\' and fi.ingredient = i.id')
     bahanSelected = cursor.fetchall()
 
     context = {
-        'foodname' : record[0][2],
-        'description' : record[0][3],
-        'stock' : record[0][4],
-        'price' : record[0][5],
-        'foodcategory' : record[0][6],
-        'bahanMakanan' : bahanAll,
+        'foodname': record[0][2],
+        'description': record[0][3],
+        'stock': record[0][4],
+        'price': record[0][5],
+        'foodcategory': record[0][6],
+        'bahanMakanan': bahanAll,
         'jsonBahan': json.dumps(bahanAll),
-        'kategoriMakanan' : kategoriAll,
-        'bahanUsed' : bahanSelected,
-        'adminid': adminid,
+        'kategoriMakanan': kategoriAll,
+        'bahanUsed': bahanSelected,
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
         'role': role
     }
     return render(request, "update_makanan.html", context)
+
 
 def delete_makanan(request, foodname):
     cursor.execute('set search_path to sirest')
@@ -311,8 +321,7 @@ def delete_makanan(request, foodname):
         return redirect("/login")
     if role != 'restaurant':
         return redirect("/")
-    
-    
+
     cursor.execute(f"""
         DELETE FROM FOOD
         WHERE FoodName = '{foodname}'
@@ -321,6 +330,7 @@ def delete_makanan(request, foodname):
     """)
     connection.commit()
     return redirect("/trigger3/daftarmakanan")
+
 
 def daftar_restoran(request):
     cursor.execute('set search_path to sirest')
@@ -334,11 +344,14 @@ def daftar_restoran(request):
     cursor.execute(f'select * from restaurant')
     record = cursor.fetchall()
     context = {
-        'dataRestoran' : record,
-        'adminid': adminid,
+        'dataRestoran': record,
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
         'role': role
     }
     return render(request, "daftar_restoran_cust.html", context)
+
 
 def menu_restoran_cust(request, rname, rbranch):
     cursor.execute('set search_path to sirest')
@@ -349,17 +362,18 @@ def menu_restoran_cust(request, rname, rbranch):
     if role == 'restaurant':
         return redirect("/")
 
-
-    cursor.execute(f'select f.foodname, f.description, f.stock, f.price, fg.name, string_agg(i.name, \', \') from food f, food_category fg, food_ingredient fi, ingredient i where f.stock > 0 and f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\' and  fg.id = f.fcategory and f.rbranch = fi.rbranch and f.rname = fi.rname and f.foodname = fi.foodname and fi.Ingredient = i.id group by f.foodname, f.description, f.stock, f.price,  fg.name')
+    cursor.execute(
+        f'select f.foodname, f.description, f.stock, f.price, fg.name, string_agg(i.name, \', \') from food f, food_category fg, food_ingredient fi, ingredient i where f.stock > 0 and f.rbranch = \'{rbranch}\' and f.rname = \'{rname}\' and  fg.id = f.fcategory and f.rbranch = fi.rbranch and f.rname = fi.rname and f.foodname = fi.foodname and fi.Ingredient = i.id group by f.foodname, f.description, f.stock, f.price,  fg.name')
     record = cursor.fetchall()
     context = {
-        'dataMenu' : record,
-        'rname' : rname,
-        'rbranch' : rbranch,
-        'adminid': adminid,
+        'dataMenu': record,
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
         'role': role
     }
     return render(request, "menu_restoran_cust.html", context)
+
 
 def detail_restoran(request, rname, rbranch):
     cursor.execute('set search_path to sirest')
@@ -370,12 +384,15 @@ def detail_restoran(request, rname, rbranch):
     if role == 'restaurant':
         return redirect("/")
 
-    cursor.execute(f'select * from restaurant r, restaurant_category rc, restaurant_operating_hours ros where r.rname = \'{rname}\' and r.rbranch = \'{rbranch}\' and r.rcategory = rc.id and r.rname = ros.name and r.rbranch = ros.branch')
+    cursor.execute(
+        f'select * from restaurant r, restaurant_category rc, restaurant_operating_hours ros where r.rname = \'{rname}\' and r.rbranch = \'{rbranch}\' and r.rcategory = rc.id and r.rname = ros.name and r.rbranch = ros.branch')
     records = cursor.fetchmany()
     context = {
-        'dataRestoran' : records,
-        'adminid': adminid,
+        'dataRestoran': records,
+        'rname': request.COOKIES.get('rname'),
+        'rbranch': request.COOKIES.get('rbranch'),
+        'adminid': request.COOKIES.get('adminid'),
         'role': role
     }
-    
+
     return render(request, "detail_restoran.html", context)

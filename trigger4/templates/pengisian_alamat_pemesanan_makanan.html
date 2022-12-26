@@ -9,17 +9,28 @@
             <h1 class="text-2xl font-bold mb-3">FORM PENGISIAN ALAMAT PEMESANAN MAKANAN</h1>
             <form action="" method="post" class="mb-3 flex flex-col items-center justify-center gap-10">
                 {% csrf_token %}
-                <table class="border-separate border-spacing-2">
-                    {% for field in form %}
-                    <tr>
-                        <th>{{field.label_tag}}</th>
-                        <td>{{ field.errors }} {{ field }}</td>
-                    </tr>
+
+                {% for field in form %}
+                <tr>
+                    <th>{{field.label_tag}}</th>
+                    <td>{{ field.errors }} {{ field }}</td>
+                </tr>
+                {% endfor %}
+                <select name="name" id="name" onchange="handleClick(this.value); this.selectedindex = -1"
+                    class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-2">
+                    <option style="display: none"></option>
+                    {% for promoname in records %}
+                    <option value="{{ promoname.0 }}">{{ promoname.0 }}</option>
                     {% endfor %}
-                </table>
-                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                    Lanjut
-                </button>
+                </select>
+                <a class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded btn btn-primary "
+                    href="{% url 'trigger4:pemilihan_pesanan_pada_restoran' promoname.0 %}">Simpan</a>
+
+
+
+
+
+
             </form>
         </div>
     </div>
