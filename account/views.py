@@ -371,7 +371,7 @@ def register_admin(request):
             return render(request, 'register_admin.html', context)
 
         # check email is already registered or not
-        cursor.execute(f'select * from user_acc where email = \'{email}\'')
+        cursor.execute(f'select * from sirest.user_acc where email = \'{email}\'')
         records = cursor.fetchmany()
         if len(records) > 0:
             form = RegisterFormAdmin(request.POST or None)

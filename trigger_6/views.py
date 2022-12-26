@@ -12,13 +12,8 @@ def show_riwayat(request):
     role = request.COOKIES.get('role')
     email = request.COOKIES.get('email')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
-
     cursor.execute('set search_path to sirest')
-
+    
     if role == 'restaurant':
         rname = request.COOKIES.get('rname')
         rbranch = request.COOKIES.get('rbranch')
@@ -59,10 +54,6 @@ def show_riwayat(request):
 def show_detail_riwayat(request, email, datetime):
     role = request.COOKIES.get('role')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
     cursor.execute('set search_path to sirest')
     # query riwayat by id
     sql = f'''select u.fname, u.lname, t.street, t.district, t.city, t.province, r.rname, r.rbranch, t.datetime, t.rating, foo.fname, foo.lname, co.platenum, co.vehicletype, co.vehiclebrand, 
@@ -102,11 +93,6 @@ def show_detail_riwayat(request, email, datetime):
 def show_form_penilaian(request, email, datetime):
     role = request.COOKIES.get('role')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
-
     cursor.execute('set search_path to sirest')
 
     if request.method == 'POST':
@@ -131,20 +117,11 @@ def show_form_penilaian(request, email, datetime):
 def show_buat_promo(request):
     role = request.COOKIES.get('role')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
     return render(request, 'buat_promo.html', {'role': request.COOKIES.get('role')})
 
 
 def show_form_promo_minimum(request):
     role = request.COOKIES.get('role')
-
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
 
     cursor.execute('set search_path to sirest')
 
@@ -183,11 +160,6 @@ def show_form_promo_minimum(request):
 def show_form_promo_hari_spesial(request):
     role = request.COOKIES.get('role')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
-
     cursor.execute('set search_path to sirest')
 
     if request.method == "POST":
@@ -218,11 +190,6 @@ def show_form_promo_hari_spesial(request):
 
 def show_daftar_promo(request):
     role = request.COOKIES.get('role')
-
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
 
     cursor.execute('set search_path to sirest')
 
@@ -259,11 +226,6 @@ def show_daftar_promo(request):
 
 def show_ubah_promo(request, jenis, id):
     role = request.COOKIES.get('role')
-
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
 
     cursor.execute('set search_path to sirest')
 
@@ -307,11 +269,6 @@ def show_ubah_promo(request, jenis, id):
 def show_daftar_promo_restoran(request, rname, rbranch):
     role = request.COOKIES.get('role')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
-
     cursor.execute('set search_path to sirest')
     cursor.execute(f'select * from promo p, restaurant_promo r where p.id = r.pid and r.rname = \'{rname}\' and r.rbranch = \'{rbranch}\'')
     records_promo_resto = cursor.fetchall()
@@ -337,11 +294,6 @@ def show_daftar_promo_restoran(request, rname, rbranch):
 
 def show_form_promo_restoran(request):
     role = request.COOKIES.get('role')
-
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
 
     cursor.execute('set search_path to sirest')
     rname = request.COOKIES.get('rname')
@@ -385,11 +337,6 @@ def show_form_promo_restoran(request):
 
 def show_form_ubah_promo_restoran(request, id):
     role = request.COOKIES.get('role')
-
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
 
     cursor.execute('set search_path to sirest')
 
@@ -462,11 +409,6 @@ def show_form_ubah_promo_restoran(request, id):
 def show_detail_promo(request, id):
     role = request.COOKIES.get('role')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
-
     cursor.execute('set search_path to sirest')
 
     cursor.execute(f'select * from promo where id = \'{id}\'')
@@ -497,11 +439,6 @@ def show_detail_promo(request, id):
 
 def show_detail_promo_restoran(request, rname, rbranch, id):
     role = request.COOKIES.get('role')
-
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
 
     cursor.execute('set search_path to sirest')
 
@@ -538,11 +475,6 @@ def show_detail_promo_restoran(request, rname, rbranch, id):
 def delete_promo(request, id):
     role = request.COOKIES.get('role')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
-
     cursor.execute('set search_path to sirest')
 
     cursor.execute(f'delete from promo where id = \'{id}\'')
@@ -553,11 +485,6 @@ def delete_promo(request, id):
 def delete_promo_restoran(request, rname, rbranch, id):
     role = request.COOKIES.get('role')
 
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
-
     cursor.execute('set search_path to sirest')
 
     cursor.execute(
@@ -567,11 +494,6 @@ def delete_promo_restoran(request, rname, rbranch, id):
 
 def ubah_form_input(request, id):
     role = request.COOKIES.get('role')
-
-    if role == None:
-        return redirect("/login")
-    if role != 'restaurant':
-        return redirect("/")
 
     cursor.execute('set search_path to sirest')
 
